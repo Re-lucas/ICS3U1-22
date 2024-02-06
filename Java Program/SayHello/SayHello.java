@@ -4,8 +4,9 @@
 
 import java.util.*;
 
-public class Main{
+public class SayHello{
    public static void main(String[] args){
       System.out.println("Hello World");
+      System.out.println("Lucas Wu");
    }
 }
