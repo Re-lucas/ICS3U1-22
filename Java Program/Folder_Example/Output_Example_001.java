@@ -42,7 +42,5 @@ public class Output_Example_001{
       //The \t represent as tab (the space depende on your computer)
       //It will fill in the rest of the space of the tab
       
-      
-      
       }
 }
