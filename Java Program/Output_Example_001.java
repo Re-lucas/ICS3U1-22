@@ -19,5 +19,9 @@ public class Output_Example_001{
       
       System.out.println("3 + 4");//print out as text, be like "3 + 4"
       System.out.println(3 + 4);//it will show the caculation of 3 + 4 which is 7   
+      /*what ever inside a quotation is called string */
+      
+      System.out.println("World" + "World");//Print out a combination of two string
+      
       }
 }
