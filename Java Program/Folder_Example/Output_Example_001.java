@@ -37,6 +37,12 @@ public class Output_Example_001{
       System.out.println(3 + 4 + "Hello"); 
       //This is because the + operator is evaluated from left to right, and it performs different operations depending on the types of the operands
       
+      System.out.println("Hello \n World");//The \n represent as enter
+      System.out.println("Hello \t World");
+      //The \t represent as tab (the space depende on your computer)
+      //It will fill in the rest of the space of the tab
+      
+      
       
       }
 }
