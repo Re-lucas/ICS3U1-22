@@ -3,7 +3,8 @@
    Name: Lucas Wu
 	Class: ICS3U1-01
 	Date: Feb 8, 2024
-	Description: HW2_Output1.java
+	Description: : Write a program that displays a tic-tac-toe board with an X in 
+the center.
 */
 
 public class  HW2_Output1{
