@@ -19,9 +19,20 @@ public class ReadingInput {
         System.out.println("Enter your age");
         user_age = myObj.nextInt(); // Read the user's age
 
+        // Declare a variable to store the user's height
+        double user_height;
+        // Prompt the user to enter their height (in centimeters)
+        System.out.println("Enter your height (cm)");
+        user_height = myObj.nextDouble(); // Read the user's height
+
         // Display the user's full name
         System.out.println("Your Name is: " + Name_first + " " + Name_last);
         // Display the user's age
-        System.out.print("Your age is: " + user_age);
+        System.out.println("Your age is: " + user_age);
+        // Display the user's height
+        System.out.println("Your height is: " + user_height + " cm");
+        
+        myObj.close();
+
     }
 }
