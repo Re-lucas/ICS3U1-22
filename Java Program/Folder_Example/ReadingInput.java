@@ -7,11 +7,11 @@ public class ReadingInput {
 
         // Prompt the user to enter their first name
         System.out.println("Enter your first name");
-        String Name_first = myObj.nextLine(); // Read the user's first name
+        String name_first = myObj.nextLine(); // Read the user's first name
 
         // Prompt the user to enter their last name
         System.out.println("Enter your last name");
-        String Name_last = myObj.nextLine(); // Read the user's last name
+        String name_last = myObj.nextLine(); // Read the user's last name
 
         // Declare a variable to store the user's age
         int user_age;
@@ -26,7 +26,7 @@ public class ReadingInput {
         user_height = myObj.nextDouble(); // Read the user's height
 
         // Display the user's full name
-        System.out.println("Your Name is: " + Name_first + " " + Name_last);
+        System.out.println("Your Name is: " + name_first + " " + name_last);
         // Display the user's age
         System.out.println("Your age is: " + user_age);
         // Display the user's height
