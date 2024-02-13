@@ -3,7 +3,7 @@
 	Name: Lucas Wu
    Class: ICS3U1-01
 	Date: Feb 13, 2024
-	Description: 
+	Description: The first question of homework_004
 */
 
 
