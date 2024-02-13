@@ -15,7 +15,7 @@ public class Input_2 {
         System.out.println("Please enter your last name: ");
         String name_last = myScanner.nextLine();
 
-        System.out.println("Enter your first name: "); // Corrected the typo here
+        System.out.println("Enter your first name: "); 
         String name_first = myScanner.nextLine();
 
         System.out.println("Hello, nice to meet you, " + name_last + " " + name_first + "! Welcome to the Java world.");
