@@ -1,3 +1,11 @@
+/** 
+	File Name: ReadingInput.java
+	Name: Lucas Wu
+   Class: ICS3U1-01
+	Date: Feb 13,2024
+	Description: The input template of string , double int 
+*/
+
 import java.util.Scanner;
 
 public class ReadingInput {
