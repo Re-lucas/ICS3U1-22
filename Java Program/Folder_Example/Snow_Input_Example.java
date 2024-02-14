@@ -1,3 +1,11 @@
+/*
+	File Name: 
+	Name: 
+   Class: ICS3U1-01
+	Date: 
+	Description: 
+*/
+
 import java.util.Scanner;
 
 public class Snow_Input_Example {
