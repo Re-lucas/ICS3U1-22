@@ -25,6 +25,7 @@ public class Drop {
         // Check if time is within the valid range
         if (time >= 0 && time < 4.5) {
             // Calculate height using the given equation
+            // The Math.pow is showing time the 2 power
             double height = 100 - gravity * Math.pow(time, 2);
 
             // Display the result
