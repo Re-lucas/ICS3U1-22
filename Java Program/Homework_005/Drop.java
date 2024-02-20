@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Drop {
         public static void main(String[] args) {
         // Constants
-        final double GRAVITY = 4.9;
+        final double gravity = 4.9;
 
         // Input
         Scanner scanner = new Scanner(System.in);
@@ -25,7 +25,7 @@ public class Drop {
         // Check if time is within the valid range
         if (time >= 0 && time < 4.5) {
             // Calculate height using the given equation
-            double height = 100 - GRAVITY * Math.pow(time, 2);
+            double height = 100 - gravity * Math.pow(time, 2);
 
             // Display the result
             System.out.println("At time " + time + " seconds, the height of the object is: " + height + " meters");
