@@ -15,11 +15,30 @@
 import java.util.Scanner;
 
 public class Energy {
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        // Define the speed of light
+        double c = 3.0 * Math.pow(10, 8);  // in m/s
+
+        // Define the energy required to light a 100-watt light bulb for an hour
+        double energyPerBulb = 360000;  // in Joules
+
+        // Create a Scanner object for user input
         Scanner myScanner = new Scanner(System.in);
 
-        
+        // Prompt the user for a mass in kilograms
+        System.out.print("Enter a mass in kilograms: ");
+        double m = myScanner.nextDouble();
+
+        // Calculate the energy
+        double e = m * Math.pow(c, 2);
+
+        // Calculate the number of light bulbs that could be powered
+        double numBulbs = e / energyPerBulb;
+
+        // Display the results
+        System.out.println("Energy: " + e + " Joules");
+        System.out.println("Number of 100-watt light bulbs that could be powered for an hour: " + numBulbs);
+
         myScanner.close();
     }
-    
 }
