@@ -1,5 +1,5 @@
 /*
-	File Name: OutputPrintf3.java
+	File Name: Cost.java
 	Name: Lucas Wu
    	Class: ICS3U1-01
 	Date: Feb 29, 2024
