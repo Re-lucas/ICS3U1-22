@@ -1,3 +1,11 @@
+/*
+	File Name:Login.java 
+	Name: Lucas Wu
+   Class: ICS3U1-01
+	Date: Mar 4, 2024
+	Description: The example for while, if else statement.
+*/
+
 import java.util.Scanner;
 
 public class Login {
