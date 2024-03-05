@@ -8,13 +8,13 @@
 
 public class Homework_011_1 {
     /*
-    
-     Evaluate the following boolean expressions to true or false
-    a) 9 < 3
-    b) 5 >= 5
-    c) 8!= 64 % 8 
-    d) ‘a’ = = ‘A’
-    e) ‘a’ > ‘A’
+
+    Evaluate the following boolean expressions to true or false
+    a) 9 < 3 False
+    b) 5 >= 5 True
+    c) 8!= 64 % 8  True
+    d) ‘a’ = = ‘A’ False
+    e) ‘a’ > ‘A’ True
 
      */
     
