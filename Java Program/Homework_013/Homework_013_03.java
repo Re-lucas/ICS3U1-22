@@ -1,8 +1,8 @@
 /*
-	File Name: 
-	Name: 
+	File Name: Homework_013_03.java
+	Name: Lucas Wu
    	Class: ICS3U1-01
-	Date: 
+	Date: Mar 18,2024
 	Description: 
 */
 
