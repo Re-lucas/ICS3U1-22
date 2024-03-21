@@ -29,14 +29,11 @@ public class ConvertDate {
                 "September", "October", "November", "December"
         };
 
-
-		// Validate month input
-		while (month < 1 || month > 12) {
-			System.out.println("Invalid month. Please enter a valid month (1-12).");
-			System.out.print("Enter the month (1-12): ");
-			month = scanner.nextInt();
-		}
-
+        // Validate month input
+        if (month < 1 || month > 12) {
+            System.out.println("Invalid month. Please enter a valid month (1-12).");
+            return;
+        }
 
         // Print the formatted date
         System.out.println(monthNames[month - 1] + " " + day + ", " + year);
