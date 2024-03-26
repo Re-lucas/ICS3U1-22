@@ -50,6 +50,7 @@ public class FoodOrder {
                 break;
             default:
                 System.out.println("You did not select an appropriate number.");
+                scanner.close();
                 return;
         }
 

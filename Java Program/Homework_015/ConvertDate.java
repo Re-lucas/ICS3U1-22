@@ -32,6 +32,7 @@ public class ConvertDate {
         // Validate month input
         if (month < 1 || month > 12) {
             System.out.println("Invalid month. Please enter a valid month (1-12).");
+            scanner.close();
             return;
         }
 
