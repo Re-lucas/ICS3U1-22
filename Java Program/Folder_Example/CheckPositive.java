@@ -27,5 +27,7 @@ public class CheckPositive {
             // num is not > 0
             System.out.println("Not a positive number.");
         }
+
+        sc.close();
     }
 }
