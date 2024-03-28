@@ -1,5 +1,5 @@
 /*
-	File Name: Count1.java
+	File Name: Count2.java
 	Name: Lucas WU
    	Class: ICS3U1-01
 	Date: Mar 28, 2024
