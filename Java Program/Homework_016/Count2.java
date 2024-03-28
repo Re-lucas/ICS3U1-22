@@ -1,4 +1,4 @@
-public class Count {
+public class Count2 {
     public static void main(String[] args){
         int num = 50;
         int end_num = 100;
