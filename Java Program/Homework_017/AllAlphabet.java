@@ -8,7 +8,6 @@ public class AllAlphabet {
             letter++; // Increment to the next character
         }
 
-        // Print a newline after printing all characters
         System.out.println();
     }
 }
