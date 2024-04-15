@@ -12,7 +12,7 @@ public class StudentNames {
         
         scanner.close();
         
-        // Print out the student names
+
         System.out.println("Student Names:");
         for (String name : studentNames) {
             System.out.println(name);
