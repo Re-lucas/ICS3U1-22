@@ -35,5 +35,7 @@ public class Fibonacci {
                 System.out.print(",");
             }
         }
+
+        scanner.close();
     }
 }
