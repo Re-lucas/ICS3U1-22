@@ -7,7 +7,7 @@ public class ShiftUp {
         
 
         for (int i = 0; i < numbers.length; i++) {
-            System.out.print("请输入第 " + (i + 1) + " 个整数：");
+            System.out.print("Enter the number of " + (i + 1) + " numbers：");
             numbers[i] = scanner.nextInt();
         }
         
@@ -19,7 +19,7 @@ public class ShiftUp {
         numbers[numbers.length - 1] = firstElement;
         
 
-        System.out.println("移动后的数组：");
+        System.out.println("Moved：");
         for (int number : numbers) {
             System.out.print(number + " ");
         }
