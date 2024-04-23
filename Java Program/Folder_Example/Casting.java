@@ -9,6 +9,7 @@
    values.
 */
 
+/* 
 public class Casting {
 	public static void main (String[] args) {
 		int num = 10;
@@ -56,3 +57,5 @@ public class Casting {
 		
 	}
 }
+
+*/

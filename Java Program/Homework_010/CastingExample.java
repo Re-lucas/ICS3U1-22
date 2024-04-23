@@ -5,6 +5,8 @@
 	Date: Feb 29, 2024
 	Description:
 */
+
+/* 
 public class CastingExample {
     public static void main(String[] args) {
         int i1 = 5; // ok; default type for non-decimal is int
@@ -76,3 +78,4 @@ public class CastingExample {
         double amount = 345.45d;
     }
 }
+*/
