@@ -8,6 +8,7 @@ public class AllArrays1 {
         System.out.print("Enter an integer for the size of the array: ");
         int n = scanner.nextInt();
         int[] array = new int[n];
+        int sampleSum = 0;
 
         // Task b: Initialize all elements of the array to one
         for (int i = 0; i < array.length; i++) {
@@ -33,7 +34,7 @@ public class AllArrays1 {
         }
 
         // Task f: Set the variable sampleSum to the sum of the values of all the elements
-        int sampleSum;
+ 
 
         for (int value : array) {
             sampleSum = 0;
