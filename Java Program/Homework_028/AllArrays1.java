@@ -33,8 +33,10 @@ public class AllArrays1 {
         }
 
         // Task f: Set the variable sampleSum to the sum of the values of all the elements
-        int sampleSum = 0;
+        int sampleSum;
+
         for (int value : array) {
+            sampleSum = 0;
             sampleSum += value;
         }
 
