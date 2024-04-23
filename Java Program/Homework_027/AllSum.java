@@ -7,6 +7,6 @@ public class AllSum {
                 total += data[i][j];
             }
         }
-        System.out.println("数组中所有元素的总和为：" + total);
+        System.out.println("All Sum：" + total);
     }
 }
