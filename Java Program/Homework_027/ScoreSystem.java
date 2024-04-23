@@ -41,7 +41,7 @@ public class ScoreSystem {
     
         System.out.println("\nPlayer's scores：");
         for (int i = 0; i < playerCount; i++) {
-            System.out.println("Number" + (i + 1) + "：" + playerNames[i] + "，final score：" + String.format("%.2f", finalScores[i]));
+            System.out.println("Number" + (i + 1) + "：" + playerNames[i] + "，final score：" + finalScores[i]);
         }
 
         scanner.close();
