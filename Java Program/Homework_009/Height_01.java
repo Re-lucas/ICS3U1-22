@@ -11,7 +11,7 @@
 
 import java.util.Scanner;
 
-public class Height {
+public class Height_01 {
     public static void main(String[] args) {
         final double INCHES_TO_CM = 2.54; // Conversion factor: inches to centimeters
         Scanner scanner = new Scanner(System.in);
