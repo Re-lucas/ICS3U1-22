@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class TennisMatchScorer {
+public class Tennis {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int[][] scoreTable = new int[5][2]; // 5 sets, 2 players
