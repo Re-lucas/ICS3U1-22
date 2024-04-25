@@ -38,5 +38,7 @@ public class Array2DOddEven {
                 System.out.println("Column " + i + " contains all odd integers.");
             }
         }
+
+        scanner.close();
     }
 }
