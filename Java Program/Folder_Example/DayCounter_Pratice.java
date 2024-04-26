@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class DayCounter_Pratice{
-    public void main(String[] args){
+    public static void main (String[] args){
         Scanner myScanner = new Scanner(System.in);
         final int CONDITION = 0;
 
