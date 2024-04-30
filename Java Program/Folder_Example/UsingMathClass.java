@@ -18,6 +18,6 @@ public class UsingMathClass {
 		System.out.println(Math.abs(4.5));
 		
 		// generate a random integer between 1 and 6 inclusively
-		System.out.println((int)(Math.random() * 6) + 1);
+		System.out.println((int)(Math.random() * 100) + 1);
 	}
 }
