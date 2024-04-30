@@ -10,6 +10,8 @@ public class AllArrays1 {
         int[] array = new int[n];
         int sampleSum = 0;
 
+        System.out.println(sampleSum);
+
         // Task b: Initialize all elements of the array to one
         for (int i = 0; i < array.length; i++) {
             array[i] = 1;
