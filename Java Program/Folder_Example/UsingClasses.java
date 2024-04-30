@@ -26,5 +26,9 @@ public class UsingClasses {
       // Step 2 for calling static methods:
       // <class name>.<method name>      
       double temp = Math.abs(-4.5);
+
+      System.out.println(age + temp);
+
+      sc.close();
    }
 }
