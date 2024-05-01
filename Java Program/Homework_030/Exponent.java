@@ -13,5 +13,7 @@ public class Exponent {
         double result = Math.pow(base, exponent);
 
         System.out.println("The result of " + base + " raised to the power of " + exponent + " is: " + result);
+
+        scanner.close();
     }
 }
