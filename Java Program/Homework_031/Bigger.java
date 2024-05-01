@@ -10,7 +10,7 @@ public class Bigger {
         System.out.println("Enter the second number:");
         double number2 = scanner.nextDouble();
 
-        //By using the math.max(num1 , num2) to compare the two of numbers;
+        //By using the Math.max(num1 , num2) to compare the two of numbers;
         double biggerNumber = Math.max(number1, number2);
 
         System.out.println("The bigger number is: " + biggerNumber);
