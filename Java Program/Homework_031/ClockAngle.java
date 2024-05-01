@@ -22,6 +22,8 @@ public class ClockAngle {
 
         // Used abs to get the angle
         double angle = Math.abs(hourAngle - minuteAngle);
+
+        //If the angle larger than 180 degrees which mean the back way are the min, so we need to dertermine it
         angle = Math.min(angle, 360 - angle); 
 
         System.out.println("The angle between the hour and minute hands is：" + angle + "°");
