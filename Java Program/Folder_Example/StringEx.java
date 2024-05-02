@@ -20,10 +20,11 @@ class StringEx {
         System.out.println("string_1 == String_2: " + (string_1 == string_2));
         System.out.println("string_2 == String_3:" + (string_2 == string_3));
 
-        
+        System.out.println("string_1.equals(string_2)" + string_1.equals(string_2));
+        System.out.println("string_1.equals(string_3)" + string_1.equals(string_3));
+        System.out.println("");
 
-
-
+        myScanner.close();
     }
     
 }
