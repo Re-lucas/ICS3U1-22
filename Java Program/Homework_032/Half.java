@@ -6,9 +6,9 @@ public class Half {
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        int middle = input.length() / 2;
-        String firstHalf = input.substring(0, middle);
-        String secondHalf = input.substring(middle);
+        int middle = input.length() / 2;//Because cut it on half which is the half of input.length();
+        String firstHalf = input.substring(0, middle); //By sub teh first half into the string
+        String secondHalf = input.substring(middle);//The second half
 
         System.out.println("First half: " + firstHalf);
         System.out.println("Second half: " + secondHalf);
