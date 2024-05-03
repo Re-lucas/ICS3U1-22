@@ -15,8 +15,10 @@ public class CharToString {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a character: ");
+
+        //By inseting the next chat at index of 0 to indicate the character user wants
         char ch = scanner.next().charAt(0);
-        
+    
         String stringValue = String.valueOf(ch);
         
         System.out.println("Character value: " + ch);
