@@ -21,9 +21,11 @@ public class AddPairs{
             int twoDigitNumber = firstDigit * 10 + secondDigit; 
             sum += twoDigitNumber;
 
-            System.out.println("The sum of two String of number are: " + sum);
+            
         }
 
+        System.out.println("The sum of two String of number are: " + sum);
+        
         myScanner.close();
 
     }
