@@ -1,11 +1,11 @@
 /*
-Getting User Input: First, we need to get a number from the user. We can use the Scanner class to read the user input.
-
-Iterate over every two digits: We need to iterate over the input and process two digits at a time. If the number of digits is odd, the last digit will be processed separately.
-
-Calculate the sum of the two digits: For each two digits, we add them together and add the result to the sum.
-
-Outputting the sum: finally, we output the calculated sum to the user.
+Getting user input: First, we get a numeric string from the user.
+Iterate over every two digits: We use a for loop to iterate over the input numeric string. Each loop processes two characters and converts them to numbers.
+Getting the first digit: We use input.charAt(i) - '0' to get the character at the current index i and convert it to an integer. Here '0' is the ASCII value of the character '0', so this operation actually converts the characters '0' through '9' into integers from 0 to 9.
+Determining if there is a next digit: We use if (i + 1 < input.length()) to check if there is a next character. If it exists, we get the next character and convert it to a number.
+Combining two digits: If there is a next digit, we multiply the first digit by 10 and add the second digit to get a two-digit number. If there is only one digit, we simply treat it as a single digit.
+Add to sum: this two-digit number is added to the sum, a variable that stores the sum of all the two-digit numbers.
+Repeat until the end: the loop continues until all characters are processed.
 
 */
 
@@ -33,8 +33,6 @@ public class AddPairs{
             //Get the first digit: use input.charAt(i) - '0' to get the character at the current index i and convert it to an integer. 
             int firstDigit = input.charAt(i) - '0' ;//Here '0' is the ASCII value of the character '0', so this operation actually converts the characters '0' through '9' into integers from 0 to 9.
 
-            //Initializing the second digit: we declare a variable secondDigit and initialize it to 0. 
-            //This is to handle the case where the length of the digit string is odd, so that the last digit is handled separately.
             int secondDigit = 0;
             int twoDigitNumber = 0;
 
