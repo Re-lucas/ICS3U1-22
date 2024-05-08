@@ -15,6 +15,8 @@ public class AddDigits{
 
             //there is another method by no using getNumbericValue() 
             //int digit = digitChar - '0' ;
+
+            //In here because teh digitChar of the number which is not the actual number, but the partern in ASCI code was in partern, so we can mins '0' which is same as mins the asci code of 0;
              
             sum += digit;
         }
