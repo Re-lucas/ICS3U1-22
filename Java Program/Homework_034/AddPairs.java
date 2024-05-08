@@ -6,7 +6,6 @@ Determining if there is a next digit: We use if (i + 1 < input.length()) to chec
 Combining two digits: If there is a next digit, we multiply the first digit by 10 and add the second digit to get a two-digit number. If there is only one digit, we simply treat it as a single digit.
 Add to sum: this two-digit number is added to the sum, a variable that stores the sum of all the two-digit numbers.
 Repeat until the end: the loop continues until all characters are processed.
-
 */
 
 import java.util.Scanner;
