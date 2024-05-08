@@ -25,9 +25,13 @@ public class AddPairs{
         int sum = 0;
 
         //Because in this question we only needs every decimal friction (10)
-        for (int i = 0; i < input.length(); i += 2) {
-            int firstDigit = input.charAt(i) - '0' ;
 
+        //Initializing the loop: The for loop starts at index 0, the first character of the string, 
+        //and increases by 2 each time it loops, which means we skip one character at a time to the next pair of numbers.
+        for (int i = 0; i < input.length(); i += 2) {
+
+            //Get the first digit: use input.charAt(i) - '0' to get the character at the current index i and convert it to an integer. 
+            int firstDigit = input.charAt(i) - '0' ;//Here '0' is the ASCII value of the character '0', so this operation actually converts the characters '0' through '9' into integers from 0 to 9.
 
             int secondDigit = 0;
 
