@@ -16,8 +16,8 @@ public class AddDigits{
             //there is another method by no using getNumbericValue() 
             //int digit = digitChar - '0' ;
 
-            //In here because teh digitChar of the number which is not the actual number, but the partern in ASCI code was in partern, so we can mins '0' which is same as mins the asci code of 0;
-             
+            //Numbers can be obtained by converting a character to its corresponding ASCII value and subtracting the ASCII value of the character '0'. 
+            //This is because the numeric characters '0' through '9' are consecutive in the ASCII table, so the ASCII value for '0' is 48, and the ASCII value for '1' is 49.
             sum += digit;
         }
 
