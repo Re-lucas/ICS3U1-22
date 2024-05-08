@@ -33,16 +33,21 @@ public class AddPairs{
             //Get the first digit: use input.charAt(i) - '0' to get the character at the current index i and convert it to an integer. 
             int firstDigit = input.charAt(i) - '0' ;//Here '0' is the ASCII value of the character '0', so this operation actually converts the characters '0' through '9' into integers from 0 to 9.
 
+            //Initializing the second digit: we declare a variable secondDigit and initialize it to 0. 
+            //This is to handle the case where the length of the digit string is odd, so that the last digit is handled separately.
             int secondDigit = 0;
+            int twoDigitNumber = 0;
 
+            // if there is a next digit, get the second digit        
             if(i + 1 < input.length() ){
                 secondDigit = input.charAt(i + 1) - '0';
+                twoDigitNumber = firstDigit * 10 + secondDigit; // Combine two digits
+            }else{
+                twoDigitNumber = firstDigit; // If there is only one digit, treat it as a single digit.
             }
 
-            int twoDigitNumber = firstDigit * 10 + secondDigit; 
             sum += twoDigitNumber;
 
-            
         }
 
         System.out.println("The sum of two String of number are: " + sum);
