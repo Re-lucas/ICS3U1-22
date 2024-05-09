@@ -11,7 +11,7 @@ public class AddDigits{
         //by using a chatAt() method to loop over each number
         for (int i = 0; i < input.length(); i++){
             char digitChar = input.charAt(i); //get the current number
-            int digit = Character.getNumericValue(digitChar);//the method can convert char into digit
+            int digit = digitChar - '0' ;//the method can convert char into digit
 
             //there is another method by no using getNumbericValue() 
             //int digit = digitChar - '0' ;
