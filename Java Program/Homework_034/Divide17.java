@@ -3,12 +3,12 @@ import java.util.Scanner;
 public class Divide17 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("请输入第一个数字：");
+        System.out.print("Enter the first num：");
         String firstNumber = scanner.next();
-        System.out.print("请输入第二个数字：");
+        System.out.print("Enter the second num：");
         String secondNumber = scanner.next();
 
-        // 使用 substring 方法合并两个数字
+        // by using substring
         String combinedNumberString = firstNumber + secondNumber;
         double combinedNumber = Double.parseDouble(combinedNumberString);
 
@@ -16,7 +16,7 @@ public class Divide17 {
         double result = combinedNumber / 17;
 
         // 输出结果，保留两位小数
-        System.out.printf("新数字除以17的结果（保留两位小数）：%.2f%n", result);
+        System.out.printf("The result of dividing the new number by 17 (retain two decimal places): %.2f%n", result);
 
         scanner.close();
     }
