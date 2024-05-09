@@ -1,23 +1,23 @@
 import java.util.Scanner;
 
-public class Divide17 {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the first num：");
-        String firstNumber = scanner.next();
-        System.out.print("Enter the second num：");
-        String secondNumber = scanner.next();
+static void main(String[] args){
+    Scanner myScanner = new Scanner(System.in);
 
-        // by using substring
-        String combinedNumberString = firstNumber + secondNumber;
-        double combinedNumber = Double.parseDouble(combinedNumberString);
+    System.out.println("Enter the first number");
 
-        // 计算新数字除以17的结果
-        double result = combinedNumber / 17;
+    long firstNumber = myScanner.nextLong();
 
-        // 输出结果，保留两位小数
-        System.out.printf("The result of dividing the new number by 17 (retain two decimal places): %.2f%n", result);
+    System.out.println("Enter the second number");
 
-        scanner.close();
-    }
+    long secondNumber = myScanner.nextLong();
+
+    int length = String.valueOf(secondNumber).length();
+
+    double newNumber = firstNumber * Math.pow(10, length) + secondNumber;
+
+    double result = newNumber/17;
+
+    System.out.printf("The new number is: %.2f" , result);
+
+    myScanner.close();
 }
