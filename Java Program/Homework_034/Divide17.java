@@ -18,6 +18,15 @@ public class Divide17 {
          */
 
         int length = String.valueOf(secondNumber).length();
+
+        /*The double newNumber = firstNumber * Math.pow(10, length) + secondNumber;
+            which same as:
+            firstNumber * 10^length + secondNumber; The Math.pow(10, length) method same as 10^length;
+
+            The purpose of this is to move the firstNumber to the left 
+            by length to leave enough room for the secondNumber to merge the two numbers into a new one. 
+         */
+        
         double newNumber = firstNumber * Math.pow(10, length) + secondNumber;
         double result = newNumber/17;
         
