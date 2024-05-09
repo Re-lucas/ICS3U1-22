@@ -2,31 +2,34 @@ import java.util.Scanner;
 
 public class Encrypt {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner myScanner = new Scanner(System.in);
         System.out.print("Enter a line to be encrypted: ");
-        String input = scanner.nextLine();
-
-        if (input.length() < 3) {
-            System.out.println("The encryption is: " + input);
-        } else {
-            char firstChar = input.charAt(0);
-            char lastChar = input.charAt(input.length() - 1);
-            String middleSubstring = input.substring(1, input.length() - 1);
-
-            StringBuilder encrypted = new StringBuilder();
-            encrypted.append(lastChar);
-
-            for (int i = 0; i < middleSubstring.length(); i++) {
-                char c = middleSubstring.charAt(i);
-                if (c != ' ') {
-                    encrypted.append((char) (c + 2));
-                } else {
-                    encrypted.append(' ');
-                }
+        String input = myScanner.nextLine();
+        
+        // 使用 split("") 方法将字符串分割为字符数组
+        String[] characters = input.split("");
+        
+        // 取得第一个字符
+        char firstChar = characters[0].charAt(0);
+        // 取得最后一个字符
+        char lastChar = characters[characters.length - 1].charAt(0);
+        
+        // 输出最后一个字符
+        System.out.print(lastChar);
+        
+        // 中间部分字符向后移动两位
+        for (int i = 1; i < characters.length - 1; i++) {
+            char c = characters[i].charAt(0);
+            if (c != ' ') {
+                System.out.print((char) (c + 2));
+            } else {
+                System.out.print(' '); // 空格保持不变
             }
-
-            encrypted.append(firstChar);
-            System.out.println("The encryption is: " + encrypted.toString());
         }
+        
+        // 输出第一个字符
+        System.out.println(firstChar);
+
+        myScanner.close();
     }
 }
