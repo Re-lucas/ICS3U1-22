@@ -2,17 +2,19 @@ import java.util.Scanner;
 
 public class AddUnicodes {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a string: ");
-        String input = scanner.nextLine();
+        Scanner myScanner = new Scanner(System.in);
+        System.out.println("Enter a string: " );
+        String input = myScanner.nextLine();
 
         int sum = 0;
-        for (char c : input.toCharArray()) {
-            sum += c; // Adds the Unicode value of the character to the sum
+
+         // Iterate over each character in the input string and add up their Unicode values
+        for(int i = 0; i < input.length(); i++){
+            sum += (int) input.charAt(i);
         }
 
-        System.out.println("Sum of the Unicodes = " + sum);
+        System.out.println(sum);
 
-        scanner.close();
+        myScanner.close();
     }
 }
