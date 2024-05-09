@@ -9,6 +9,14 @@ public class Divide17 {
         System.out.println("Enter the second number");
         long secondNumber = myScanner.nextLong();
 
+        /*
+        the method of int length = String.valueOf(secondNumber).length(); 
+        whcih is same as :
+            String secondString = secondNumber + "";
+        than:
+            int length = secondString.length();
+         */
+
         int length = String.valueOf(secondNumber).length();
         double newNumber = firstNumber * Math.pow(10, length) + secondNumber;
         double result = newNumber/17;
