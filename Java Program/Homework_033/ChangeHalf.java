@@ -19,5 +19,7 @@ public class ChangeHalf {
         }
 
         System.out.println("Output: " + output);
+
+        scanner.close();
     }
 }
