@@ -5,35 +5,35 @@ public class Encrypt {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a line to be encrypted: ");
         String input = scanner.nextLine();
-
-        // Split the input into words using spaces as delimiters
-        String[] words = input.split(" ");
         StringBuilder encrypted = new StringBuilder();
 
-        for (String word : words) {
-            if (word.length() < 3) {
-                // Handle words less than 3 characters (leave them unchanged)
-                encrypted.append(word).append(" ");
-            } else {
-                // Swap first and last characters
-                char[] chars = word.toCharArray();
-                char temp = chars[0];
-                chars[0] = chars[word.length() - 1];
-                chars[word.length() - 1] = temp;
+        for (String word : input.split(" ")) {
+            if (word.length() > 2) {
+                // 交换首尾字符
+                char firstChar = word.charAt(0);
+                char lastChar = word.charAt(word.length() - 1);
+                String middle = word.substring(1, word.length() - 1);
 
-                // Shift middle characters by 2 in ASCII table
-                for (int i = 1; i < word.length() - 1; i++) {
-                    char c = chars[i];
-                    if (!Character.isWhitespace(c)) {
-                        chars[i] = (char) (c + 2);
-                    }
+                // 处理中间字符
+                StringBuilder shiftedMiddle = new StringBuilder();
+                for (char c : middle.toCharArray()) {
+                    shiftedMiddle.append((char) (c + 2));
                 }
 
-                encrypted.append(new String(chars)).append(" ");
+                encrypted.append(lastChar).append(shiftedMiddle).append(firstChar);
+            } else {
+                // 如果字符串长度小于3，直接添加
+                encrypted.append(word);
             }
+            encrypted.append(" "); // 单词之间添加空格
         }
 
-        System.out.println("The encryption is: " + encrypted.toString().trim());
+        // 移除最后一个多余的空格
+        if (encrypted.length() > 0 && encrypted.charAt(encrypted.length() - 1) == ' ') {
+            encrypted.deleteCharAt(encrypted.length() - 1);
+        }
+
+        System.out.println("The encryption is: " + encrypted.toString());
 
         scanner.close();
     }
