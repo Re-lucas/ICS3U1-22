@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Divide17 {
-    static void main(String[] args){
+    public static void main(String[] args){
         Scanner myScanner = new Scanner(System.in);
 
         System.out.println("Enter the first number");
@@ -13,7 +13,7 @@ public class Divide17 {
         double newNumber = firstNumber * Math.pow(10, length) + secondNumber;
         double result = newNumber/17;
         
-        System.out.printf("The new number is: %.2f" , result);
+        System.out.printf("The result is: %.2f" , result);
 
         myScanner.close();
     }
