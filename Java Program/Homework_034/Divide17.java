@@ -11,7 +11,7 @@ public class Divide17 {
 
         /*
         the method of int length = String.valueOf(secondNumber).length(); 
-        whcih is same as :
+        whcih is same as (convert String to char):
             String secondString = secondNumber + "";
         than:
             int length = secondString.length();
