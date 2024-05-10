@@ -11,7 +11,8 @@ public class WordChecker {
         String[] words = input.split("\\s+");
 
         // Check each word and print if the first and last characters are the same
-        for(String word : words){
+        for(int i = 0; i < words.length; i++){
+            String word = words[i];
             if (word.length() > 1 && word.charAt(0) == word.charAt(word.length() - 1)) {
                 System.out.println(word);
             }
