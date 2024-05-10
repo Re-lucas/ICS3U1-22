@@ -9,7 +9,7 @@ public class NumberPresent {
 
         int[] arrays = new int[10];
 
-        // 将输入的数字转换为数组中对应的位置加一
+        // Converts the input number to the corresponding position in the array plus one
         for (int i = 0; i < input.length(); i++) {
             char digit = input.charAt(i);
             if (Character.isDigit(digit)) {
@@ -19,7 +19,7 @@ public class NumberPresent {
 
         boolean allPresent = true;
 
-        // 检查数字0到9是否都出现在输入中
+        // Check that the numbers 0 through 9 all appear in the input
         System.out.println("Here are the not present numbers:");
         for (int i = 0; i < arrays.length; i++) {
             if (arrays[i] == 0) {
