@@ -7,6 +7,7 @@ public class AbsValue {
         System.out.println("Enter a number:");
         double number = scanner.nextDouble();
 
+        //which return the abs value of |number|
         double absoluteValue = Math.abs(number);
 
         System.out.println("The absolute value of " + number + " is: " + absoluteValue);
