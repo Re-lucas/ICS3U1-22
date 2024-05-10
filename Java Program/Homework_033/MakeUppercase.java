@@ -6,21 +6,15 @@ public class MakeUppercase {
         System.out.print("Enter string: ");
         String input = scanner.nextLine();
 
-        String uppercaseEquivalent = toUppercase(input);
-        System.out.println("Uppercase Equivalent: " + uppercaseEquivalent);
-
-        scanner.close();
-    }
-
-    private static String toUppercase(String input) {
-        StringBuilder result = new StringBuilder();
-        for (char c : input.toCharArray()) {
-            if (Character.isLowerCase(c)) {
-                result.append(Character.toUpperCase(c));
-            } else {
-                result.append(c);
+        for (int i = 0; i < input.length(); i++) {
+            char character = input.charAt(i);
+            if (character >= 'a' && character <= 'z') {
+                character = (char)(character - 'a' + 'A');
+                System.out.print(character);
+            }else{
+                System.out.print(input.charAt(i));
             }
         }
-        return result.toString();
+        scanner.close();
     }
 }
