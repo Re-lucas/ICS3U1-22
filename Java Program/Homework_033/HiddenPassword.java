@@ -8,13 +8,14 @@ public class HiddenPassword {
         System.out.print("Enter a character: ");
         char replacement = scanner.next().charAt(0);
 
-        String hiddenPassword = hideCharacters(input, replacement);
-        System.out.println("Hidden Password: " + hiddenPassword);
+        for(int i = 0; i < input.length(); i++){
+            String[] comparing = input.charAt(i);
 
-        scanner.close();
-    }
-
-    private static String hideCharacters(String input, char replacement) {
-        return input.replaceAll("[^ ]", String.valueOf(replacement));
+            if(comparing[i] == ""){
+                System.out.print("");
+            }else{
+                System.out.print(replacement);
+            }
+        }
     }
 }
