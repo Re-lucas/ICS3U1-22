@@ -17,9 +17,9 @@ public class HiddenPassword {
 
             //check the situation if it is '' (space) or not
             if (currentChar == ' ') {
-                System.out.print(" "); // 输出空格
+                System.out.print(" "); // if char == space than space
             } else {
-                System.out.print(replacement); // 输出替换字符
+                System.out.print(replacement); // if not just the char wants to replace
             }
         }
 
