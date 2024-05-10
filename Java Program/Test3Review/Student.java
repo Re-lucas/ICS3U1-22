@@ -54,10 +54,11 @@ public class Student{
                         failedTests++;
                     }
                 }
-                System.out.println(studentName + " failed " + failedTests + " tests.");
-                break;
             }
         }
+
+        System.out.println(studentName + " failed " + failedTests + " tests.");
+
         if (!found) {
             System.out.println("Error: Student not found.");
         }
