@@ -10,6 +10,7 @@ public class Exponent {
         System.out.println("Enter the exponent (e):");
         double exponent = scanner.nextDouble();
 
+        //the base^exponent
         double result = Math.pow(base, exponent);
 
         System.out.println("The result of " + base + " raised to the power of " + exponent + " is: " + result);
