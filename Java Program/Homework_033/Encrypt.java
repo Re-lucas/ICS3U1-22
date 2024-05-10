@@ -28,7 +28,7 @@ public class Encrypt {
             if (c != ' ') {
                 System.out.print((char) (c + 2));
             } else {
-                System.out.print(' '); // 空格保持不变
+                System.out.print(' '); // space stay same
             }
         }
         
