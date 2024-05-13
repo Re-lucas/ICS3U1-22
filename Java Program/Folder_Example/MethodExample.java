@@ -17,5 +17,8 @@ public class MethodExample {
     }
     
     public static int sum (int num_1, int num_2){
+        int result = num_1 + num_2;
+
+        return result;
     }
 }
