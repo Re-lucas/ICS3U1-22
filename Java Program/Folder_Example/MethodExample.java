@@ -1,5 +1,9 @@
+import java.util.Scanner;
+
 public class MethodExample {
     public static void main(String[] args){
+        Scanner myScanner = new Scanner(System.in);
+        /* 
         printHello();
 
         printHello("Mr Sir");
@@ -8,6 +12,13 @@ public class MethodExample {
         System.out.println(sum(4 , 5));
         int caculatored = sum(4, 5);
         System.out.println(caculatored);
+        */
+
+        System.out.println("Enter your greeting name:");
+        String personName = myScanner.nextLine();
+        System.out.println(creatGreeting(personName));
+
+        myScanner.close();
 
     }
 
@@ -25,5 +36,10 @@ public class MethodExample {
         int result = num_1 + num_2;
 
         return result;
+    }
+
+    public static String creatGreeting(String name){
+        String greeting = "Thanks " + name;
+        return greeting;
     }
 }
