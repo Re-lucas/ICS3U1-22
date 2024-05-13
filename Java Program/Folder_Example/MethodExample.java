@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class MethodExample {
     public static void main(String[] args){
         Scanner myScanner = new Scanner(System.in);
-        /* 
+        
         printHello();
 
         printHello("Mr Sir");
@@ -12,7 +12,7 @@ public class MethodExample {
         System.out.println(sum(4 , 5));
         int caculatored = sum(4, 5);
         System.out.println(caculatored);
-        */
+        
 
         System.out.println("Enter your greeting name:");
         String personName = myScanner.nextLine();
