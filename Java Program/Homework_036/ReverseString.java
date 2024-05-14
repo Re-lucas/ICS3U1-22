@@ -13,14 +13,11 @@ public class ReverseString {
         myScanner.close();
     }
 
-    public static String reverseString(String string){
-        String input = string;
-        String newString = "";
+    public static String reverseString(String string) {
+        String newString = ""; // Initialize an empty string to store the reversed result
 
-        for (int i = input.length() - 1; i >= 0; i--) {
-            System.out.print(string.charAt(i));
-
-            newString += newString + string.charAt(i);
+        for (int i = string.length() - 1; i >= 0; i--) {
+            newString += string.charAt(i); // Append each character to the newString
         }
 
         return newString;
