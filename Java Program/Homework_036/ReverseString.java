@@ -6,8 +6,9 @@ public class ReverseString {
         String input = "";
 
         System.out.println("Enter a string:");
+        input = myScanner.nextLine();
 
-        System.out.println(reverseString(input = myScanner.nextLine()));
+        System.out.println(reverseString(input));
 
         myScanner.close();
     }
