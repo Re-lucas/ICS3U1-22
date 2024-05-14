@@ -1,7 +1,15 @@
+import java.util.Scanner;
+
 public class ReverseString {
     public static void main(String[] args) {
-        String input = "desserts";
-        System.out.println(reverseString(input));
+        Scanner myScanner = new Scanner(System.in);
+        String input = "";
+
+        System.out.println("Enter a string:");
+
+        System.out.println(reverseString(input = myScanner.nextLine()));
+
+        myScanner.close();
     }
 
     public static String reverseString(String string){
