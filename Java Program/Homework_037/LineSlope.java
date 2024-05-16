@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Line {
+public class LineSlope {
     // Method to calculate the length of a line segment
     public static double length(int x1, int y1, int x2, int y2) {
         double deltaX = x2 - x1;
