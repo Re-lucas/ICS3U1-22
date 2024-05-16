@@ -1,4 +1,4 @@
-public class MySubstring {
+public class MyIndexOf {
     public static String mySubstring(String s, int start, int end) {
         if (start < 0 || end > s.length() || start > end) {
             System.out.println("Invalid indices. Returning an empty string.");
