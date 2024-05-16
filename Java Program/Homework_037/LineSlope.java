@@ -1,6 +1,22 @@
 import java.util.Scanner;
 
-public class CheckLine {
+public class Line {
+    // Method to calculate the length of a line segment
+    public static double length(int x1, int y1, int x2, int y2) {
+        double deltaX = x2 - x1;
+        double deltaY = y2 - y1;
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+    // Method to calculate the slope of a line segment
+    public static double slope(int x1, int y1, int x2, int y2) {
+        if (x1 == x2) {
+            System.out.println("Warning: Vertical line. Slope is undefined.");
+            return Double.NaN;
+        }
+        return (double) (y2 - y1) / (x2 - x1);
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -38,15 +54,19 @@ public class CheckLine {
         }
 
         // Check if lines are parallel or perpendicular
-        double slope1 = new Line().slope(x1, y1, x2, y2);
-        double slope2 = new Line().slope(x3, y3, x4, y4);
+        double slope1 = Line.slope(x1, y1, x2, y2);
+        double slope2 = Line.slope(x3, y3, x4, y4);
 
-        if (slope1 == slope2) {
+        if (Double.isNaN(slope1) || Double.isNaN(slope2)) {
+            System.out.println("Cannot determine if lines are parallel or perpendicular due to undefined slope.");
+        } else if (slope1 == slope2) {
             System.out.println("The two lines are parallel.");
         } else if (slope1 * slope2 == -1) {
             System.out.println("The two lines are perpendicular.");
         } else {
             System.out.println("The two lines are neither parallel nor perpendicular.");
         }
+
+        scanner.close();
     }
 }
