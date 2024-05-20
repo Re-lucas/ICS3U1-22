@@ -5,7 +5,7 @@ public class Welcome {
         // For example:
         // return "Welcome " + name + "! You are visitor number " + visitorNum + ".";
 
-        return 0;
+        return name;
     }    
     
 }
