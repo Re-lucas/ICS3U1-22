@@ -12,5 +12,6 @@ public class ReverseString {
         }
 
         myScanner.close();
+
     }
 }
