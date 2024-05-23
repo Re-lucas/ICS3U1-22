@@ -15,10 +15,15 @@ public class UseAddOne {
 } // UseAddOne class
 
 /*
-Memory Trace:
-num = 10
-Before AddOne: num = 10
-Inside AddOne: a = 10, after increment: a = 11
-After AddOne: num = 10 
+    Memory Trace:
+    num = 10
+    Before AddOne: num = 10
+    Inside AddOne: a = 10, after increment: a = 11
+    After AddOne: num = 10 
+
+    Before Procedure: num = 10
+    Begin Procedure: a = 10
+    End Procedure: a = 11
+    After Procedure: num = 10
 
 */
