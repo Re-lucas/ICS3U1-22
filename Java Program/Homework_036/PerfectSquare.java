@@ -14,6 +14,7 @@ public class PerfectSquare {
         double sqrt = Math.sqrt(n);
 
         // Check if the square root is an integer
+        // how , because the sqrt is double, but i converted the another one into interger
         return sqrt == (int) sqrt;
     }
 }
