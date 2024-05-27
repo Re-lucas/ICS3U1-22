@@ -53,27 +53,39 @@ public class CheckLine {
         // Calculating the slopes of both lines
         double slope1 = 0;
         double slope2 = 0;
+        boolean slope1Defined = true;
+        boolean slope2Defined = true;
+
         try {
             slope1 = line.slope(x1_1, y1_1, x2_1, y2_1);
+        } catch (ArithmeticException e) {
+            slope1Defined = false;
+            System.out.println("Slope of line 1 is undefined.");
+        }
+
+        try {
             slope2 = line.slope(x1_2, y1_2, x2_2, y2_2);
         } catch (ArithmeticException e) {
-            System.out.println(e.getMessage());
+            slope2Defined = false;
+            System.out.println("Slope of line 2 is undefined.");
         }
 
         // Checking if the lengths are the same
-        if (length1 == length2) {
+        if (Math.abs(length1 - length2) < 1e-9) {
             System.out.println("The two lines have the same length.");
         } else {
             System.out.println("The two lines do not have the same length.");
         }
 
         // Checking if the lines are parallel or perpendicular
-        if (slope1 == slope2) {
-            System.out.println("The two lines are parallel.");
-        } else if (slope1 * slope2 == -1) {
-            System.out.println("The two lines are perpendicular.");
-        } else {
-            System.out.println("The two lines are neither parallel nor perpendicular.");
+        if (slope1Defined && slope2Defined) {
+            if (Math.abs(slope1 - slope2) < 1e-9) {
+                System.out.println("The two lines are parallel.");
+            } else if (Math.abs(slope1 * slope2 + 1) < 1e-9) {
+                System.out.println("The two lines are perpendicular.");
+            } else {
+                System.out.println("The two lines are neither parallel nor perpendicular.");
+            }
         }
 
         scanner.close();
