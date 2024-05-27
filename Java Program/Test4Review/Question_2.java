@@ -25,15 +25,15 @@ public class Question_2 {
 
     b) `System.out.println(atom(m, babble));`
 
-    - `m` is of type `char` and `babble` is of type `int`.
+    - `m` is of type `char` and `babble` is of type `int` but is not value.
     - The method header `public int atom(char ch, int x)` expects a `char` and an `int`.
-    - **Valid** call (assuming `babble` has been initialized).
+    - **InValid** call (assuming `babble` has been initialized).
 
     c) `atom(5, 'z');`
 
     - The method header `public int atom(char ch, int x)` expects a `char` and an `int`.
-    - `5` is of type `int` and `'z'` is of type `char`, so the order of arguments is incorrect.
-    - **Invalid** call.
+    - `5` is of type `int` and `'z'` is of type `char`, these two can be auto casting.
+    - **valid** call.
 
     d) `if (atom(chr, num) == 9)`
 
@@ -56,8 +56,8 @@ public class Question_2 {
     ### Summary of Validity
 
     - a) **Valid**
-    - b) **Valid** (assuming `babble` is initialized)
-    - c) **Invalid**
+    - b) **InValid** (assuming `babble` is initialized)
+    - c) **valid**
     - d) **Valid**
     - e) **Invalid**
     - f) **Invalid**
