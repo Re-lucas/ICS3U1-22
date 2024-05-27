@@ -2,8 +2,12 @@ public class SameReverse {
 
     // Method to reverse a given string
     public static String reverse(String s) {
-        // Using StringBuilder to reverse the string
-        return new StringBuilder(s).reverse().toString();
+        // Using for loop to reverse the string
+        StringBuilder reString = new StringBuilder();
+        for (int i = s.length() - 1; i >= 0; i--) {
+            reString.append(s.charAt(i));
+        }
+        return reString.toString();
     }
 
     // Method to check if the string and its reverse are the same
@@ -11,6 +15,7 @@ public class SameReverse {
         // Getting the reversed string
         String reversed = reverse(s);
         // Comparing the original string with the reversed string
+        //because we are comparing the String so needs equal.() method
         return s.equals(reversed);
     }
 
