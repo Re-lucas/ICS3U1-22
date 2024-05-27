@@ -6,6 +6,7 @@ public class CheckDivisibility {
     }
 
     public static boolean evenlyDivisible(int num1, int num2) {
+        //wants to check the even and retrun boolean, so the mmethod have to boolean
         if (num1 == 0 || num2 == 0) {
             return false;
         } else {
