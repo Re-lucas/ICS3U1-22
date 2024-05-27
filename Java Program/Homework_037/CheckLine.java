@@ -1,41 +1,74 @@
 import java.util.Scanner;
 
 public class CheckLine {
+    
+    // Static method to calculate the length of a line segment
+    public static double length(int x1, int y1, int x2, int y2) {
+        // Using the distance formula to calculate the length
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    // Non-static method to calculate the slope of a line segment
+    public double slope(int x1, int y1, int x2, int y2) {
+        // Using the slope formula to calculate the slope
+        if (x2 - x1 == 0) {
+            throw new ArithmeticException("Slope is undefined (vertical line)");
+        }
+        return (double) (y2 - y1) / (x2 - x1);
+    }
+
+    // Main method for user input and checking line properties
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Input for Line 1
+        // Getting the coordinates for the first line
         System.out.println("Please enter the two coordinates of line 1:");
-        int x1 = getUserInput("Vertex 1 x-value: ", scanner);
-        int y1 = getUserInput("Vertex 1 y-value: ", scanner);
-        int x2 = getUserInput("Vertex 2 x-value: ", scanner);
-        int y2 = getUserInput("Vertex 2 y-value: ", scanner);
+        System.out.print("Vertex 1 x-value: ");
+        int x1_1 = scanner.nextInt();
+        System.out.print("Vertex 1 y-value: ");
+        int y1_1 = scanner.nextInt();
+        System.out.print("Vertex 2 x-value: ");
+        int x2_1 = scanner.nextInt();
+        System.out.print("Vertex 2 y-value: ");
+        int y2_1 = scanner.nextInt();
 
-        // Input for Line 2
-        System.out.println("\nPlease enter the two coordinates of line 2:");
-        int x3 = getUserInput("Vertex 1 x-value: ", scanner);
-        int y3 = getUserInput("Vertex 1 y-value: ", scanner);
-        int x4 = getUserInput("Vertex 2 x-value: ", scanner);
-        int y4 = getUserInput("Vertex 2 y-value: ", scanner);
+        // Getting the coordinates for the second line
+        System.out.println("Please enter the two coordinates of line 2:");
+        System.out.print("Vertex 1 x-value: ");
+        int x1_2 = scanner.nextInt();
+        System.out.print("Vertex 1 y-value: ");
+        int y1_2 = scanner.nextInt();
+        System.out.print("Vertex 2 x-value: ");
+        int x2_2 = scanner.nextInt();
+        System.out.print("Vertex 2 y-value: ");
+        int y2_2 = scanner.nextInt();
 
-        // Calculate lengths
-        double length1 = LineSlope.length(x1, y1, x2, y2);
-        double length2 = LineSlope.length(x3, y3, x4, y4);
+        // Calculating the lengths of both lines
+        double length1 = CheckLine.length(x1_1, y1_1, x2_1, y2_1);
+        double length2 = CheckLine.length(x1_2, y1_2, x2_2, y2_2);
 
-        // Check if lengths are equal
-        if (length1 == length2) {
-            System.out.println("\nThe two lines have the same length.");
-        } else {
-            System.out.println("\nThe two lines do not have the same length.");
+        // Creating an instance of Line to call the non-static method
+        CheckLine line = new CheckLine();
+
+        // Calculating the slopes of both lines
+        double slope1 = 0;
+        double slope2 = 0;
+        try {
+            slope1 = line.slope(x1_1, y1_1, x2_1, y2_1);
+            slope2 = line.slope(x1_2, y1_2, x2_2, y2_2);
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
         }
 
-        // Check if lines are parallel or perpendicular
-        double slope1 = LineSlope.slope(x1, y1, x2, y2);
-        double slope2 = LineSlope.slope(x3, y3, x4, y4);
+        // Checking if the lengths are the same
+        if (length1 == length2) {
+            System.out.println("The two lines have the same length.");
+        } else {
+            System.out.println("The two lines do not have the same length.");
+        }
 
-        if (Double.isNaN(slope1) || Double.isNaN(slope2)) {
-            System.out.println("Cannot determine if lines are parallel or perpendicular due to undefined slope.");
-        } else if (slope1 == slope2) {
+        // Checking if the lines are parallel or perpendicular
+        if (slope1 == slope2) {
             System.out.println("The two lines are parallel.");
         } else if (slope1 * slope2 == -1) {
             System.out.println("The two lines are perpendicular.");
@@ -44,10 +77,5 @@ public class CheckLine {
         }
 
         scanner.close();
-    }
-
-    private static int getUserInput(String prompt, Scanner scanner) {
-        System.out.print(prompt);
-        return scanner.nextInt();
     }
 }
