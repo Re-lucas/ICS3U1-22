@@ -12,7 +12,7 @@ public class AddNumbers {
             }
             System.out.println("Sum: " + sum);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error message.");
         }
     }
 }

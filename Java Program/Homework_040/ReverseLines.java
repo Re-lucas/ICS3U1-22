@@ -17,7 +17,7 @@ public class ReverseLines {
                 System.out.println(lines.get(i));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error message.");
         }
     }
 }
