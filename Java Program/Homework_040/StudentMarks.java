@@ -58,7 +58,6 @@ public class StudentMarks {
 
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file.");
-            e.printStackTrace();
         }
     }
 }
