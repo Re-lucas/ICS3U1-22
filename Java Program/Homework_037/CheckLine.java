@@ -3,23 +3,23 @@ import java.util.Scanner;
 public class CheckLine {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner myScanner = new Scanner(System.in);
 
         // Getting the coordinates for the first line
         System.out.println("Please enter the two coordinates of line 1:");
-        int x1_1 = getCoordinate(scanner, "Vertex 1 x-value");
-        int y1_1 = getCoordinate(scanner, "Vertex 1 y-value");
-        int x2_1 = getCoordinate(scanner, "Vertex 2 x-value");
-        int y2_1 = getCoordinate(scanner, "Vertex 2 y-value");
+        int x1_1 = getCoordinate(myScanner, "Vertex 1 x-value");
+        int y1_1 = getCoordinate(myScanner, "Vertex 1 y-value");
+        int x2_1 = getCoordinate(myScanner, "Vertex 2 x-value");
+        int y2_1 = getCoordinate(myScanner, "Vertex 2 y-value");
 
         // Getting the coordinates for the second line
         System.out.println("Please enter the two coordinates of line 2:");
-        int x1_2 = getCoordinate(scanner, "Vertex 1 x-value");
-        int y1_2 = getCoordinate(scanner, "Vertex 1 y-value");
-        int x2_2 = getCoordinate(scanner, "Vertex 2 x-value");
-        int y2_2 = getCoordinate(scanner, "Vertex 2 y-value");
+        int x1_2 = getCoordinate(myScanner, "Vertex 1 x-value");
+        int y1_2 = getCoordinate(myScanner, "Vertex 1 y-value");
+        int x2_2 = getCoordinate(myScanner, "Vertex 2 x-value");
+        int y2_2 = getCoordinate(myScanner, "Vertex 2 y-value");
 
-        scanner.close();
+        myScanner.close();
 
         // Calculating the lengths of both lines
         double length1 = calculateLength(x1_1, y1_1, x2_1, y2_1);
@@ -43,13 +43,13 @@ public class CheckLine {
     }
 
     // Method to get a coordinate from the user
-    private static int getCoordinate(Scanner scanner, String prompt) {
+    public static int getCoordinate(Scanner scanner, String prompt) {
         System.out.print(prompt + ": ");
         return scanner.nextInt();
     }
 
     // Method to calculate the length of a line
-    private static double calculateLength(int x1, int y1, int x2, int y2) {
+    public static double calculateLength(int x1, int y1, int x2, int y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
@@ -60,7 +60,7 @@ public class CheckLine {
     }
 
     // Method to calculate the slope of a line
-    private static double slope(int x1, int y1, int x2, int y2) {
+    public static double slope(int x1, int y1, int x2, int y2) {
         if (x1 == x2) {
             throw new ArithmeticException("Slope is undefined (vertical line).");
         }
