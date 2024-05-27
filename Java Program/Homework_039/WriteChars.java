@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -5,21 +6,31 @@ import java.util.Scanner;
 public class WriteChars {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        try (FileWriter writer = new FileWriter("writeChars.txt")) {
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("writeChars.txt"))) {
+            String input;
+            
             while (true) {
-                System.out.println("Please enter a line of text (type 'stop' to end):");
-                String line = scanner.nextLine();
-                if (line.equalsIgnoreCase("stop")) {
+                System.out.print("Enter a line of text (or type 'stop' to finish): ");
+                input = scanner.nextLine();
+                
+                if ("stop".equalsIgnoreCase(input)) {
                     break;
                 }
-                for (char ch : line.toCharArray()) {
-                    writer.write(ch + System.lineSeparator());
+                
+                // Write each character of the input line to the file on separate lines
+                for (char ch : input.toCharArray()) {
+                    writer.write(ch);
+                    writer.newLine();
                 }
-                writer.write(System.lineSeparator()); // Blank line to separate sets of characters
+                
+                // Add a blank line to separate sets of characters from each line
+                writer.newLine();
             }
-            System.out.println("Characters have been written to writeChars.txt");
+            
+            System.out.println("All characters have been written to writeChars.txt successfully.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("An error occurred while writing to the file.");
         } finally {
             scanner.close();
         }
