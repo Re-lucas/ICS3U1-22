@@ -16,7 +16,6 @@ public class TimeTable {
             System.out.println("Times table written to timetable.txt successfully.");
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file.");
-            e.printStackTrace();
         }
     }
 }
