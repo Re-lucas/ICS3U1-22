@@ -56,7 +56,7 @@ public class Question_2 {
     ### Summary of Validity
 
     - a) **Valid**
-    - b) **InValid** (assuming `babble` is initialized)
+    - b) **InValid** (assuming `babble` is not initialized)
     - c) **valid**
     - d) **Valid**
     - e) **Invalid**
