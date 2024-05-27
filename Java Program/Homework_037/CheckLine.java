@@ -27,6 +27,8 @@ public class CheckLine {
         System.out.print("Vertex 2 y-value: ");
         int y2_2 = scanner.nextInt();
 
+        scanner.close();
+
         // Calculating the lengths of both lines
         double length1 = Line.length(x1_1, y1_1, x2_1, y2_1);
         double length2 = Line.length(x1_2, y1_2, x2_2, y2_2);
@@ -59,7 +61,5 @@ public class CheckLine {
         } else {
             System.out.println("The two lines are neither parallel nor perpendicular.");
         }
-
-        scanner.close();
     }
 }
