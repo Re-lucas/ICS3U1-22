@@ -17,7 +17,6 @@ public class StudentMarks {
             }
         } catch (FileNotFoundException e) {
             System.err.println("File not found: marks.txt");
-            return;
         }
 
         double[] studentAverages = new double[10];
