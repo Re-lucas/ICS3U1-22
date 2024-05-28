@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -12,18 +13,19 @@ public class SumAndDifference {
         System.out.print("Enter second number: ");
         int secondNumber = scanner.nextInt();
 
+        // Close the scanner after reading input
+        scanner.close();
+
         // Calculate sum and difference
         int sum = firstNumber + secondNumber;
         int difference = firstNumber - secondNumber;
 
-        // Write the results to the file "result.txt"
-        try (FileWriter writer = new FileWriter("result.txt")) {
+        // Write the results to the file "result.txt" using BufferedWriter
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("result.txt"))) {
             writer.write("The sum is " + sum + "\n");
             writer.write("The difference is " + difference);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
-
-        scanner.close();
     }
 }
