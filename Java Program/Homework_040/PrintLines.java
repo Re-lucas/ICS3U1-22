@@ -10,7 +10,7 @@ public class PrintLines {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error message.");
         }
     }
 }

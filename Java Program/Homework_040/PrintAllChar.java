@@ -12,7 +12,7 @@ public class PrintAllChar {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error message.");
         }
     }
 }
