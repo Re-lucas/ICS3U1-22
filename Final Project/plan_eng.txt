@@ -1,0 +1,72 @@
+---
+
+# Battleship Program Design and Methods
+
+## Main Menu Interaction
+1. **Display Main Menu**
+   - Allow the user to choose:
+     - Start a new game
+     - Load a saved game
+     - View game instructions
+     - Quit the program
+
+## Game Initialization
+2. **Start a New Game**
+   - Initialize an empty game board
+   - Let the user set ship positions
+   - Set AI ship positions
+3. **Load a Game**
+   - Read a saved game state from a file and initialize the game board
+
+## During Gameplay
+4. **Player's Turn**
+   - Display the current game board
+   - Prompt the user for coordinates to target
+   - Validate user input
+   - Process shot results (hit, miss, repeat shot, out of bounds)
+   - Update the game board
+   - Check if any ship has been sunk
+   - Determine if the game is over
+5. **AI's Turn**
+   - AI selects a target (randomly or strategically based on difficulty)
+   - Process shot results (hit, miss)
+   - Update the game board
+   - Check if any ship has been sunk
+   - Determine if the game is over
+
+## Game End
+6. **Game Over**
+   - Display the winner
+   - Provide an option to return to the main menu
+
+## Save and Load Game
+7. **Save Game**
+   - User chooses to save the game
+   - Save the current game state to a file
+8. **Load Game**
+   - User chooses to load a game
+   - Read from a file and restore the game state
+
+## Method Breakdown
+Based on the above, let's organize the program into the following methods:
+
+1. `displayMainMenu()`
+2. `displayInstructions()`
+3. `startNewGame()`
+4. `loadGame()`
+5. `initializeBoard(char[][] board)`
+6. `placePlayerShips(char[][] board)`
+7. `placeAIShips(char[][] board)`
+8. `displayGameBoard(char[][] playerBoard, char[][] aiBoard, boolean revealAI)`
+9. `playerTurn()`
+10. `aiTurn()`
+11. `isValidInput(int row, int col)`
+12. `processShot(char[][] board, int row, int col)`
+13. `updateBoard(char[][] board, int row, int col, boolean hit)`
+14. `isShipSunk(char[][] board, char shipType)`
+15. `isGameOver(char[][] board)`
+16. `saveGame(String filename)`
+17. `loadGame(String filename)`
+18. `displayGameOver(boolean playerWon)`
+
+---

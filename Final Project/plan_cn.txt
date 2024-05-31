@@ -52,3 +52,75 @@ Battleship Program Design and Methods
 1. **显示主菜单**
    ```java
    void displayMainMenu();
+
+   1. **显示主菜单**
+   ```java
+   void displayMainMenu();
+    显示游戏说明
+
+    2.java
+    void displayInstructions();
+    开始新游戏
+
+    java
+    void startNewGame();
+    加载游戏
+
+    java
+    void loadGame();
+    初始化空白游戏板
+
+    java
+    void initializeBoard(char[][] board);
+    用户设置舰船位置
+
+    java
+    void placePlayerShips(char[][] board);
+    AI设置舰船位置
+
+    java
+    void placeAIShips(char[][] board);
+    显示当前游戏板
+
+    java
+    void displayGameBoard(char[][] playerBoard, char[][] aiBoard, boolean revealAI);
+    玩家回合处理
+
+    java
+    void playerTurn();
+    AI回合处理
+
+    java
+    void aiTurn();
+    检查输入有效性
+
+    java
+    boolean isValidInput(int row, int col);
+    处理射击结果
+
+    java
+    boolean processShot(char[][] board, int row, int col);
+    更新游戏板
+
+    java
+    void updateBoard(char[][] board, int row, int col, boolean hit);
+    检查舰船是否被击沉
+
+    java
+    boolean isShipSunk(char[][] board, char shipType);
+    检查游戏是否结束
+
+    java
+    boolean isGameOver(char[][] board);
+    保存游戏
+
+    java
+    void saveGame(String filename);
+    加载游戏
+
+    java
+    void loadGame(String filename);
+    显示游戏结束信息
+
+    java
+    void displayGameOver(boolean playerWon);
