@@ -4,16 +4,45 @@ Battleship Program Design and Methods
 
 #### 主菜单交互
 1. **启动程序并显示主菜单**
+
    - 用户可以选择开始新游戏
+      -在选择开始新游戏后应当给出三个难度选项
+         -简单
+         -普通
+
    - 用户可以选择加载已保存的游戏
+      -设置三个存档，并且要显示存档位置以及文件名
+      -文件格式应当使用txt
+      示例：
+         存档一：存档（存档名应当由用户编辑）.txt
+            -当存档名不合法时应当给出警告并重新输入
+         存档二：无
+         存档三：无
+
+         选择载入的存档：
+
    - 用户可以选择查看游戏说明
+      -点击后将游戏说明显示
+      -在显示完成后应当给出退回主菜单页面选项
+
    - 用户可以选择退出程序
+      -直接关闭程序
 
 #### 游戏初始化
 2. **开始新游戏**
    - 初始化空白游戏板
    - 用户设置舰船的位置
+      -在用户设置舰船位置前显示游戏版
+         -在设置舰船期间应当先让用户选择舰艇
+         -在用户选择舰艇后显示舰艇的长和宽
+         -让用户选择舰艇使用竖着摆放或是横向摆放
+
+   -每一次设置新舰船时应当显示之前和已放置的游戏板
+      -如果用户在输入非游戏板范围内或是存在重叠情况时，应当给予警告，并告知重新输入
+
    - AI设置舰船的位置
+      -Ai舰船位置不能够重叠以及不能够超出范围
+
 3. **加载游戏**
    - 从文件读取已保存的游戏状态并初始化游戏板
 
@@ -26,12 +55,19 @@ Battleship Program Design and Methods
    - 更新游戏板
    - 检查是否有舰船被击沉
    - 检查游戏是否结束
+
 5. **AI回合**
    - AI进行射击（根据难度选择随机射击或策略射击）
    - 处理射击结果（命中、未命中）
    - 更新游戏板
    - 检查是否有舰船被击沉
    - 检查游戏是否结束
+
+   -对于AI难度而言：
+      简单：AI应当随机地在游戏板范围内射击
+         - 不能够对已射击过的位置再次进行射击
+      
+      普通：AI应当在判断击中后对该舰艇横竖部分进行检查，直到完全击沉该舰艇
 
 #### 游戏结束
 6. **游戏结束**
@@ -41,86 +77,10 @@ Battleship Program Design and Methods
 #### 游戏保存和加载
 7. **保存游戏**
    - 用户选择保存游戏
-   - 保存当前游戏状态到文件
+   - 保存当前游戏状态到文件（用户应当可以在游戏的任何时候随时选择保存游戏）
+   - 应当显示退出游戏，然后检查该游戏进度是否被保存为最新，然后弹出是否保存
+
 8. **加载游戏**
    - 用户选择加载游戏
    - 从文件读取并恢复游戏状态
 
-#### 方法划分
-根据上述情况，我们可以将程序划分为以下方法：
-
-1. **显示主菜单**
-   ```java
-   void displayMainMenu();
-
-   1. **显示主菜单**
-   ```java
-   void displayMainMenu();
-    显示游戏说明
-
-    2.java
-    void displayInstructions();
-    开始新游戏
-
-    java
-    void startNewGame();
-    加载游戏
-
-    java
-    void loadGame();
-    初始化空白游戏板
-
-    java
-    void initializeBoard(char[][] board);
-    用户设置舰船位置
-
-    java
-    void placePlayerShips(char[][] board);
-    AI设置舰船位置
-
-    java
-    void placeAIShips(char[][] board);
-    显示当前游戏板
-
-    java
-    void displayGameBoard(char[][] playerBoard, char[][] aiBoard, boolean revealAI);
-    玩家回合处理
-
-    java
-    void playerTurn();
-    AI回合处理
-
-    java
-    void aiTurn();
-    检查输入有效性
-
-    java
-    boolean isValidInput(int row, int col);
-    处理射击结果
-
-    java
-    boolean processShot(char[][] board, int row, int col);
-    更新游戏板
-
-    java
-    void updateBoard(char[][] board, int row, int col, boolean hit);
-    检查舰船是否被击沉
-
-    java
-    boolean isShipSunk(char[][] board, char shipType);
-    检查游戏是否结束
-
-    java
-    boolean isGameOver(char[][] board);
-    保存游戏
-
-    java
-    void saveGame(String filename);
-    加载游戏
-
-    java
-    void loadGame(String filename);
-    显示游戏结束信息
-
-    java
-    void displayGameOver(boolean playerWon);
