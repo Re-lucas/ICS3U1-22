@@ -1,225 +1,127 @@
-import java.util.Random;
 import java.util.Scanner;
+import java.util.Random;
 import java.io.*;
 
 public class Battleship {
-    private static final int BOARD_SIZE = 5;
-    private static final char EMPTY = '-';
-    private static final char SHIP = 'S';
-    private static final char HIT = 'X';
-    private static final char MISS = 'O';
-    private static char[][] playerBoard;
-    private static char[][] aiBoard;
-    private static int difficulty;
-    private static Scanner scanner = new Scanner(System.in);
-    
-    public static void main(String[] args) {
-        displayMainMenu();
-    }
+    private static final int BOARD_SIZE = 10;
+    private static final char EMPTY_CELL = '-';
+    private static final char SHIP_CELL = 'S';
+    private static final char HIT_CELL = 'X';
+    private static final char MISS_CELL = 'O';
+    private static final int EASY = 1;
+    private static final int NORMAL = 2;
 
-    // 主菜单
-    public static void displayMainMenu() {
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
         while (true) {
-            System.out.println("1. Start New Game");
-            System.out.println("2. Load Game");
-            System.out.println("3. View Instructions");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.println("欢迎来到战舰游戏！");
+            System.out.println("1. 开始新游戏");
+            System.out.println("2. 加载已保存的游戏");
+            System.out.println("3. 查看游戏说明");
+            System.out.println("4. 退出");
+
+            System.out.print("请选择一个选项: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine(); // 消耗换行符
 
             switch (choice) {
                 case 1:
-                    chooseDifficulty();
                     startNewGame();
                     break;
                 case 2:
                     loadGame();
                     break;
                 case 3:
-                    displayInstructions();
+                    showInstructions();
                     break;
                 case 4:
-                    System.out.println("Exiting game. Goodbye!");
-                    return;
+                    System.out.println("退出游戏。");
+                    System.exit(0);
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("无效的选项，请重试。");
             }
         }
     }
 
-    // 选择游戏难度
-    public static void chooseDifficulty() {
-        System.out.println("Choose difficulty:");
-        System.out.println("1. Easy");
-        System.out.println("2. Normal");
-        System.out.print("Enter your choice: ");
-        difficulty = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
-        switch (difficulty) {
-            case 1:
-                System.out.println("Easy mode selected.");
-                break;
-            case 2:
-                System.out.println("Normal mode selected.");
-                break;
-            default:
-                System.out.println("Invalid choice. Defaulting to Easy mode.");
-                difficulty = 1;
+    private static void startNewGame() {
+        System.out.println("选择难度: 1. 简单 2. 普通");
+        int difficulty = scanner.nextInt();
+        scanner.nextLine(); // 消耗换行符
+
+        char[][] playerBoard = initializeBoard();
+        char[][] aiBoard = initializeBoard();
+
+        placeShips(playerBoard, false);
+        placeShips(aiBoard, true);
+
+        boolean playerTurn = true;
+        boolean gameOver = false;
+
+        while (!gameOver) {
+            System.out.println("玩家的游戏板:");
+            printBoard(playerBoard, false);
+            System.out.println("AI的游戏板:");
+            printBoard(aiBoard, true);
+
+            if (playerTurn) {
+                System.out.println("玩家回合。");
+                playerTurn = !playerMove(aiBoard);
+            } else {
+                System.out.println("AI回合。");
+                playerTurn = aiMove(playerBoard, difficulty);
+            }
+
+            if (isGameOver(playerBoard)) {
+                displayGameOver(false);
+                gameOver = true;
+            } else if (isGameOver(aiBoard)) {
+                displayGameOver(true);
+                gameOver = true;
+            }
         }
     }
 
-    // 游戏说明
-    public static void displayInstructions() {
-        System.out.println("Battleship Game Instructions:");
-        System.out.println("1. The game is played on a 5x5 grid.");
-        System.out.println("2. Each player has 3 ships.");
-        System.out.println("3. Players take turns to call shots to try to hit the opponent's ships.");
-        System.out.println("4. The first player to sink all opponent's ships wins.");
-        System.out.println("Press Enter to return to the main menu...");
+    private static void loadGame() {
+        System.out.println("选择存档: 1. 存档一 2. 存档二 3. 存档三");
+        int slot = scanner.nextInt();
+        scanner.nextLine(); // 消耗换行符
+
+        String fileName = "save" + slot + ".txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            // 读取并初始化游戏状态
+            System.out.println("游戏已加载。");
+        } catch (IOException e) {
+            System.out.println("无法加载存档：" + e.getMessage());
+        }
+    }
+
+    private static void showInstructions() {
+        System.out.println("战舰游戏说明...");
+        // 在这里添加游戏说明内容
+        System.out.println("按回车键返回主菜单...");
         scanner.nextLine();
     }
 
-    // 开始新游戏
-    public static void startNewGame() {
-        playerBoard = new char[BOARD_SIZE][BOARD_SIZE];
-        aiBoard = new char[BOARD_SIZE][BOARD_SIZE];
-        initializeBoard(playerBoard);
-        initializeBoard(aiBoard);
-        placePlayerShips(playerBoard);
-        placeAIShips(aiBoard);
-        playGame();
-    }
-
-    // 初始化空白游戏板
-    public static void initializeBoard(char[][] board) {
+    private static char[][] initializeBoard() {
+        char[][] board = new char[BOARD_SIZE][BOARD_SIZE];
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                board[i][j] = EMPTY;
+                board[i][j] = EMPTY_CELL;
             }
         }
+        return board;
     }
 
-    // 玩家设置舰船位置
-    public static void placePlayerShips(char[][] board) {
-        System.out.println("Place your ships on the board.");
-        for (int i = 0; i < 3; i++) {
-            displayGameBoard(playerBoard, aiBoard, true);
-            System.out.printf("Placing ship %d\n", i + 1);
-            int length = i + 2;
-            boolean vertical = chooseOrientation();
-            int row, col;
-            do {
-                System.out.printf("Enter position for ship %d (row and column): ", i + 1);
-                row = scanner.nextInt();
-                col = scanner.nextInt();
-            } while (!canPlaceShip(board, row, col, length, vertical));
-            placeShip(board, row, col, length, vertical);
-        }
+    private static void placeShips(char[][] board, boolean isAI) {
+        // 实现放置舰船的逻辑
     }
 
-    // 选择舰艇方向
-    public static boolean chooseOrientation() {
-        System.out.println("Choose orientation:");
-        System.out.println("1. Vertical");
-        System.out.println("2. Horizontal");
-        System.out.print("Enter your choice: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
-        return choice == 1;
-    }
-
-    // 验证是否可以放置舰艇
-    public static boolean canPlaceShip(char[][] board, int row, int col, int length, boolean vertical) {
-        if (vertical) {
-            if (row + length > BOARD_SIZE) return false;
-            for (int i = 0; i < length; i++) {
-                if (board[row + i][col] != EMPTY) return false;
-            }
-        } else {
-            if (col + length > BOARD_SIZE) return false;
-            for (int i = 0; i < length; i++) {
-                if (board[row][col + i] != EMPTY) return false;
-            }
-        }
-        return true;
-    }
-
-    // 放置舰艇
-    public static void placeShip(char[][] board, int row, int col, int length, boolean vertical) {
-        if (vertical) {
-            for (int i = 0; i < length; i++) {
-                board[row + i][col] = SHIP;
-            }
-        } else {
-            for (int i = 0; i < length; i++) {
-                board[row][col + i] = SHIP;
-            }
-        }
-    }
-
-    // AI设置舰船位置
-    public static void placeAIShips(char[][] board) {
-        Random rand = new Random();
-        for (int i = 0; i < 3; i++) {
-            int length = i + 2;
-            boolean vertical = rand.nextBoolean();
-            int row, col;
-            do {
-                row = rand.nextInt(BOARD_SIZE);
-                col = rand.nextInt(BOARD_SIZE);
-            } while (!canPlaceShip(board, row, col, length, vertical));
-            placeShip(board, row, col, length, vertical);
-        }
-    }
-
-    // 游戏主循环
-    public static void playGame() {
-        boolean gameOver = false;
-        while (!gameOver) {
-            displayGameBoard(playerBoard, aiBoard, false);
-            playerTurn();
-            if (isGameOver(aiBoard)) {
-                gameOver = true;
-                displayGameOver(true);
-                break;
-            }
-            aiTurn();
-            if (isGameOver(playerBoard)) {
-                gameOver = true;
-                displayGameOver(false);
-            }
-        }
-    }
-
-    // 显示游戏板
-    public static void displayGameBoard(char[][] playerBoard, char[][] aiBoard, boolean revealAI) {
-        System.out.println("Your board:");
-        printBoard(playerBoard);
-        System.out.println("AI board:");
-        if (revealAI) {
-            printBoard(aiBoard);
-        } else {
-            printHiddenBoard(aiBoard);
-        }
-    }
-
-    // 打印游戏板
-    public static void printBoard(char[][] board) {
+    private static void printBoard(char[][] board, boolean hideShips) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    // 打印隐藏的游戏板
-    public static void printHiddenBoard(char[][] board) {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                if (board[i][j] == SHIP) {
-                    System.out.print(EMPTY + " ");
+                if (hideShips && board[i][j] == SHIP_CELL) {
+                    System.out.print(EMPTY_CELL + " ");
                 } else {
                     System.out.print(board[i][j] + " ");
                 }
@@ -228,41 +130,72 @@ public class Battleship {
         }
     }
 
-    // 玩家回合
-    public static void playerTurn() {
-        int row, col;
-        do {
-            System.out.print("Enter coordinates to fire (row and column): ");
-            row = scanner.nextInt();
-            col = scanner.nextInt();
-        } while (!isValidInput(row, col) || playerBoard[row][col] == HIT || playerBoard[row][col] == MISS);
+    private static boolean playerMove(char[][] aiBoard) {
+        System.out.print("输入射击坐标 (行 列): ");
+        int row = scanner.nextInt();
+        int col = scanner.nextInt();
+        scanner.nextLine(); // 消耗换行符
 
-        if (processShot(aiBoard, row, col)) {
-            System.out.println("Hit!");
-            playerBoard[row][col] = HIT;
-        } else {
-            System.out.println("Miss.");
-            playerBoard[row][col] = MISS;
+        if (!isValidInput(row, col)) {
+            System.out.println("无效的坐标，请重试。");
+            return true; // 继续玩家回合
         }
+
+        return processShot(aiBoard, row, col);
     }
 
-    // AI回合
-    public static void aiTurn() {
+    private static boolean aiMove(char[][] playerBoard, int difficulty) {
         Random rand = new Random();
         int row, col;
-        if (difficulty == 1) {
+
+        if (difficulty == EASY) {
             do {
                 row = rand.nextInt(BOARD_SIZE);
                 col = rand.nextInt(BOARD_SIZE);
-            } while (aiBoard[row][col] == HIT || aiBoard[row][col] == MISS);
+            } while (!isValidInput(row, col));
         } else {
-            // Normal AI logic: Try to find ships around hits
-            do {
-                row = rand.nextInt(BOARD_SIZE);
-                col = rand.nextInt(BOARD_SIZE);
-            } while (aiBoard[row][col] == HIT || aiBoard[row][col] == MISS);
+            // 实现普通难度AI逻辑
         }
 
-        if (processShot(playerBoard, row, col)) {
-            System.out.println("AI hit your ship!");
-            aiBoard[row][col]
+        return processShot(playerBoard, row, col);
+    }
+
+    private static boolean isValidInput(int row, int col) {
+        return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+    }
+
+    private static boolean processShot(char[][] board, int row, int col) {
+        if (board[row][col] == SHIP_CELL) {
+            board[row][col] = HIT_CELL;
+            System.out.println("命中！");
+            return true;
+        } else if (board[row][col] == EMPTY_CELL) {
+            board[row][col] = MISS_CELL;
+            System.out.println("未命中！");
+        } else {
+            System.out.println("重复射击，请重试。");
+        }
+        return false;
+    }
+
+    private static boolean isGameOver(char[][] board) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (board[i][j] == SHIP_CELL) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static void displayGameOver(boolean playerWon) {
+        if (playerWon) {
+            System.out.println("恭喜你！你赢了！");
+        } else {
+            System.out.println("很遗憾，你输了。");
+        }
+        System.out.println("按回车键返回主菜单...");
+        scanner.nextLine();
+    }
+}
