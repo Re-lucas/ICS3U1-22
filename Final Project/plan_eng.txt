@@ -1,6 +1,10 @@
 Battleship Program Design and Methods
 
+<<<<<<< HEAD
 ### Chinese version
+=======
+### English version
+>>>>>>> e44aa4ba285e55f55804cbb0e70b58ef59ba48e8
 
 #### Main menu interaction
 1. ** Start the program and display the main menu **
@@ -92,4 +96,8 @@ Normal: The AI should inspect the horizontal and vertical parts of the ship afte
 8. ** Load the game **
 - User chooses to load the game
 - Read and restore game state from file
+<<<<<<< HEAD
 - Before loading the game and continuing the game, the game progress should be added to the original game save until the user input is saved.
+=======
+- Before loading the game and continuing the game, the game progress should be added to the original game save until the user input is saved.
+>>>>>>> e44aa4ba285e55f55804cbb0e70b58ef59ba48e8
