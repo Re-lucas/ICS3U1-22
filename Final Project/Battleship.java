@@ -45,8 +45,6 @@ public class Battleship {
                     break;
             }
         }
-
-        scanner.close();
     }
 
     private void startNewGame(Scanner scanner) {
@@ -302,6 +300,7 @@ public class Battleship {
                     placed = board.placeShip(x, y, size, direction);
                 }
             }
+        }
             public int[] shoot(Board board) {
                 if (difficulty == 1) {
                     return randomShoot();
@@ -348,3 +347,4 @@ public class Battleship {
                 return difficulty;
             }
         }
+    }
