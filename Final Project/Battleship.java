@@ -195,11 +195,25 @@ public class Battleship {
         }
 
         public void placeShips(Scanner scanner) {
-            for (Ship ship : ships) {
+            boolean[] placedShips = new boolean[ships.length];
+
+            for (int i = 0; i < ships.length; i++) {
                 boolean placed = false;
                 while (!placed) {
                     displayBoard();
-                    System.out.println("放置舰船: " + ship.getName() + " (长度: " + ship.getSize() + ")");
+                    System.out.println("选择舰船:");
+                    for (int j = 0; j < ships.length; j++) {
+                        if (!placedShips[j]) {
+                            System.out.println((j + 1) + ". " + ships[j].getName() + " (长度: " + ships[j].getSize() + ")");
+                        }
+                    }
+                    int choice = scanner.nextInt() - 1;
+                    if (choice < 0 || choice >= ships.length || placedShips[choice]) {
+                        System.out.println("无效选择，请重试。");
+                        continue;
+                    }
+                    Ship ship = ships[choice];
+
                     System.out.print("输入起始坐标 (格式: x y): ");
                     int x = scanner.nextInt();
                     int y = scanner.nextInt();
@@ -207,7 +221,9 @@ public class Battleship {
                     char direction = scanner.next().charAt(0);
 
                     placed = placeShip(x, y, ship.getSize(), direction);
-                    if (!placed) {
+                    if (placed) {
+                        placedShips[choice] = true;
+                    } else {
                         System.out.println("无效位置，请重试。");
                     }
                 }
