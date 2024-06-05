@@ -9,12 +9,12 @@ public class Battleship {
         game.run(scanner);
     }
 
-    private Board playerBoard;
-    private Board aiBoard;
-    private AI ai;
-    private boolean isGameOver;
+    public Board playerBoard;
+    public Board aiBoard;
+    public AI ai;
+    public boolean isGameOver;
 
-    private void run(Scanner scanner) {
+    public void run(Scanner scanner) {
         boolean running = true;
 
         while (running) {
@@ -47,7 +47,7 @@ public class Battleship {
         }
     }
 
-    private void startNewGame(Scanner scanner) {
+    public void startNewGame(Scanner scanner) {
         System.out.println("选择难度：1. 简单 2. 普通");
         int difficulty = scanner.nextInt();
         ai = new AI(difficulty);
@@ -63,7 +63,7 @@ public class Battleship {
         playGame(scanner);
     }
 
-    private void loadGame(Scanner scanner) {
+    public void loadGame(Scanner scanner) {
         System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
         int slot = scanner.nextInt();
         String fileName = "save" + slot + ".txt";
@@ -89,7 +89,7 @@ public class Battleship {
         }
     }
 
-    private void saveGame(int slot) {
+    public void saveGame(int slot) {
         String fileName = "save" + slot + ".txt";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
@@ -103,12 +103,12 @@ public class Battleship {
         }
     }
 
-    private void showInstructions() {
+    public void showInstructions() {
         System.out.println("战舰游戏说明：");
         // 显示详细说明
     }
 
-    private void playGame(Scanner scanner) {
+    public void playGame(Scanner scanner) {
         isGameOver = false;
         while (!isGameOver) {
             playerTurn(scanner);
@@ -117,7 +117,7 @@ public class Battleship {
         }
     }
 
-    private void playerTurn(Scanner scanner) {
+    public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         playerBoard.displayBoard();
         System.out.print("输入射击坐标 (格式: x y): ");
@@ -136,7 +136,7 @@ public class Battleship {
         }
     }
 
-    private void aiTurn() {
+    public void aiTurn() {
         System.out.println("AI的回合");
         int[] shot = ai.shoot(playerBoard);
         int x = shot[0];
@@ -155,9 +155,9 @@ public class Battleship {
     }
 
     class Board {
-        private char[][] board;
-        private static final int SIZE = 10;
-        private Ship[] ships;
+        public char[][] board;
+        public static final int SIZE = 10;
+        public Ship[] ships;
 
         public Board() {
             board = new char[SIZE][SIZE];
@@ -214,7 +214,7 @@ public class Battleship {
             }
         }
 
-        private boolean placeShip(int x, int y, int size, char direction) {
+        public boolean placeShip(int x, int y, int size, char direction) {
             if (direction == 'h') {
                 if (y + size > SIZE) return false;
                 for (int i = 0; i < size; i++) {
@@ -285,8 +285,8 @@ public class Battleship {
     }
 
     class Ship {
-        private String name;
-        private int size;
+        public String name;
+        public int size;
 
         public Ship(String name, int size) {
             this.name = name;
@@ -303,10 +303,10 @@ public class Battleship {
     }
 
     class AI {
-        private int difficulty;
-        private boolean[][] shotBoard;
-        private static final int SIZE = 10;
-        private Random random;
+        public int difficulty;
+        public boolean[][] shotBoard;
+        public static final int SIZE = 10;
+        public Random random;
 
         public AI(int difficulty) {
             this.difficulty = difficulty;
