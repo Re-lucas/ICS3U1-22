@@ -1,0 +1,113 @@
+Battleship Program Design and Methods
+
+### Chinese version
+
+#### Main menu interaction
+1. ** Start the program and display the main menu **
+
+- Users can choose to start a new game
+- Three difficulty options should be given after choosing to start a new game
+- Easy
+- Normal
+
+- Users can choose to load saved games
+- Set three archives, and display the archive location and file name
+- The file format should use txt
+Example:
+Archive 1: Archive (archive name should be edited by the user).txt
+Archive 2: None
+Archive 3: None
+
+Select the loaded archive: (The user will enter the loaded document here, if the loaded document content is none, the current archive content is displayed)
+
+- Users can choose to view the game description
+- Click to display the game description
+- The option to return to the main menu page should be given after the display is complete
+
+- Users can opt out of the program
+- Close the program directly
+
+#### Game initialization
+2. ** Start a new game **
+- Initializes the blank game board
+- The initialized whiteboard should be 10 rows and 10 columns, and the number of each row and column should be displayed, so you should use a two-position array in the actual process
+- But the user display should start from 1 to 10
+
+- User selects ship:
+Aircraft carrier
+warship
+destroyer
+submarine
+Patrol ship
+
+- The user sets the location of the ship
+- Shows the game version before the user sets the ship position
+- The user should be allowed to select the ship first during ship setup
+- Shows the length and width of the ship after the user selects the ship
+- Let the user choose whether the ship is positioned vertically or horizontally
+
+- Previous and placed game boards should be displayed each time a new ship is set up
+- The user should be warned if the input is outside the scope of the game board or if there is an overlap, and should be told to re-enter
+
+- AI Sets the position of the ship
+-Ai ship positions cannot overlap and cannot be out of range
+
+3. ** Load the game **
+- Read the saved game state from the file and initialize the game board
+
+#### The game is in progress
+4. ** Player turn **
+- Displays the current game board
+- Should display your own game board and the computer's game board
+- The position of your ship will be displayed in your own game board
+- On the computer's game board will be all "-" to indicate blank space
+
+- User enters coordinates to shoot
+- Check the validity of user input
+- Handle shooting results (hits, misses, repeated shots, out of bounds)
+- After shooting: 'X' means hit, 'O' means missed, and '-' means unused
+
+- Update the game board
+- Check if any ships have been sunk
+- Check if the game is over
+
+5. **AI Round **
+- AI to shoot (random fire or strategic fire depending on difficulty)
+- Handle shooting results (hits, misses)
+- Update the game board
+- Check if any ships have been sunk
+- Check if the game is over
+
+- For AI difficulty:
+Simple: The AI should randomly shoot within the range of the game board
+- You cannot fire again at a position that has already been shot
+
+Normal: The AI should inspect the horizontal and vertical parts of the ship after judging the hit until the ship is completely sunk
+
+* Add functionality, should give both save option and exit option in the game Settings. If the latest progress is not kept before selecting the exit option, a message is displayed indicating whether to keep.
+- If the player chooses Yes, use the section that jumps to select the save
+- If the player chooses not to return directly to the main menu
+
+#### Game over
+6. ** Game over **
+- Show the winner.
+- Provides the option to return to the main menu
+
+#### Game save and load
+7. ** Save the game **
+- User chooses to save the game
+- Save the current game state to a file (the user should be able to choose to save the game at any time during the game)
+- A warning should be given and re-entered when the archive name is invalid
+- Archive (the archive name should be edited by the user), and the end of the archive name should be a.txt file
+
+- Should show quit the game, then check whether the game progress is saved as latest, and then pop up whether to save
+- If user input is saved, jump to the archive page
+- Have three archive locations (as mentioned earlier) and then let the user choose where to store the archive
+- A warning should be given if the archive itself already has an archive
+- "This save has been saved to the previous game progress, is it overwritten?"
+- If the user input is yes, overwrite this txt file, if the user input is not, go back to the original selection
+
+8. ** Load the game **
+- User chooses to load the game
+- Read and restore game state from file
+- Before loading the game and continuing the game, the game progress should be added to the original game save until the user input is saved.
