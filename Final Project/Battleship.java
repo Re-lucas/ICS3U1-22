@@ -157,9 +157,17 @@ public class Battleship {
     class Board {
         private char[][] board;
         private static final int SIZE = 10;
+        private Ship[] ships;
 
         public Board() {
             board = new char[SIZE][SIZE];
+            ships = new Ship[]{
+                new Ship("航空母舰", 5),
+                new Ship("战舰", 4),
+                new Ship("驱逐舰", 3),
+                new Ship("潜艇", 3),
+                new Ship("巡逻船", 2)
+            };
         }
 
         public void initializeBoard() {
@@ -187,19 +195,18 @@ public class Battleship {
         }
 
         public void placeShips(Scanner scanner) {
-            int[] shipSizes = {5, 4, 3, 3, 2};
-            for (int size : shipSizes) {
+            for (Ship ship : ships) {
                 boolean placed = false;
                 while (!placed) {
                     displayBoard();
-                    System.out.println("放置舰船长度: " + size);
+                    System.out.println("放置舰船: " + ship.getName() + " (长度: " + ship.getSize() + ")");
                     System.out.print("输入起始坐标 (格式: x y): ");
                     int x = scanner.nextInt();
                     int y = scanner.nextInt();
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
 
-                    placed = placeShip(x, y, size, direction);
+                    placed = placeShip(x, y, ship.getSize(), direction);
                     if (!placed) {
                         System.out.println("无效位置，请重试。");
                     }
@@ -277,6 +284,24 @@ public class Battleship {
         }
     }
 
+    class Ship {
+        private String name;
+        private int size;
+
+        public Ship(String name, int size) {
+            this.name = name;
+            this.size = size;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getSize() {
+            return size;
+        }
+    }
+
     class AI {
         private int difficulty;
         private boolean[][] shotBoard;
@@ -301,50 +326,50 @@ public class Battleship {
                 }
             }
         }
-            public int[] shoot(Board board) {
-                if (difficulty == 1) {
-                    return randomShoot();
-                } else {
-                    return strategicShoot(board);
-                }
+
+        public int[] shoot(Board board) {
+            if (difficulty == 1) {
+                return randomShoot();
+            } else {
+                return strategicShoot(board);
             }
-        
-            private int[] randomShoot() {
-                int x, y;
-                do {
-                    x = random.nextInt(SIZE);
-                    y = random.nextInt(SIZE);
-                } while (shotBoard[x][y]);
-        
-                shotBoard[x][y] = true;
-                return new int[]{x, y};
-            }
-        
-            private int[] strategicShoot(Board board) {
-                // 简单的策略：在命中之后，检查周围的部分直到完全击沉舰船
-                for (int i = 0; i < SIZE; i++) {
-                    for (int j = 0; j < SIZE; j++) {
-                        if (shotBoard[i][j] && board.getCell(i, j) == 'H') {
-                            int[] nextShot = findAdjacent(i, j);
-                            if (nextShot != null) {
-                                return nextShot;
-                            }
+        }
+
+        private int[] randomShoot() {
+            int x, y;
+            do {
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
+            } while (shotBoard[x][y]);
+
+            shotBoard[x][y] = true;
+            return new int[]{x, y};
+        }
+
+        private int[] strategicShoot(Board board) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (shotBoard[i][j] && board.getCell(i, j) == 'H') {
+                        int[] nextShot = findAdjacent(i, j);
+                        if (nextShot != null) {
+                            return nextShot;
                         }
                     }
                 }
-                return randomShoot();
             }
-        
-            private int[] findAdjacent(int x, int y) {
-                if (x > 0 && !shotBoard[x - 1][y]) return new int[]{x - 1, y};
-                if (x < SIZE - 1 && !shotBoard[x + 1][y]) return new int[]{x + 1, y};
-                if (y > 0 && !shotBoard[x][y - 1]) return new int[]{x, y - 1};
-                if (y < SIZE - 1 && !shotBoard[x][y + 1]) return new int[]{x, y + 1};
-                return null;
-            }
-        
-            public int getDifficulty() {
-                return difficulty;
-            }
+            return randomShoot();
+        }
+
+        private int[] findAdjacent(int x, int y) {
+            if (x > 0 && !shotBoard[x - 1][y]) return new int[]{x - 1, y};
+            if (x < SIZE - 1 && !shotBoard[x + 1][y]) return new int[]{x + 1, y};
+            if (y > 0 && !shotBoard[x][y - 1]) return new int[]{x, y - 1};
+            if (y < SIZE - 1 && !shotBoard[x][y + 1]) return new int[]{x, y + 1};
+            return null;
+        }
+
+        public int getDifficulty() {
+            return difficulty;
         }
     }
+}
