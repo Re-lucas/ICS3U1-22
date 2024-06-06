@@ -194,6 +194,7 @@ public class Battleship {
             }
         }
 
+        //This
         public void placeShips(Scanner scanner) {
             boolean[] placedShips = new boolean[ships.length];
 
