@@ -233,6 +233,9 @@ public class Battleship {
 
         //Problem unslove(sloved): as the variable got from method placeShips
         //the variable in the commander as for x is assgined to y and the y is assigned to x 
+
+        //The effect: it got variable from method placeShips (both the ai and the user which different from the variable assgined to the two palceShips method)
+        //and it acctually assgined the x, y, the size which is the size of ship (from an array by getting their length) and the direction which determine by the char
         public boolean placeShip(int x, int y, int size, char direction) {
             if (direction == 'h') {
                 if (y + size > SIZE) return false;
