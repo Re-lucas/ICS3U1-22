@@ -194,7 +194,7 @@ public class Battleship {
             }
         }
 
-        //This
+        //This method which get from server sanner
         public void placeShips(Scanner scanner) {
             boolean[] placedShips = new boolean[ships.length];
 
