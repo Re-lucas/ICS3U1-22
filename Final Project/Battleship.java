@@ -273,11 +273,14 @@ public class Battleship {
                     if (board[x + i][y] != '-') return false;
                 }
 
-                
+                //if the two condititon are true than replace the thing to be s ( to represent the ship)
+                //by ckeck here just s right now, remind it need to come up a method which return a char by deterime the ship
                 for (int i = 0; i < size; i++) {
                     board[x + i][y] = 'S';
                 }
             } else if (direction == 'v') {
+
+                //same
                 if (x + size > SIZE) return false;
                 for (int i = 0; i < size; i++) {
                     if (board[x][y + i] != '-') return false;
