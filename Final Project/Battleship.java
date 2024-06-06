@@ -237,18 +237,18 @@ public class Battleship {
             if (direction == 'h') {
                 if (y + size > SIZE) return false;
                 for (int i = 0; i < size; i++) {
-                    if (board[x][y + i] != '-') return false;
-                }
-                for (int i = 0; i < size; i++) {
-                    board[x][y + i] = 'S';
-                }
-            } else if (direction == 'v') {
-                if (x + size > SIZE) return false;
-                for (int i = 0; i < size; i++) {
                     if (board[x + i][y] != '-') return false;
                 }
                 for (int i = 0; i < size; i++) {
                     board[x + i][y] = 'S';
+                }
+            } else if (direction == 'v') {
+                if (x + size > SIZE) return false;
+                for (int i = 0; i < size; i++) {
+                    if (board[x][y + i] != 1'-') return false;
+                }
+                for (int i = 0; i < size; i++) {
+                    board[x][y + i] = 'S';
                 }
             } else {
                 return false;
