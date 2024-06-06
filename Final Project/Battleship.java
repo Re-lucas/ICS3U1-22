@@ -105,7 +105,7 @@ public class Battleship {
 
     public void showInstructions() {
         System.out.println("战舰游戏说明：");
-        // 显示详细说明
+        // prsent the information
     }
 
     public void playGame(Scanner scanner) {
