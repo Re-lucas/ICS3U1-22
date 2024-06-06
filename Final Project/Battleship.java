@@ -196,32 +196,55 @@ public class Battleship {
 
         //This method which get from server sanner
         public void placeShips(Scanner scanner) {
+
+            //set up a boolean arrays for ships
             boolean[] placedShips = new boolean[ships.length];
 
             for (int i = 0; i < ships.length; i++) {
+
+                //set up a boolean iniutilized as false
                 boolean placed = false;
+
+                //while to ckeck reulut
                 while (!placed) {
+
+                    //To display the board for user to enter 
                     displayBoard();
+
+                    //Ased for the ships by entering number
                     System.out.println("选择舰船:");
+
+                    //by using for loop to print out the name and the corresponding number in the array
                     for (int j = 0; j < ships.length; j++) {
                         if (!placedShips[j]) {
                             System.out.println((j + 1) + ". " + ships[j].getName() + " (长度: " + ships[j].getSize() + ")");
                         }
                     }
+
+                    //because the arrya start from so -1
                     int choice = scanner.nextInt() - 1;
+
+                    //determine the number is in the arrange or not
                     if (choice < 0 || choice >= ships.length || placedShips[choice]) {
                         System.out.println("无效选择，请重试。");
                         continue;
                     }
+
+                    //selecting the corresponding choice
                     Ship ship = ships[choice];
 
+                    //getting the variable from user
                     System.out.print("输入起始坐标 (格式: x y): ");
                     int x = scanner.nextInt();
                     int y = scanner.nextInt();
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
 
+                    //to calling a method and the method name placeship is return boolean value which use to determien the vaild or invaild
+                    //int, int, int, char
                     placed = placeShip(x, y, ship.getSize(), direction);
+
+
                     if (placed) {
                         placedShips[choice] = true;
                     } else {
@@ -238,11 +261,19 @@ public class Battleship {
         //The effect: it got variable from method placeShips (both the ai and the user which different from the variable assgined to the two palceShips method)
         //and it acctually assgined the x, y, the size which is the size of ship (from an array by getting their length) and the direction which determine by the char
         public boolean placeShip(int x, int y, int size, char direction) {
+
+            //there is two possible option for it: h and v 
             if (direction == 'h') {
+
+                //check is there going to be part of it being invalid which is out of the board or not
                 if (y + size > SIZE) return false;
+
+                //if yes, the board can be contain it, than check by the symbol if there are empty or not
                 for (int i = 0; i < size; i++) {
                     if (board[x + i][y] != '-') return false;
                 }
+
+                
                 for (int i = 0; i < size; i++) {
                     board[x + i][y] = 'S';
                 }
