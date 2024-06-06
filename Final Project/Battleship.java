@@ -245,7 +245,7 @@ public class Battleship {
             } else if (direction == 'v') {
                 if (x + size > SIZE) return false;
                 for (int i = 0; i < size; i++) {
-                    if (board[x][y + i] != 1'-') return false;
+                    if (board[x][y + i] != '-') return false;
                 }
                 for (int i = 0; i < size; i++) {
                     board[x][y + i] = 'S';
