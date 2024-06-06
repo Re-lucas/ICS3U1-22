@@ -230,6 +230,9 @@ public class Battleship {
             }
         }
 
+
+        //Problem unslove: as the variable got from method placeShips
+        //the variable in the commander as for x is assgined to y and the y is assigned to x 
         public boolean placeShip(int x, int y, int size, char direction) {
             if (direction == 'h') {
                 if (y + size > SIZE) return false;
