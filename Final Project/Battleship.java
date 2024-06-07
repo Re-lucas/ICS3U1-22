@@ -25,7 +25,8 @@ public class Battleship {
             System.out.println("4. 退出程序");
             System.out.print("请选择：");
 
-            int choice = scanner.nextInt();
+            String input = scanner.next();
+            int choice = Integer.parseInt(input);
 
             switch (choice) {
                 case 1:
@@ -120,9 +121,23 @@ public class Battleship {
     public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         aiBoard.displayShotBoard();
-        System.out.print("输入射击坐标 (格式: x y): ");
-        int x = scanner.nextInt();
-        int y = scanner.nextInt();
+        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
+        String input = scanner.next();
+
+        if (input.equals("q")) {
+            System.out.println("退出游戏...");
+            isGameOver = true;
+            return;
+        } else if (input.equals("save")) {
+            System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
+            int slot = scanner.nextInt();
+            saveGame(slot);
+            System.out.println("游戏已保存。");
+            return;
+        }
+
+        int x = Integer.parseInt(input) - 1;
+        int y = scanner.nextInt() - 1;
 
         if (aiBoard.shoot(x, y)) {
             System.out.println("命中！");
@@ -180,13 +195,13 @@ public class Battleship {
 
         public void displayBoard() {
             System.out.print("  ");
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 1; i <= SIZE; i++) {
                 System.out.print(i + " ");
             }
             System.out.println();
             
             for (int i = 0; i < SIZE; i++) {
-                System.out.print(i + " ");
+                System.out.print((i + 1) + " ");
                 for (int j = 0; j < SIZE; j++) {
                     System.out.print(board[i][j] + " ");
                 }
@@ -196,13 +211,13 @@ public class Battleship {
 
         public void displayShotBoard() {
             System.out.print("  ");
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 1; i <= SIZE; i++) {
                 System.out.print(i + " ");
             }
             System.out.println();
             
             for (int i = 0; i < SIZE; i++) {
-                System.out.print(i + " ");
+                System.out.print((i + 1) + " ");
                 for (int j = 0; j < SIZE; j++) {
                     if (board[i][j] == 'H' || board[i][j] == 'M') {
                         System.out.print(board[i][j] + " ");
@@ -235,8 +250,8 @@ public class Battleship {
                     Ship ship = ships[choice];
 
                     System.out.print("输入起始坐标 (格式: x y): ");
-                    int x = scanner.nextInt();
-                    int y = scanner.nextInt();
+                    int x = scanner.nextInt() - 1;
+                    int y = scanner.nextInt() - 1;
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
 
