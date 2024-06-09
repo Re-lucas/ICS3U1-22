@@ -121,6 +121,8 @@ public class Battleship {
     public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         aiBoard.displayShotBoard();
+        System.out.println("玩家的战舰板");
+        playerBoard.displayPlayerBoard();
         System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
         String input = scanner.next();
 
@@ -224,6 +226,22 @@ public class Battleship {
                     } else {
                         System.out.print("- ");
                     }
+                }
+                System.out.println();
+            }
+        }
+
+        public void displayPlayerBoard() {
+            System.out.print("  ");
+            for (int i = 1; i <= SIZE; i++) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+            
+            for (int i = 0; i < SIZE; i++) {
+                System.out.print((i + 1) + " ");
+                for (int j = 0; j < SIZE; j++) {
+                    System.out.print(board[i][j] + " ");
                 }
                 System.out.println();
             }
