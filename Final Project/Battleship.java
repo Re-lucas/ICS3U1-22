@@ -268,8 +268,9 @@ public class Battleship {
                     Ship ship = ships[choice];
 
                     System.out.print("输入起始坐标 (格式: x y): ");
-                    int x = scanner.nextInt() - 1; // 先读取x坐标
-                    int y = scanner.nextInt() - 1; // 再读取y坐标
+                    int y = scanner.nextInt() - 1; // 先读取y坐标
+                    int x = scanner.nextInt() - 1; // 再读取x坐标
+                                        
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
 
