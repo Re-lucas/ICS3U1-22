@@ -3,20 +3,32 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Battleship {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Battleship game = new Battleship();
-        game.run(scanner);
-    }
+    public static final int BOARD_SIZE = 10;
+    public static final char SHIP_SYMBOL = 'S';
+    public static final char HIT_SYMBOL = 'H';
+    public static final char MISS_SYMBOL = 'M';
+    public static final char EMPTY_SYMBOL = '-';
+    public static final int EASY = 1;
+    public static final int NORMAL = 2;
+    public static final String SAVE_FILE_PREFIX = "save";
+    public static final String SAVE_FILE_SUFFIX = ".txt";
+    public static final int SAVE_SLOT_1 = 1;
+    public static final int SAVE_SLOT_2 = 2;
+    public static final int SAVE_SLOT_3 = 3;
 
     public Board playerBoard;
     public Board aiBoard;
     public AI ai;
     public boolean isGameOver;
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Battleship game = new Battleship();
+        game.run(scanner);
+    }
+
     public void run(Scanner scanner) {
         boolean running = true;
-
         while (running) {
             System.out.println("主菜单");
             System.out.println("1. 开始新游戏");
@@ -78,7 +90,7 @@ public class Battleship {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             playerBoard = new Board();
             aiBoard = new Board();
-            ai = new AI(reader.readLine().equals("easy") ? 1 : 2);
+            ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
             
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
@@ -94,7 +106,7 @@ public class Battleship {
         String fileName = "save" + slot + ".txt";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-            writer.write(ai.getDifficulty() == 1 ? "easy" : "normal");
+            writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
             writer.newLine();
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
@@ -121,36 +133,41 @@ public class Battleship {
     public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         aiBoard.displayShotBoard();
-        System.out.println("玩家的战舰板");
-        playerBoard.displayPlayerBoard();
-        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
+        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: "); // 修改提示信息
         String input = scanner.next();
-
-        if (input.equals("q")) {
+    
+        if (input.equalsIgnoreCase("q")) {
             System.out.println("退出游戏...");
             isGameOver = true;
             return;
-        } else if (input.equals("save")) {
+        } else if (input.equalsIgnoreCase("save")) {
             System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
             int slot = scanner.nextInt();
             saveGame(slot);
             System.out.println("游戏已保存。");
             return;
         }
-
-        int x = Integer.parseInt(input) - 1;
-        int y = scanner.nextInt() - 1;
-
-        if (aiBoard.shoot(x, y)) {
-            System.out.println("命中！");
-        } else {
-            System.out.println("未命中。");
+    
+        try {
+            int x = Integer.parseInt(input) - 1; // 先读取x坐标
+            int y = scanner.nextInt() - 1; // 再读取y坐标
+    
+            if (aiBoard.shoot(x, y)) {
+                System.out.println("命中！");
+            } else {
+                System.out.println("未命中。");
+            }
+    
+            if (aiBoard.allShipsSunk()) {
+                System.out.println("玩家获胜！");
+                isGameOver = true;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("输入格式错误，请按照 'x y' 的格式输入坐标。");
         }
-
-        if (aiBoard.allShipsSunk()) {
-            System.out.println("玩家获胜！");
-            isGameOver = true;
-        }
+    
+        System.out.println("玩家的战舰板：");
+        playerBoard.displayBoard();
     }
 
     public void aiTurn() {
@@ -169,15 +186,17 @@ public class Battleship {
             System.out.println("AI获胜！");
             isGameOver = true;
         }
+
+        System.out.println("玩家的战舰板：");
+        playerBoard.displayBoard();
     }
 
     class Board {
         public char[][] board;
-        public static final int SIZE = 10;
         public Ship[] ships;
 
         public Board() {
-            board = new char[SIZE][SIZE];
+            board = new char[BOARD_SIZE][BOARD_SIZE];
             ships = new Ship[]{
                 new Ship("航空母舰", 5),
                 new Ship("战舰", 4),
@@ -188,8 +207,8 @@ public class Battleship {
         }
 
         public void initializeBoard() {
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
                     board[i][j] = '-';
                 }
             }
@@ -197,14 +216,14 @@ public class Battleship {
 
         public void displayBoard() {
             System.out.print("  ");
-            for (int i = 1; i <= SIZE; i++) {
+            for (int i = 1; i <= BOARD_SIZE; i++) {
                 System.out.print(i + " ");
             }
             System.out.println();
             
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
                 System.out.print((i + 1) + " ");
-                for (int j = 0; j < SIZE; j++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
                     System.out.print(board[i][j] + " ");
                 }
                 System.out.println();
@@ -213,14 +232,14 @@ public class Battleship {
 
         public void displayShotBoard() {
             System.out.print("  ");
-            for (int i = 1; i <= SIZE; i++) {
+            for (int i = 1; i <= BOARD_SIZE; i++) {
                 System.out.print(i + " ");
             }
             System.out.println();
             
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
                 System.out.print((i + 1) + " ");
-                for (int j = 0; j < SIZE; j++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
                     if (board[i][j] == 'H' || board[i][j] == 'M') {
                         System.out.print(board[i][j] + " ");
                     } else {
@@ -231,25 +250,9 @@ public class Battleship {
             }
         }
 
-        public void displayPlayerBoard() {
-            System.out.print("  ");
-            for (int i = 1; i <= SIZE; i++) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-            
-            for (int i = 0; i < SIZE; i++) {
-                System.out.print((i + 1) + " ");
-                for (int j = 0; j < SIZE; j++) {
-                    System.out.print(board[i][j] + " ");
-                }
-                System.out.println();
-            }
-        }
-
         public void placeShips(Scanner scanner) {
             boolean[] placedShips = new boolean[ships.length];
-
+        
             for (int i = 0; i < ships.length; i++) {
                 boolean placed = false;
                 while (!placed) {
@@ -266,14 +269,14 @@ public class Battleship {
                         continue;
                     }
                     Ship ship = ships[choice];
-
-                    System.out.print("输入起始坐标 (格式: x y): ");
-                    int x = scanner.nextInt() - 1;
-                    int y = scanner.nextInt() - 1;
+        
+                    System.out.print("输入起始坐标 (格式: x y): "); // 修改提示信息
+                    int x = scanner.nextInt() - 1; // 先读取x坐标
+                    int y = scanner.nextInt() - 1; // 再读取y坐标
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
-
-                    placed = placeShip(x, y, ship.getSize(), direction);
+        
+                    placed = placeShip(x, y, ship.getSize(), direction); // 确保placeShip方法的参数顺序与输入顺序相匹配
                     if (placed) {
                         placedShips[choice] = true;
                     } else {
@@ -282,10 +285,11 @@ public class Battleship {
                 }
             }
         }
+        
 
         public boolean placeShip(int x, int y, int size, char direction) {
             if (direction == 'h') {
-                if (y + size > SIZE) return false;
+                if (y + size > BOARD_SIZE) return false;
                 for (int i = 0; i < size; i++) {
                     if (board[x][y + i] != '-') return false;
                 }
@@ -293,7 +297,7 @@ public class Battleship {
                     board[x][y + i] = 'S';
                 }
             } else if (direction == 'v') {
-                if (x + size > SIZE) return false;
+                if (x + size > BOARD_SIZE) return false;
                 for (int i = 0; i < size; i++) {
                     if (board[x + i][y] != '-') return false;
                 }
@@ -307,55 +311,45 @@ public class Battleship {
         }
 
         public boolean shoot(int x, int y) {
-            if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
-                return false;
-            }
             if (board[x][y] == 'S') {
                 board[x][y] = 'H';
                 return true;
-            } else {
+            } else if (board[x][y] == '-') {
                 board[x][y] = 'M';
                 return false;
             }
+            return false;
         }
 
         public boolean allShipsSunk() {
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
-                    if (board[i][j] == 'S') {
-                        return false;
-                    }
-                }
+            for (Ship ship : ships) {
+                if (!ship.isSunk(board)) return false;
             }
             return true;
         }
 
-        public void saveBoard(BufferedWriter writer) throws IOException {
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
-                    writer.write(board[i][j]);
-                }
-                writer.newLine();
-            }
-        }
-
         public void loadBoard(BufferedReader reader) throws IOException {
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
                 String line = reader.readLine();
-                for (int j = 0; j < SIZE; j++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
                     board[i][j] = line.charAt(j);
                 }
             }
         }
 
-        public char getCell(int x, int y) {
-            return board[x][y];
+        public void saveBoard(BufferedWriter writer) throws IOException {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    writer.write(board[i][j]);
+                }
+                writer.newLine();
+            }
         }
     }
 
     class Ship {
-        public String name;
-        public int size;
+        private String name;
+        private int size;
 
         public Ship(String name, int size) {
             this.name = name;
@@ -369,76 +363,67 @@ public class Battleship {
         public int getSize() {
             return size;
         }
-    }
 
-    class AI {
-        public int difficulty;
-        public boolean[][] shotBoard;
-        public static final int SIZE = 10;
-        public Random random;
-
-        public AI(int difficulty) {
-            this.difficulty = difficulty;
-            shotBoard = new boolean[SIZE][SIZE];
-            random = new Random();
-        }
-
-        public void placeShips(Board board) {
-            int[] shipSizes = {5, 4, 3, 3, 2};
-            for (int size : shipSizes) {
-                boolean placed = false;
-                while (!placed) {
-                    int x = random.nextInt(SIZE);
-                    int y = random.nextInt(SIZE);
-                    char direction = random.nextBoolean() ? 'h' : 'v';
-                    placed = board.placeShip(x, y, size, direction);
-                }
-            }
-        }
-
-        public int[] shoot(Board board) {
-            if (difficulty == 1) {
-                return randomShoot();
-            } else {
-                return strategicShoot(board);
-            }
-        }
-
-        private int[] randomShoot() {
-            int x, y;
-            do {
-                x = random.nextInt(SIZE);
-                y = random.nextInt(SIZE);
-            } while (shotBoard[x][y]);
-
-            shotBoard[x][y] = true;
-            return new int[]{x, y};
-        }
-
-        private int[] strategicShoot(Board board) {
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
-                    if (shotBoard[i][j] && board.getCell(i, j) == 'H') {
-                        int[] nextShot = findAdjacent(i, j);
-                        if (nextShot != null) {
-                            return nextShot;
+        public boolean isSunk(char[][] board) {
+            // 此方法应检查船只的每个部分是否都被击中
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    // 检查船只的每个部分
+                    if (board[i][j] == this.name.charAt(0)) {
+                        if (board[i][j] != 'H') {
+                            // 如果船只的任何部分没有被击中，则船只未沉
+                            return false;
                         }
                     }
                 }
             }
-            return randomShoot();
+            // 如果所有部分都被击中，则船只沉没
+            return true;
         }
+    }
 
-        private int[] findAdjacent(int x, int y) {
-            if (x > 0 && !shotBoard[x - 1][y]) return new int[]{x - 1, y};
-            if (x < SIZE - 1 && !shotBoard[x + 1][y]) return new int[]{x + 1, y};
-            if (y > 0 && !shotBoard[x][y - 1]) return new int[]{x, y - 1};
-            if (y < SIZE - 1 && !shotBoard[x][y + 1]) return new int[]{x, y + 1};
-            return null;
+    class AI {
+        private int difficulty;
+        private Random random;
+    
+        public AI(int difficulty) {
+            this.difficulty = difficulty;
+            random = new Random();
         }
-
+    
         public int getDifficulty() {
             return difficulty;
+        }
+    
+        public void placeShips(Board board) {
+            for (Ship ship : board.ships) {
+                boolean placed = false;
+                while (!placed) {
+                    int x = random.nextInt(BOARD_SIZE);
+                    int y = random.nextInt(BOARD_SIZE);
+                    char direction = random.nextBoolean() ? 'h' : 'v';
+                    // 确保舰船不会放置在游戏板的边界之外
+                    placed = board.placeShip(x, y, ship.getSize(), direction);
+                }
+            }
+        }
+    
+        public int[] shoot(Board board) {
+            int x, y;
+            do {
+                x = random.nextInt(BOARD_SIZE);
+                y = random.nextInt(BOARD_SIZE);
+            } while (board.board[x][y] == 'H' || board.board[x][y] == 'M');
+    
+            // 处理射击结果
+            boolean hit = board.shoot(x, y);
+            if (hit) {
+                // 如果是普通难度，AI可以根据射击结果来决定下一步的行动
+                if (difficulty == NORMAL) {
+                    // 添加普通难度下的射击逻辑
+                }
+            }
+            return new int[]{x, y};
         }
     }
 }
