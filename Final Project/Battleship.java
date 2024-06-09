@@ -121,7 +121,9 @@ public class Battleship {
     public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         aiBoard.displayShotBoard();
-        System.out.print("输入射击坐标 (格式: y x) 或 'q' 退出 或 'save' 保存: ");
+        System.out.println("玩家的战舰板");
+        playerBoard.displayPlayerBoard();
+        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
         String input = scanner.next();
 
         if (input.equals("q")) {
@@ -136,8 +138,8 @@ public class Battleship {
             return;
         }
 
-        int y = Integer.parseInt(input) - 1;
-        int x = scanner.nextInt() - 1;
+        int x = Integer.parseInt(input) - 1;
+        int y = scanner.nextInt() - 1;
 
         if (aiBoard.shoot(x, y)) {
             System.out.println("命中！");
@@ -149,8 +151,6 @@ public class Battleship {
             System.out.println("玩家获胜！");
             isGameOver = true;
         }
-
-        playerBoard.displayBoard();
     }
 
     public void aiTurn() {
@@ -169,8 +169,6 @@ public class Battleship {
             System.out.println("AI获胜！");
             isGameOver = true;
         }
-
-        playerBoard.displayBoard();
     }
 
     class Board {
@@ -233,6 +231,22 @@ public class Battleship {
             }
         }
 
+        public void displayPlayerBoard() {
+            System.out.print("  ");
+            for (int i = 1; i <= SIZE; i++) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+            
+            for (int i = 0; i < SIZE; i++) {
+                System.out.print((i + 1) + " ");
+                for (int j = 0; j < SIZE; j++) {
+                    System.out.print(board[i][j] + " ");
+                }
+                System.out.println();
+            }
+        }
+
         public void placeShips(Scanner scanner) {
             boolean[] placedShips = new boolean[ships.length];
 
@@ -253,9 +267,9 @@ public class Battleship {
                     }
                     Ship ship = ships[choice];
 
-                    System.out.print("输入起始坐标 (格式: y x): ");
-                    int y = scanner.nextInt() - 1;
+                    System.out.print("输入起始坐标 (格式: x y): ");
                     int x = scanner.nextInt() - 1;
+                    int y = scanner.nextInt() - 1;
                     System.out.print("选择方向 (h: 水平, v: 垂直): ");
                     char direction = scanner.next().charAt(0);
 
