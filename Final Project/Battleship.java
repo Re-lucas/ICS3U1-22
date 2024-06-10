@@ -292,7 +292,7 @@ public class Battleship {
         public boolean placeShip(Ship ship, int x, int y, char direction) {
             int size = ship.getSize();
             if (direction == 'h') {
-                if (x + size > BOARD_SIZE) {
+                if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
                     return false;
                 }
                 for (int i = 0; i < size; i++) {
@@ -305,7 +305,7 @@ public class Battleship {
                     ship.addCoordinate(x + i, y);
                 }
             } else if (direction == 'v') {
-                if (y + size > BOARD_SIZE) {
+                if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
                     return false;
                 }
                 for (int i = 0; i < size; i++) {
@@ -321,7 +321,7 @@ public class Battleship {
                 return false;
             }
             return true;
-        }
+        }        
 
         public boolean shoot(int x, int y) {
             if (board[x][y] == SHIP_SYMBOL) {
