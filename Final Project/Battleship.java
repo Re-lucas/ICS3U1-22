@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -381,74 +383,69 @@ public class Battleship {
         }
     }
 
-    class Ship {
-        private String name;
-        private int size;
-        private int hitCount;
-        private int[][] coordinates;
+class Ship {
+    private String name;
+    private int size;
+    private int hitCount;
+    private List<int[]> coordinates;
 
-        public Ship(String name, int size) {
-            this.name = name;
-            this.size = size;
-            this.hitCount = 0;
-            this.coordinates = new int[size][2];
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public int getHitCount() {
-            return hitCount;
-        }
-
-        public void setHitCount(int hitCount) {
-            this.hitCount = hitCount;
-        }
-
-        public int[][] getCoordinates() {
-            return coordinates;
-        }
-
-        public void addCoordinate(int x, int y) {
-            for (int i = 0; i < size; i++) {
-                if (coordinates[i][0] == 0 && coordinates[i][1] == 0) {
-                    coordinates[i][0] = x;
-                    coordinates[i][1] = y;
-                    break;
-                }
-            }
-        }
-
-        public boolean isAtCoordinate(int x, int y) {
-            for (int i = 0; i < size; i++) {
-                if (coordinates[i][0] == x && coordinates[i][1] == y) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void hit() {
-            hitCount++;
-        }
-
-        public boolean isSunk() {
-            return hitCount >= size;
-        }
+    public Ship(String name, int size) {
+        this.name = name;
+        this.size = size;
+        this.hitCount = 0;
+        this.coordinates = new ArrayList<>();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
+    }
+
+    public List<int[]> getCoordinates() {
+        return coordinates;
+    }
+
+    public void addCoordinate(int x, int y) {
+        coordinates.add(new int[]{x, y});
+    }
+
+    public boolean isAtCoordinate(int x, int y) {
+        for (int[] coord : coordinates) {
+            if (coord[0] == x && coord[1] == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void hit() {
+        hitCount++;
+    }
+
+    public boolean isSunk() {
+        return hitCount >= size;
+    }
+}
+
 
     class AI {
         private int difficulty;
