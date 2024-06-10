@@ -302,37 +302,78 @@ public class Battleship {
 
         public boolean placeShip(Ship ship, int x, int y, char direction) {
             int size = ship.getSize();
-            if (direction == 'h') {
-                if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
-                    return false;
+            
+            return switch (direction) {
+                case 'h' -> {
+                    if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
+                        yield false;
+                    }
+                    for (int i = 0; i < size; i++) {
+                        if (board[x + i][y] != EMPTY_SYMBOL) {
+                            yield false;
+                        }
+                    }
+                    for (int i = 0; i < size; i++) {
+                        board[x + i][y] = SHIP_SYMBOL;
+                        ship.addCoordinate(x + i, y);
+                    }
+                    yield true;
                 }
-                for (int i = 0; i < size; i++) {
-                    if (board[x + i][y] != EMPTY_SYMBOL) {
+                case 'v' -> {
+                    if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
+                        yield false;
+                    }
+                    for (int i = 0; i < size; i++) {
+                        if (board[x][y + i] != EMPTY_SYMBOL) {
+                            yield false;
+                        }
+                    }
+                    for (int i = 0; i < size; i++) {
+                        board[x][y + i] = SHIP_SYMBOL;
+                        ship.addCoordinate(x, y + i);
+                    }
+                    yield true;
+                }
+                default -> false;
+            };
+
+            //for java version which not 12
+            /* 
+            switch (direction) {
+                case 'h':
+                    if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
                         return false;
                     }
-                }
-                for (int i = 0; i < size; i++) {
-                    board[x + i][y] = SHIP_SYMBOL;
-                    ship.addCoordinate(x + i, y);
-                }
-            } else if (direction == 'v') {
-                if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
-                    return false;
-                }
-                for (int i = 0; i < size; i++) {
-                    if (board[x][y + i] != EMPTY_SYMBOL) {
+                    for (int i = 0; i < size; i++) {
+                        if (board[x + i][y] != EMPTY_SYMBOL) {
+                            return false;
+                        }
+                    }
+                    for (int i = 0; i < size; i++) {
+                        board[x + i][y] = SHIP_SYMBOL;
+                        ship.addCoordinate(x + i, y);
+                    }
+                    break;
+                case 'v':
+                    if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
                         return false;
                     }
-                }
-                for (int i = 0; i < size; i++) {
-                    board[x][y + i] = SHIP_SYMBOL;
-                    ship.addCoordinate(x, y + i);
-                }
-            } else {
-                return false;
+                    for (int i = 0; i < size; i++) {
+                        if (board[x][y + i] != EMPTY_SYMBOL) {
+                            return false;
+                        }
+                    }
+                    for (int i = 0; i < size; i++) {
+                        board[x][y + i] = SHIP_SYMBOL;
+                        ship.addCoordinate(x, y + i);
+                    }
+                    break;
+                default:
+                    return false;
             }
             return true;
-        }   
+            */
+        }        
 
         public boolean shoot(int x, int y) {
             if (board[x][y] == SHIP_SYMBOL) {
