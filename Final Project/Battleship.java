@@ -321,7 +321,7 @@ public class Battleship {
                 return false;
             }
             return true;
-        }        
+        }   
 
         public boolean shoot(int x, int y) {
             if (board[x][y] == SHIP_SYMBOL) {
@@ -480,14 +480,69 @@ public class Battleship {
                     y = random.nextInt(BOARD_SIZE);
                 } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
             } else {
-                // 在普通难度下的AI射击逻辑
-                // 这里可以实现更智能的射击策略
-                do {
-                    x = random.nextInt(BOARD_SIZE);
-                    y = random.nextInt(BOARD_SIZE);
-                } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                // 普通难度下的AI射击逻辑
+                int[] lastHit = findLastHit(board);
+                if (lastHit != null) {
+                    // 如果找到了上一次的命中，尝试围绕该区域射击
+                    List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
+                    do {
+                        int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
+                        x = target[0];
+                        y = target[1];
+                    } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                } else {
+                    // 如果没有上一次的命中，随机选择一个位置射击
+                    do {
+                        x = random.nextInt(BOARD_SIZE);
+                        y = random.nextInt(BOARD_SIZE);
+                    } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                }
             }
             return new int[]{x, y};
         }
+        
+        private int[] findLastHit(Board board) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    if (board.board[i][j] == HIT_SYMBOL) {
+                        // 检查周围是否有未射击的区域
+                        if (hasAdjacentEmpty(board, i, j)) {
+                            return new int[]{i, j};
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        
+        private boolean hasAdjacentEmpty(Board board, int x, int y) {
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for (int[] dir : directions) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
+                    if (board.board[newX][newY] == EMPTY_SYMBOL) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        
+        private List<int[]> getSurroundingCoordinates(int x, int y, Board board) {
+            List<int[]> coordinates = new ArrayList<>();
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for (int[] dir : directions) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
+                    if (board.board[newX][newY] == EMPTY_SYMBOL) {
+                        coordinates.add(new int[]{newX, newY});
+                    }
+                }
+            }
+            return coordinates;
+        }
+        
     }
 }
