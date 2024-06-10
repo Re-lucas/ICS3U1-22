@@ -121,8 +121,8 @@ public class Battleship {
 
     public void saveGame(int slot) {
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
             writer.newLine();
             writer.write(Boolean.toString(isGameOver));
@@ -131,7 +131,7 @@ public class Battleship {
             writer.newLine();
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
-            writer.close();
+            // 不需要显式调用writer.close()，它会在try块结束时自动关闭
         } catch (IOException e) {
             System.out.println("保存游戏时出错。");
         }
