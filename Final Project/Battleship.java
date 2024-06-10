@@ -405,9 +405,11 @@ public class Battleship {
                 x = random.nextInt(BOARD_SIZE);
                 y = random.nextInt(BOARD_SIZE);
             } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
-
-            board.shoot(x, y);
+        
+            // 移除下面这行代码
+            // board.shoot(x, y);
             return new int[]{x, y};
         }
+        
     }
 }
