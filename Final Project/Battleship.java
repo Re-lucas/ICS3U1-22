@@ -149,8 +149,8 @@ public class Battleship {
         }
 
         try {
-            int x = Integer.parseInt(input) - 1; // 先读取x坐标
-            int y = scanner.nextInt() - 1; // 再读取y坐标
+            int y = Integer.parseInt(input) - 1; // 先读取y坐标
+            int x = scanner.nextInt() - 1; // 再读取x坐标
 
             if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
                 System.out.println("坐标超出范围，请重新输入。");
