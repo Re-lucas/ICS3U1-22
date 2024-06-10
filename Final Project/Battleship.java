@@ -106,8 +106,16 @@ public class Battleship {
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+            // 保存游戏难度
             writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
             writer.newLine();
+            // 保存游戏是否结束的状态
+            writer.write(Boolean.toString(isGameOver));
+            writer.newLine();
+            // 保存当前轮到谁的状态
+            writer.write("player"); // 假设玩家总是最后一个操作
+            writer.newLine();
+            // 保存玩家和AI的战舰板状态
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
             writer.close();
@@ -115,6 +123,7 @@ public class Battleship {
             System.out.println("保存游戏时出错。");
         }
     }
+    
 
     public void showInstructions() {
         System.out.println("战舰游戏说明：");
