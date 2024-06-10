@@ -542,7 +542,6 @@ public class Battleship {
                 }
             }
             return coordinates;
-        }
-        
+        }        
     }
 }
