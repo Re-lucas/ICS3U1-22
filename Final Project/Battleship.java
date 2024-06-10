@@ -345,8 +345,8 @@ public class Battleship {
     }
 
     class Ship {
-        private String name;
-        private int size;
+        public String name;
+        public int size;
 
         public Ship(String name, int size) {
             this.name = name;
@@ -375,8 +375,8 @@ public class Battleship {
     }
 
     class AI {
-        private int difficulty;
-        private Random random;
+        public int difficulty;
+        public Random random;
 
         public AI(int difficulty) {
             this.difficulty = difficulty;
