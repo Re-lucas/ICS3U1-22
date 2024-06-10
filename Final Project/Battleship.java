@@ -219,7 +219,7 @@ public class Battleship {
         isPlayerTurn = true;
     }
 
-    class Board {
+    public class Board {
         public char[][] board;
         public Ship[] ships;
 
@@ -383,7 +383,7 @@ public class Battleship {
         }
     }
 
-    class Ship {
+    public class Ship {
         private String name;
         private int size;
         private int hitCount;
@@ -447,7 +447,7 @@ public class Battleship {
     }
 
 
-    class AI {
+    public class AI {
         private int difficulty;
         private Random random;
 
