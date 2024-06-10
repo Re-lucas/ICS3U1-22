@@ -39,11 +39,21 @@ public class Battleship {
             System.out.println("3. 查看游戏说明");
             System.out.println("4. 退出程序");
             System.out.print("请选择：");
-
+    
             String input = scanner.next();
             int choice = Integer.parseInt(input);
-
+    
             switch (choice) {
+                case 1 -> startNewGame(scanner);
+                case 2 -> loadGame(scanner);
+                case 3 -> showInstructions();
+                case 4 -> running = false;
+                default -> System.out.println("无效选择，请重试。");
+            }
+
+            //if your java version is not 12, change switch statement to:
+            /*
+                         switch (choice) {
                 case 1:
                     startNewGame(scanner);
                     break;
@@ -60,8 +70,11 @@ public class Battleship {
                     System.out.println("无效选择，请重试。");
                     break;
             }
+             */
+
         }
     }
+    
 
     public void startNewGame(Scanner scanner) {
         System.out.println("选择难度：1. 简单 2. 普通");
@@ -90,22 +103,20 @@ public class Battleship {
             return;
         }
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             playerBoard = new Board();
             aiBoard = new Board();
             ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
-
+        
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
             isGameOver = Boolean.parseBoolean(reader.readLine());
             isPlayerTurn = reader.readLine().equals("player");
-            reader.close();
-
+        
             playGame(scanner);
         } catch (IOException e) {
             System.out.println("加载游戏时出错。");
-        }
+        }        
     }
 
     public void saveGame(int slot) {
