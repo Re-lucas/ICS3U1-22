@@ -439,7 +439,7 @@ public class Battleship {
         private String name;
         private int size;
         private int hitCount;
-        private List<int[]> coordinates;
+        private final List<int[]> coordinates;
 
         public Ship(String name, int size) {
             this.name = name;
@@ -500,8 +500,8 @@ public class Battleship {
 
 
     public class AI {
-        private int difficulty;
-        private Random random;
+        private final int difficulty;
+        private final Random random;
 
         public AI(int difficulty) {
             this.difficulty = difficulty;
