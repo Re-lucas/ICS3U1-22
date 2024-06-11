@@ -18,6 +18,7 @@ public class Battleship {
     public static final int SAVE_SLOT_2 = 2;
     public static final int SAVE_SLOT_3 = 3;
 
+    //实际为方法名，非一般类名
     public Board playerBoard;
     public Board aiBoard;
     public AI ai;
@@ -174,6 +175,8 @@ public class Battleship {
             }
 
             try {
+
+                //同理
                 int y = Integer.parseInt(input) - 1; 
                 int x = scanner.nextInt() - 1; 
 
@@ -288,6 +291,7 @@ public class Battleship {
                     displayBoard();
                     System.out.println("放置你的船只: " + ship.getName() + " (" + ship.getSize() + ")");
                     System.out.print("输入坐标和方向 (格式: x y h/v): ");
+                    //x表现为y行为，即在实际表现中将两者相反。
                     int y = scanner.nextInt() - 1;
                     int x = scanner.nextInt() - 1;
                     char direction = scanner.next().charAt(0);
@@ -304,8 +308,11 @@ public class Battleship {
             int size = ship.getSize();
             
             return switch (direction) {
+
+                //在实际操作中或许会觉得x应当变化的为横轴，可我缺将实际应用设置为'v'
+                //因为一维循环实际是一个方框后在方框下循环，实际表现为y(也就是竖轴行为)
                 case 'v' -> {
-                    if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
+                    if (x + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
                         yield false;
                     }
                     for (int i = 0; i < size; i++) {
@@ -320,7 +327,7 @@ public class Battleship {
                     yield true;
                 }
                 case 'h' -> {
-                    if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
+                    if (y + size > BOARD_SIZE) { // 检查水平放置是否超出边界
                         yield false;
                     }
                     for (int i = 0; i < size; i++) {
@@ -340,7 +347,7 @@ public class Battleship {
             //for java version which not 12
             /* 
             switch (direction) {
-                case 'h':
+                case 'v':
                     if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
                         return false;
                     }
@@ -354,7 +361,7 @@ public class Battleship {
                         ship.addCoordinate(x + i, y);
                     }
                     break;
-                case 'v':
+                case 'h':
                     if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
                         return false;
                     }
@@ -525,6 +532,7 @@ public class Battleship {
         }
 
         public int[] shoot(Board board) {
+            //在实际代码中，这里的x事实上确实y，y在事实上确实x，如果需要正确应该将两者反过来，可因为两者本就是随机数，及无需如同用户输入一般x一定为横轴，y一定为竖轴。
             int x, y;
             if (difficulty == EASY) {
                 do {
@@ -553,6 +561,8 @@ public class Battleship {
             return new int[]{x, y};
         }
         
+
+        //一下定义在普通难度下AI的射击方式
         private int[] findLastHit(Board board) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
