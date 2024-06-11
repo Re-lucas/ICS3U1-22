@@ -94,6 +94,7 @@ public class Battleship {
         playGame(scanner);
     }
 
+    //无法正常载入存档
     public void loadGame(Scanner scanner) {
         System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
         int slot = scanner.nextInt();
@@ -120,6 +121,7 @@ public class Battleship {
         }        
     }
 
+    //在loadGame method中的前置条件
     public void saveGame(int slot) {
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
 
@@ -154,6 +156,7 @@ public class Battleship {
         }
     }
 
+    //在游戏过程中无法正常显示玩家游戏板以及电脑游戏版
     public void playerTurn(Scanner scanner) {
         System.out.println("玩家的回合");
         boolean validShot = false;
@@ -176,7 +179,7 @@ public class Battleship {
 
             try {
 
-                //同理
+                //同理x,y相反
                 int y = Integer.parseInt(input) - 1; 
                 int x = scanner.nextInt() - 1; 
 
