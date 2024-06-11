@@ -288,8 +288,8 @@ public class Battleship {
                     displayBoard();
                     System.out.println("放置你的船只: " + ship.getName() + " (" + ship.getSize() + ")");
                     System.out.print("输入坐标和方向 (格式: x y h/v): ");
-                    int x = scanner.nextInt() - 1;
                     int y = scanner.nextInt() - 1;
+                    int x = scanner.nextInt() - 1;
                     char direction = scanner.next().charAt(0);
 
                     placed = placeShip(ship, x, y, direction);
