@@ -292,7 +292,7 @@ public class Battleship {
                     int x = scanner.nextInt() - 1;
                     char direction = scanner.next().charAt(0);
 
-                    placed = placeShip(ship, x, y, direction);
+                    placed = placeShip(ship, y, x, direction);
                     if (!placed) {
                         System.out.println("无效的位置，请重试。");
                     }
@@ -304,7 +304,7 @@ public class Battleship {
             int size = ship.getSize();
             
             return switch (direction) {
-                case 'h' -> {
+                case 'v' -> {
                     if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
                         yield false;
                     }
@@ -319,7 +319,7 @@ public class Battleship {
                     }
                     yield true;
                 }
-                case 'v' -> {
+                case 'h' -> {
                     if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
                         yield false;
                     }
