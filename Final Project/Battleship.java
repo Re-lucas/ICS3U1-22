@@ -20,7 +20,7 @@ public class Battleship {
     public static final int SAVE_SLOT_2 = 2;
     public static final int SAVE_SLOT_3 = 3;
 
-    //实际为方法名，非一般类名
+    //这里时做什么的？
     public Board playerBoard;
     public Board aiBoard;
     public AI ai;
@@ -103,32 +103,49 @@ public class Battleship {
         int difficulty = scanner.nextInt();
 
         //开始调用ai难度并存储
-        //用于保存存档时候的ai难度
+        //这里为什么开始使用new AI以及使用 ai = new AI？
         ai = new AI(difficulty);
+        //同上方问题同理
         playerBoard = new Board();
+        //同上方问题同理
         aiBoard = new Board();
 
+        //这些地方时做什么的？
         playerBoard.initializeBoard();
         aiBoard.initializeBoard();
 
+        //这些地方时做什么的？和其中所呼叫的方法有什么关联？为何？如何？
         playerBoard.placeShips(scanner);
         ai.placeShips(aiBoard);
 
+        //这个时做什么的？
         isPlayerTurn = true;
+
+        //做什么的？
         playGame(scanner);
     }
 
     //无法正常载入存档
+    //这里面时如何载入的？
     public void loadGame(Scanner scanner) {
+
+        //显示可以选择的存档
         System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
         int slot = scanner.nextInt();
+        //设置一个fileName用于下面
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
 
+        //如存档内无索引则无内容
+
+        //这个是做什么的？
         if (!new File(fileName).exists()) {
             System.out.println("该存档无内容");
             return;
         }
 
+        //若是有索引则有
+
+        //这些都是做什么的？
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             playerBoard = new Board();
             aiBoard = new Board();
@@ -146,29 +163,40 @@ public class Battleship {
     }
 
     //在loadGame method中的前置条件
+
+    //这里为存储对应游戏内容
     public void saveGame(int slot) {
+        //用于创造一个fileName用于存储
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
 
+        //依照使用的fileName来对所需要的给了游戏中的内容进行存储
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            //AI的难度条件
             writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
             writer.newLine();
+            //游戏进行与否
             writer.write(Boolean.toString(isGameOver));
             writer.newLine();
+            //是否为玩家或是ai回合
             writer.write(isPlayerTurn ? "player" : "ai");
             writer.newLine();
+            //对双方的游戏板进行保存
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
             // 不需要显式调用writer.close()，它会在try块结束时自动关闭
         } catch (IOException e) {
+            //一个象征性的报错，可在实际运行中并没有返回，而是直接弹出所有错误
             System.out.println("保存游戏时出错。");
         }
     }
 
+    //仅仅是说明
     public void showInstructions() {
         System.out.println("战舰游戏说明：");
         // 显示详细说明
     }
 
+    //这是做什么的？
     public void playGame(Scanner scanner) {
         isGameOver = false;
         while (!isGameOver) {
