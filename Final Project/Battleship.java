@@ -46,12 +46,11 @@ public class Battleship {
 
     //这段代码是一个海战游戏的主控制逻辑，它使用面向对象编程（以用户为输入为主导）的原则来组织游戏的结构和流程。
     public void run(Scanner scanner) {
-
-        //假设一切正常
         boolean running = true;
-        //在假设一切正常的情况下开始运行
+
+        //这是游戏的主循环，负责显示主菜单并根据用户的选择执行相应的操作。它使用 while 循环来持续运行，直到用户选择退出。
         while (running) {
-            //通过输出菜单共玩家选择
+            //通过输出菜单供玩家选择
             System.out.println("主菜单");
             System.out.println("1. 开始新游戏");
             System.out.println("2. 加载已保存的游戏");
@@ -59,14 +58,13 @@ public class Battleship {
             System.out.println("4. 退出程序");
             System.out.print("请选择：");
     
-            //这里的读取时读取scanner的输入内容
+            
             String input = scanner.next();
-            //通过将scanner的String内容转换成int
             int choice = Integer.parseInt(input);
     
-            //然后通过上一条int内容来调用每一个可能的选项，如果超过则返回
+            //通过上一条内容来调用每一个可能的选项，如果超过则返回
             switch (choice) {
-                //第一，calling startNewGame method
+                //startNewGame 方法：当用户选择开始新游戏时，这个方法会被调用。
                 case 1 -> startNewGame(scanner);
                 //第二，一个读取存档的程序
                 case 2 -> loadGame(scanner);
