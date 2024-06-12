@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Battleship {
 
-    //这里是一堆的不可改变的常数
+    //这里是一堆的不可改变的全局常数
     public static final int BOARD_SIZE = 10;
     public static final char SHIP_SYMBOL = 'S';
     public static final char HIT_SYMBOL = 'H';
@@ -20,22 +20,31 @@ public class Battleship {
     public static final int SAVE_SLOT_2 = 2;
     public static final int SAVE_SLOT_3 = 3;
 
-    //这里时做什么的？
+    //仅仅作为初始化使用，因为不确定是否应该作为不可变数
     public Board playerBoard;
     public Board aiBoard;
     public AI ai;
     public boolean isGameOver;
     public boolean isPlayerTurn;
 
-    //main method 开始然后对不同的方法开始呼叫
+    //作为java程序中的入口点
     public static void main(String[] args) {
+        //创建用于读取用户输入
         Scanner scanner = new Scanner(System.in);
-        //同相同的battleship，设置出一个同Scanner相同的
+        //创建了一个名为Battleship的对象主要用于调用并启动游戏
         Battleship game = new Battleship();
-        //为什么这里会使用game.run(scanner); ？有什么用？为什么calling it
+
+        //这行代码调用了 Battleship 对象的 run 方法，并传递了 scanner 作为参数
+        //为什么这么做？我会说方便，只要将Battleship 类内封装游戏的所有逻辑。然后就可以访问和使用这个类定义的所有方法和变量。
+        //并且如果我需要再一次调用里面的内容仅需调用game.run(scanner);,就很方便，这也是我在这里这么做的原因。
+        //以及不同的逻辑也能够放到其中，所以main方法就很简洁，因为不需要调用各类不同的方法。
+
+        //或者简单点：Battleship 对象是游戏的核心，负责启动和运行游戏。
         game.run(scanner);
     }
 
+
+    //这段代码是一个海战游戏的主控制逻辑，它使用面向对象编程（以用户为输入为主导）的原则来组织游戏的结构和流程。
     public void run(Scanner scanner) {
 
         //假设一切正常
