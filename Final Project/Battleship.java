@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Battleship {
+
+    //这里是一堆的不可改变的常数
     public static final int BOARD_SIZE = 10;
     public static final char SHIP_SYMBOL = 'S';
     public static final char HIT_SYMBOL = 'H';
@@ -25,15 +27,22 @@ public class Battleship {
     public boolean isGameOver;
     public boolean isPlayerTurn;
 
+    //main method 开始然后对不同的方法开始呼叫
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        //同相同的battleship，设置出一个同Scanner相同的
         Battleship game = new Battleship();
+        //为什么这里会使用game.run(scanner); ？有什么用？为什么calling it
         game.run(scanner);
     }
 
     public void run(Scanner scanner) {
+
+        //假设一切正常
         boolean running = true;
+        //在假设一切正常的情况下开始运行
         while (running) {
+            //通过输出菜单共玩家选择
             System.out.println("主菜单");
             System.out.println("1. 开始新游戏");
             System.out.println("2. 加载已保存的游戏");
@@ -41,14 +50,22 @@ public class Battleship {
             System.out.println("4. 退出程序");
             System.out.print("请选择：");
     
+            //这里的读取时读取scanner的输入内容
             String input = scanner.next();
+            //通过将scanner的String内容转换成int
             int choice = Integer.parseInt(input);
     
+            //然后通过上一条int内容来调用每一个可能的选项，如果超过则返回
             switch (choice) {
+                //第一，calling startNewGame method
                 case 1 -> startNewGame(scanner);
+                //第二，一个读取存档的程序
                 case 2 -> loadGame(scanner);
+                //第三，显示游戏内容
                 case 3 -> showInstructions();
+                //第四，选择退出程序也就是直接将while程序中的running条件由ture改为false
                 case 4 -> running = false;
+                //当用户输入超过以上选择时候则返回无效
                 default -> System.out.println("无效选择，请重试。");
             }
 
@@ -77,9 +94,16 @@ public class Battleship {
     }
     
 
+    //作为用户在用户页面选择一后开始跳转的内容，也就是开始游戏。
+    //因为其中没有返回值，所以则使用void,同时需要来自用户的输入所以为Scanner
     public void startNewGame(Scanner scanner) {
+        //显示难度
         System.out.println("选择难度：1. 简单 2. 普通");
+        //通过用户输入的数字来判断，这里还没有判断，仅存储
         int difficulty = scanner.nextInt();
+
+        //开始调用ai难度并存储
+        //用于保存存档时候的ai难度
         ai = new AI(difficulty);
         playerBoard = new Board();
         aiBoard = new Board();
