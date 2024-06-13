@@ -115,10 +115,14 @@ public class Battleship {
         ai = new AI(difficulty);
 
         //new Board()：创建一个新的游戏板对象，用于跟踪游戏中的船只和射击。
+        //这里的 new Board() 被调用两次，分别创建了两个 Board 对象：playerBoard 和 aiBoard。
+        //因为在游戏中，玩家和 AI（人工智能）通常需要各自的游戏板来跟踪他们的船只和射击。
+        //每个 Board 对象都会有自己的 board 数组和 ships 数组，这样玩家和 AI 的游戏状态就可以独立管理，不会相互干扰。
         playerBoard = new Board();
         aiBoard = new Board();
 
         //initializeBoard()：初始化游戏板，设置空白状态或准备放置船只。
+        //在 initializeBoard() 方法中，我们只关注 board 数组的初始化，因为这个方法的目的是将游戏板的所有格子设置为初始的空白状态，这通常表示没有船只放置在游戏板上。ships 数组在这个阶段不需要改变，因为它已经在构造函数中被正确初始化了。
         playerBoard.initializeBoard();
         aiBoard.initializeBoard();
 
@@ -300,7 +304,11 @@ public class Battleship {
         public char[][] board;
         public Ship[] ships;
 
+        //public Board() 是一个构造函数，它用于初始化 Board 类的新实例。
+        //在 Java 中，构造函数的名称必须与类名相同，并且它们没有返回类型，甚至没有 void。
+        //在这里是方便独立管理AI和玩家之间的游戏版跟船只
         public Board() {
+            //行代码的作用是初始化 board 数组，为游戏板创建一个具体的大小。
             board = new char[BOARD_SIZE][BOARD_SIZE];
             ships = new Ship[]{
                 new Ship("A", 5),
@@ -311,6 +319,8 @@ public class Battleship {
             };
         }
 
+        //initializeBoard() 方法用于将游戏板的每个格子设置为一个预定义的空白符号，是为了游戏开始前的准备。
+        //这个方法通过双重循环遍历游戏板的每一行和每一列，将每个位置的字符设置为 EMPTY_SYMBOL，这里为 '-'。
         public void initializeBoard() {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
