@@ -602,7 +602,12 @@ public class Battleship {
                     int y = random.nextInt(BOARD_SIZE);
 
                     //这行代码随机选择船只的放置方向，'h' 表示水平方向，'v' 表示垂直方向。
+                    //如果条件为真（true），则表达式的结果是 表达式1；如果条件为假（false），则结果是 表达式2。
                     char direction = random.nextBoolean() ? 'h' : 'v';
+
+                    //尝试放置船只：这行代码调用 Board 类的 placeShip 方法尝试在指定位置和方向放置船只。
+                    //如果放置成功，placeShip 方法会返回 true，并且 placed 变量会被设置为 true，这会结束 while 循环。
+                    //如果放置失败（可能是因为船只超出了游戏板边界或与其他船只重叠），placeShip 方法会返回 false，while 循环会继续，AI会再次尝试新的随机位置和方向。
                     placed = board.placeShip(ship, x, y, direction);
                 }
             }
@@ -612,15 +617,22 @@ public class Battleship {
         public int[] shoot(Board board) {
             //在实际代码中，这里的x事实上确实y，y在事实上确实x，如果需要正确应该将两者反过来，可因为两者本就是随机数，及无需如同用户输入一般x一定为横轴，y一定为竖轴。
             int x, y;
+
+            //首先检查AI的难度级别是否为简单（EASY）。这决定了接下来AI射击策略的选择。
             if (difficulty == EASY) {
+                //在简单模式下，AI通过 random.nextInt(BOARD_SIZE) 随机生成 x 和 y 坐标，直到找到一个之前没有射击过的位置（即不是 HIT_SYMBOL 或 MISS_SYMBOL）。
                 do {
                     x = random.nextInt(BOARD_SIZE);
                     y = random.nextInt(BOARD_SIZE);
                 } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
             } else {
-                // 普通难度下的AI射击逻辑
-                int[] lastHit = findLastHit(board);
-                if (lastHit != null) {
+                // 在普通难度下的AI射击逻辑
+
+                // 通过调用 findLastHit 方法来查找上一次射击命中的位置
+                int[] lastHit = findLastHit();
+
+                //如果 lastHit 不为 null（意味着之前有命中），并且周围有空位，则AI会尝试围绕该区域射击
+                if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
                     // 如果找到了上一次的命中，尝试围绕该区域射击
                     List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
                     do {
@@ -629,7 +641,7 @@ public class Battleship {
                         y = target[1];
                     } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
                 } else {
-                    // 如果没有上一次的命中，随机选择一个位置射击
+                    // 如果没有找到上一次的命中，AI会随机选择一个位置进行射击，但会避免已经射击过的位置。
                     do {
                         x = random.nextInt(BOARD_SIZE);
                         y = random.nextInt(BOARD_SIZE);
@@ -639,29 +651,39 @@ public class Battleship {
             return new int[]{x, y};
         }
         
+        //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
+        public final List<int[]> hits = new ArrayList<>();
 
-        //findLastHit 方法：在普通难度下，帮助AI找到上一次射击命中的位置。
-        private int[] findLastHit(Board board) {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    if (board.board[i][j] == HIT_SYMBOL) {
-                        // 检查周围是否有未射击的区域
-                        if (hasAdjacentEmpty(board, i, j)) {
-                            return new int[]{i, j};
-                        }
-                    }
-                }
+        // 在AI射击并命中后调用此方法来记录命中的坐标
+        public void recordHit(int x, int y) {
+            // 将命中的坐标添加到列表中
+            hits.add(new int[]{x, y});
+        }
+        
+        // 改进的findLastHit方法，用于找到最后一次的hit
+        private int[] findLastHit() {
+            // 如果有命中记录，返回最后一次命中的坐标
+            if (!hits.isEmpty()) {
+                return hits.get(hits.size() - 1);
             }
+            //使用 null 作为返回值的原因是，它提供了一种方式来区分“没有数据”（即 hits 列表为空）与“有数据但数据为零”（例如，如果列表中有一个坐标 [0, 0]）的情况。
             return null;
         }
         
-        //hasAdjacentEmpty 方法：检查给定位置周围是否有未被射击的区域。
+        
+        //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (x, y) 周围是否有未被射击过的区域。
         private boolean hasAdjacentEmpty(Board board, int x, int y) {
+            //这行代码定义了一个二维数组 directions，包含四个方向：上、下、左、右。
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
             for (int[] dir : directions) {
+                //对于每个方向，计算新的坐标 (newX, newY)，这是通过将方向数组中的值加到当前坐标 (x, y) 上来实现的。
                 int newX = x + dir[0];
                 int newY = y + dir[1];
+                //这个条件判断确保新坐标在游戏板的范围内，即它们不会超出边界。
                 if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
+
+                    //如果新坐标对应的位置是空的（即未被射击过），则方法返回 true。EMPTY_SYMBOL 是一个常量，代表游戏板上的空位。
                     if (board.board[newX][newY] == EMPTY_SYMBOL) {
                         return true;
                     }
