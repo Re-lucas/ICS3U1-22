@@ -128,7 +128,11 @@ public class Battleship {
         aiBoard.initializeBoard();
 
         //placeShips：在游戏板上放置船只，玩家和AI都需要执行这一步骤。
+
+        //这行代码调用玩家的 Board 对象的 placeShips 方法，允许玩家通过 Scanner 对象输入坐标和方向来放置他们的船只。
         playerBoard.placeShips(scanner);
+
+        //这行代码是 AI 对象的一个方法调用，它会通过调用ai.placeShips方法来自动且随机放置 AI 的船只到 aiBoard 上。
         ai.placeShips(aiBoard);
 
         //isPlayerTurn = true：设置轮到玩家行动的标志。
@@ -209,15 +213,18 @@ public class Battleship {
         // 显示详细说明
     }
 
-    //这是做什么的？
+    //playGame 方法，整个逻辑确保了玩家和 AI 能够交替进行回合，直到其中一个方法返回ture
     public void playGame(Scanner scanner) {
         isGameOver = false;
         while (!isGameOver) {
             if (isPlayerTurn) {
+                //玩家回合
                 playerTurn(scanner);
             } else {
+                //AI回合
                 aiTurn();
             }
+             // 循环结束后，会根据游戏状态更新isGameOver变量
         }
     }
 
@@ -375,8 +382,10 @@ public class Battleship {
                     int y = scanner.nextInt() - 1;
                     char direction = scanner.next().charAt(0); // 读取方向（水平或垂直）
 
+                    // 尝试放置船只，如果成功，placed将变为true
                     placed = placeShip(ship, y, x, direction);
                     if (!placed) {
+                        //失败，返回重试
                         System.out.println("无效的位置，请重试。");
                     }
                 }
