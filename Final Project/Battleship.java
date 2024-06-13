@@ -615,15 +615,15 @@ public class Battleship {
 
         //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
         public int[] shoot(Board board) {
-            int x, y;
+            int row, col;
 
             //首先检查AI的难度级别是否为简单（EASY）。这决定了接下来AI射击策略的选择。
             if (difficulty == EASY) {
                 //在简单模式下，AI通过 random.nextInt(BOARD_SIZE) 随机生成 x 和 y 坐标，直到找到一个之前没有射击过的位置（即不是 HIT_SYMBOL 或 MISS_SYMBOL）。
                 do {
-                    x = random.nextInt(BOARD_SIZE);
-                    y = random.nextInt(BOARD_SIZE);
-                } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                    row = random.nextInt(BOARD_SIZE);
+                    col = random.nextInt(BOARD_SIZE);
+                } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
             } else {
                 // 在普通难度下的AI射击逻辑
 
@@ -637,28 +637,28 @@ public class Battleship {
 
                     do {
                         int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
-                        //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来。
-                        y = target[0];
-                        x = target[1];
-                    } while (board.board[y][x] == HIT_SYMBOL || board.board[y][x] == MISS_SYMBOL);
+                        // 注意：这里我们使用 row 和 col 来表示行和列
+                        row = target[0];
+                        col = target[1];
+                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
                 } else {
                     // 如果没有找到上一次的命中，AI会随机选择一个位置进行射击，但会避免已经射击过的位置。
                     do {
-                        x = random.nextInt(BOARD_SIZE);
-                        y = random.nextInt(BOARD_SIZE);
-                    } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                        row = random.nextInt(BOARD_SIZE);
+                        col = random.nextInt(BOARD_SIZE);
+                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
                 }
             }
-            return new int[]{x, y};
+            return new int[]{row, col};
         }
         
         //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
         public final List<int[]> hits = new ArrayList<>();
 
         // 在AI射击并命中后调用此方法来记录命中的坐标
-        public void recordHit(int x, int y) {
+        public void recordHit(int row, int col) {
             // 将命中的坐标添加到列表中
-            hits.add(new int[]{x, y});
+            hits.add(new int[]{row, col});
         }
         
         // 改进的findLastHit方法，用于找到最后一次的hit
@@ -672,20 +672,20 @@ public class Battleship {
         }
         
         
-        //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (x, y) 周围是否有未被射击过的区域。
-        private boolean hasAdjacentEmpty(Board board, int x, int y) {
+        //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (row, col) 周围是否有未被射击过的区域。
+        private boolean hasAdjacentEmpty(Board board, int row, int col) {
             //这行代码定义了一个二维数组 directions，包含四个方向：上、下、左、右。
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
             for (int[] dir : directions) {
-                //对于每个方向，计算新的坐标 (newX, newY)，这是通过将方向数组中的值加到当前坐标 (x, y) 上来实现的。
-                int newX = y + dir[0];
-                int newY = x + dir[1];
+                //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
                 //这个条件判断确保新坐标在游戏板的范围内，即它们不会超出边界。
-                if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
+                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
 
                     //如果新坐标对应的位置是空的（即未被射击过），则方法返回 true。EMPTY_SYMBOL 是一个常量，代表游戏板上的空位。
-                    if (board.board[newX][newY] == EMPTY_SYMBOL) {
+                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
                         return true;
                     }
                 }
@@ -694,21 +694,19 @@ public class Battleship {
         }
         
         //getSurroundingCoordinates 方法：获取给定位置周围的所有可能的射击坐标。
-        private List<int[]> getSurroundingCoordinates(int x, int y, Board board) {
+        private List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
             //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
             List<int[]> coordinates = new ArrayList<>();
 
-            //对于每个方向，计算新的坐标 (newX, newY)，这是通过将方向数组中的值加到当前坐标 (x, y) 上来实现的。
+            //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
             for (int[] dir : directions) {
-                //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来。
-                int newX = y + dir[0];
-                int newY = x + dir[1];
-                if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
-                    if (board.board[newX][newY] == EMPTY_SYMBOL) {
-                    //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来，不过在do-while循环中反过，所以不需要。
-                        coordinates.add(new int[]{newX, newY});
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
+                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
+                        coordinates.add(new int[]{newRow, newCol});
                     }
                 }
             }
@@ -716,4 +714,5 @@ public class Battleship {
             return coordinates;
         }        
     }
+
 }
