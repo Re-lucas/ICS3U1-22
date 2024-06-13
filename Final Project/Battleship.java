@@ -122,7 +122,8 @@ public class Battleship {
         aiBoard = new Board();
 
         //initializeBoard()：初始化游戏板，设置空白状态或准备放置船只。
-        //在 initializeBoard() 方法中，我们只关注 board 数组的初始化，因为这个方法的目的是将游戏板的所有格子设置为初始的空白状态，这通常表示没有船只放置在游戏板上。ships 数组在这个阶段不需要改变，因为它已经在构造函数中被正确初始化了。
+        //在 initializeBoard() 方法中，我们只关注 board 数组的初始化，因为这个方法的目的是将游戏板的所有格子设置为初始的空白状态，
+        //这表示没有船只放置在游戏板上。ships 数组在这个阶段不需要改变，因为它已经在构造函数中被正确初始化了。
         playerBoard.initializeBoard();
         aiBoard.initializeBoard();
 
@@ -358,16 +359,21 @@ public class Battleship {
         }
 
         public void placeShips(Scanner scanner) {
+            // 遍历 ships 数组中的每艘船
             for (Ship ship : ships) {
+                // 标记船只是否已放置
                 boolean placed = false;
                 while (!placed) {
+                    // 显示当前游戏板
                     displayBoard();
+                    // 提示玩家放置船只，并显示船只名称和大小
                     System.out.println("放置你的船只: " + ship.getName() + " (" + ship.getSize() + ")");
                     System.out.print("输入坐标和方向 (格式: x y h/v): ");
-                    //x表现为y行为，即在实际表现中将两者相反。
+
+                    // 读取玩家输入的坐标和方向
                     int x = scanner.nextInt() - 1;
                     int y = scanner.nextInt() - 1;
-                    char direction = scanner.next().charAt(0);
+                    char direction = scanner.next().charAt(0); // 读取方向（水平或垂直）
 
                     placed = placeShip(ship, y, x, direction);
                     if (!placed) {
