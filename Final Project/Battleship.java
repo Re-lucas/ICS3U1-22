@@ -615,7 +615,6 @@ public class Battleship {
 
         //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
         public int[] shoot(Board board) {
-            //在实际代码中，这里的x事实上确实y，y在事实上确实x，如果需要正确应该将两者反过来，可因为两者本就是随机数，及无需如同用户输入一般x一定为横轴，y一定为竖轴。
             int x, y;
 
             //首先检查AI的难度级别是否为简单（EASY）。这决定了接下来AI射击策略的选择。
@@ -635,11 +634,13 @@ public class Battleship {
                 if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
                     // 如果找到了上一次的命中，尝试围绕该区域射击
                     List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
+
                     do {
                         int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
-                        x = target[0];
-                        y = target[1];
-                    } while (board.board[x][y] == HIT_SYMBOL || board.board[x][y] == MISS_SYMBOL);
+                        //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来。
+                        y = target[0];
+                        x = target[1];
+                    } while (board.board[y][x] == HIT_SYMBOL || board.board[y][x] == MISS_SYMBOL);
                 } else {
                     // 如果没有找到上一次的命中，AI会随机选择一个位置进行射击，但会避免已经射击过的位置。
                     do {
@@ -678,8 +679,8 @@ public class Battleship {
 
             for (int[] dir : directions) {
                 //对于每个方向，计算新的坐标 (newX, newY)，这是通过将方向数组中的值加到当前坐标 (x, y) 上来实现的。
-                int newX = x + dir[0];
-                int newY = y + dir[1];
+                int newX = y + dir[0];
+                int newY = x + dir[1];
                 //这个条件判断确保新坐标在游戏板的范围内，即它们不会超出边界。
                 if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
 
@@ -700,17 +701,18 @@ public class Battleship {
             //对于每个方向，计算新的坐标 (newX, newY)，这是通过将方向数组中的值加到当前坐标 (x, y) 上来实现的。
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-
             for (int[] dir : directions) {
-                int newX = x + dir[0];
-                int newY = y + dir[1];
+                //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来。
+                int newX = y + dir[0];
+                int newY = x + dir[1];
                 if (newX >= 0 && newX < BOARD_SIZE && newY >= 0 && newY < BOARD_SIZE) {
                     if (board.board[newX][newY] == EMPTY_SYMBOL) {
+                    //这里的x事实上确是y，y在事实上确是x，如果需要正确应该将两者反过来，不过在do-while循环中反过，所以不需要。
                         coordinates.add(new int[]{newX, newY});
                     }
                 }
             }
-            
+
             return coordinates;
         }        
     }
