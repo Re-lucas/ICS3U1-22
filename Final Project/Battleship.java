@@ -66,11 +66,11 @@ public class Battleship {
             switch (choice) {
                 //startNewGame 方法：当用户选择开始新游戏时，这个方法会被调用。
                 case 1 -> startNewGame(scanner);
-                //第二，一个读取存档的程序
+                //loadGame 方法：当用户选择加载已保存的游戏时，这个方法会被调用。
                 case 2 -> loadGame(scanner);
-                //第三，显示游戏内容
+                //showInstructions 方法：当用户选择查看游戏说明时，这个方法会被调用，显示游戏的规则和操作指南。
                 case 3 -> showInstructions();
-                //第四，选择退出程序也就是直接将while程序中的running条件由ture改为false
+                //选择退出程序也就是直接将while程序中的running条件由ture改为false
                 case 4 -> running = false;
                 //当用户输入超过以上选择时候则返回无效
                 default -> System.out.println("无效选择，请重试。");
@@ -104,36 +104,37 @@ public class Battleship {
     //作为用户在用户页面选择一后开始跳转的内容，也就是开始游戏。
     //因为其中没有返回值，所以则使用void,同时需要来自用户的输入所以为Scanner
     public void startNewGame(Scanner scanner) {
-        //显示难度
+
+        //首先询问用户选择难度，然后创建 AI 和 Board 对象，并初始化它们。
         System.out.println("选择难度：1. 简单 2. 普通");
-        //通过用户输入的数字来判断，这里还没有判断，仅存储
         int difficulty = scanner.nextInt();
 
-        //开始调用ai难度并存储
-        //这里为什么开始使用new AI以及使用 ai = new AI？
+        //这些对象代表游戏的状态，如AI的智能水平、玩家和AI的游戏板。
+
+        //new AI(difficulty) 创建了一个 AI 类的实例，这个实例是游戏中的人工智能对手。
         ai = new AI(difficulty);
-        //同上方问题同理
+
+        //new Board()：创建一个新的游戏板对象，用于跟踪游戏中的船只和射击。
         playerBoard = new Board();
-        //同上方问题同理
         aiBoard = new Board();
 
-        //这些地方时做什么的？
+        //initializeBoard()：初始化游戏板，设置空白状态或准备放置船只。
         playerBoard.initializeBoard();
         aiBoard.initializeBoard();
 
-        //这些地方时做什么的？和其中所呼叫的方法有什么关联？为何？如何？
+        //placeShips：在游戏板上放置船只，玩家和AI都需要执行这一步骤。
         playerBoard.placeShips(scanner);
         ai.placeShips(aiBoard);
 
-        //这个时做什么的？
+        //isPlayerTurn = true：设置轮到玩家行动的标志。
         isPlayerTurn = true;
 
-        //做什么的？
+        //开始游戏的主要部分，交替玩家和AI的回合直到游戏结束。
         playGame(scanner);
     }
 
-    //无法正常载入存档
-    //这里面时如何载入的？
+
+    //它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
     public void loadGame(Scanner scanner) {
 
         //显示可以选择的存档
@@ -144,22 +145,23 @@ public class Battleship {
 
         //如存档内无索引则无内容
 
-        //这个是做什么的？
+        //new File(fileName).exists()：检查用户选择的存档文件是否存在。
         if (!new File(fileName).exists()) {
             System.out.println("该存档无内容");
             return;
         }
 
-        //若是有索引则有
 
-        //这些都是做什么的？
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             playerBoard = new Board();
             aiBoard = new Board();
             ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
-        
+
+            //loadBoard(reader)：从文件中加载游戏板的状态。
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
+
+            //isGameOver 和 isPlayerTurn：从文件中恢复游戏是否结束的状态和当前轮到谁行动
             isGameOver = Boolean.parseBoolean(reader.readLine());
             isPlayerTurn = reader.readLine().equals("player");
         
@@ -197,7 +199,6 @@ public class Battleship {
         }
     }
 
-    //仅仅是说明
     public void showInstructions() {
         System.out.println("战舰游戏说明：");
         // 显示详细说明
@@ -568,31 +569,46 @@ public class Battleship {
     }
 
 
+    //模块化：将AI的行为和数据分离到一个单独的类中，使得代码更加清晰和易于管理。
     public class AI {
-        private final int difficulty;
-        private final Random random;
+        public final int difficulty;
+        public final Random random;
 
+        //构造函数 (public AI(int difficulty))：设置AI的难度和初始化随机数生成器。
         public AI(int difficulty) {
+            //初始化对象的属性：在这里，this.difficulty = difficulty; 表示将传入的 difficulty 参数值赋给对象的 difficulty 属性。
             this.difficulty = difficulty;
+            //初始化对象所需的资源：this.random = new Random(); 创建了一个 Random 类
             this.random = new Random();
+
+            //this.difficulty 指的是当前对象的 difficulty 属性，而单独的 difficulty 指的是构造函数参数。
+            //为什么使用这个（构造函数）？这是因为构造函数的目的不是返回一个值，而是初始化一个新的对象实例。
         }
 
+        //getDifficulty 方法允许其他类获取 AI 对象的 difficulty 属性值，在这里并没有调用，而是在存储时调用
         public int getDifficulty() {
             return difficulty;
         }
 
+        //placeShips 方法：在游戏板上随机放置船只。
         public void placeShips(Board board) {
+            //for (Ship ship : board.ships) 这行代码使用了一个增强型 for 循环来遍历 board 对象中的 ships 数组，这个数组包含了所有需要放置的船只。
             for (Ship ship : board.ships) {
                 boolean placed = false;
                 while (!placed) {
+                    //int x = random.nextInt(BOARD_SIZE); 和 int y = random.nextInt(BOARD_SIZE); 
+                    //这两行代码生成两个随机数，用于确定船只放置的起始坐标（x 和 y）。
                     int x = random.nextInt(BOARD_SIZE);
                     int y = random.nextInt(BOARD_SIZE);
+
+                    //这行代码随机选择船只的放置方向，'h' 表示水平方向，'v' 表示垂直方向。
                     char direction = random.nextBoolean() ? 'h' : 'v';
                     placed = board.placeShip(ship, x, y, direction);
                 }
             }
         }
 
+        //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
         public int[] shoot(Board board) {
             //在实际代码中，这里的x事实上确实y，y在事实上确实x，如果需要正确应该将两者反过来，可因为两者本就是随机数，及无需如同用户输入一般x一定为横轴，y一定为竖轴。
             int x, y;
@@ -624,7 +640,7 @@ public class Battleship {
         }
         
 
-        //一下定义在普通难度下AI的射击方式
+        //findLastHit 方法：在普通难度下，帮助AI找到上一次射击命中的位置。
         private int[] findLastHit(Board board) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
@@ -639,6 +655,7 @@ public class Battleship {
             return null;
         }
         
+        //hasAdjacentEmpty 方法：检查给定位置周围是否有未被射击的区域。
         private boolean hasAdjacentEmpty(Board board, int x, int y) {
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
             for (int[] dir : directions) {
@@ -653,6 +670,7 @@ public class Battleship {
             return false;
         }
         
+        //getSurroundingCoordinates 方法：获取给定位置周围的所有可能的射击坐标。
         private List<int[]> getSurroundingCoordinates(int x, int y, Board board) {
             List<int[]> coordinates = new ArrayList<>();
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
