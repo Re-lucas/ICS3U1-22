@@ -486,15 +486,16 @@ public class Battleship {
             }
             return true;
             */
-        }        
+        }     
 
         public boolean shoot(int x, int y) {
             if (board[x][y] == SHIP_SYMBOL) {
                 board[x][y] = HIT_SYMBOL;
+                boolean hitMade = false;
                 for (Ship ship : ships) {
-                    if (ship.isAtCoordinate(x, y)) {
+                    if (!hitMade && ship.isAtCoordinate(x, y)) {
                         ship.hit();
-                        break;
+                        hitMade = true; // 标记已经击中船只，避免重复击中
                     }
                 }
                 return true;
