@@ -272,7 +272,7 @@ public class Battleship {
                     continue;
                 }
 
-                // 尝试在给定坐标上射击
+                // 在给定坐标上射击
                 validShot = aiBoard.shoot(x, y);
 
                 // 根据射击结果输出相应信息
@@ -359,23 +359,32 @@ public class Battleship {
             display(board, false);
         }
 
+        //displayShotBoard() 方法的作用是显示射击后的游戏板，但不显示船只的位置，只显示射击的结果（命中或未命中）。
         public void displayShotBoard() {
+            //参数为 true ，游戏板上船只的位置会被空白符号覆盖，这用于显示给对手看，以防止对手看到船只的位置。
             display(board, true);
         }
 
-        private void display(char[][] board, boolean hideShips) {
+
+        public void display(char[][] board, boolean hideShips) {
             System.out.print("  ");
+
+            // 打印列号
             for (int i = 1; i <= BOARD_SIZE; i++) {
                 System.out.print(i + " ");
             }
             System.out.println();
 
+            // 遍历游戏板的每一行
             for (int i = 0; i < BOARD_SIZE; i++) {
                 System.out.print((i + 1) + " ");
                 for (int j = 0; j < BOARD_SIZE; j++) {
+                    // 如果需要隐藏船只，并且当前位置是船只的符号
                     if (hideShips && board[i][j] == SHIP_SYMBOL) {
+                    // 打印空白符号代替船只
                         System.out.print(EMPTY_SYMBOL + " ");
                     } else {
+                    // 否则，打印实际的游戏板内容
                         System.out.print(board[i][j] + " ");
                     }
                 }
