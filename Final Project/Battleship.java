@@ -355,7 +355,9 @@ public class Battleship {
             }
         }
 
+        //displayShotBoard() 方法的作用是显示射击后的游戏板，显示船只的位置。
         public void displayBoard() {
+            //参数为 false ，打印实际的游戏板内容。
             display(board, false);
         }
 
@@ -497,16 +499,21 @@ public class Battleship {
             */
         }     
 
+        //方法用于处理玩家或AI在游戏板上的射击动作。
         public boolean shoot(int x, int y) {
             if (board[x][y] == SHIP_SYMBOL) {
+                //如果射击的坐标上有船只（SHIP_SYMBOL），则将该位置标记为被击中（HIT_SYMBOL)
                 board[x][y] = HIT_SYMBOL;
                 boolean hitMade = false;
+
+                //遍历所有船只，检查是否有船只位于射击坐标上，如果有，则调用该船只的 hit 方法，并且通过 hitMade 变量确保不会重复击中同一艘船。
                 for (Ship ship : ships) {
                     if (!hitMade && ship.isAtCoordinate(x, y)) {
                         ship.hit();
                         hitMade = true; // 标记已经击中船只，避免重复击中
                     }
                 }
+                //返回 true 表示射击命中，返回 false 表示射击未命中。
                 return true;
             } else {
                 board[x][y] = MISS_SYMBOL;
