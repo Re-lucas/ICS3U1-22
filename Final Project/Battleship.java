@@ -236,9 +236,6 @@ public class Battleship {
             //通过使用displayShotBoard()方法显示aiBoard (aiBoard 内有aiBoard = new Board()，则有Board()构造函数内的相关内容)
             aiBoard.displayShotBoard();
 
-            System.out.println("玩家的战舰板：");
-            playerBoard.displayBoard();
-
             //提示用户输入并读取用户输入
             System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
             String input = scanner.next();
