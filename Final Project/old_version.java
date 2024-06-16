@@ -144,61 +144,45 @@ public class old_version {
 
 
     //它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
-    public void loadGame(Scanner scanner) {
-
-        //显示可以选择的存档
-        System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
-        int slot = scanner.nextInt();
-        //设置一个fileName用于下面
-        String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-
-        //如存档内无索引则无内容
-
-        //new File(fileName).exists()：检查用户选择的存档文件是否存在。
-        if (!new File(fileName).exists()) {
-            System.out.println("该存档无内容");
-            return;
-        }
-
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            playerBoard = new Board();
-            aiBoard = new Board();
-            ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
-
-            playerBoard.loadBoard(reader);
-            aiBoard.loadBoard(reader);
-    
-            isGameOver = Boolean.parseBoolean(reader.readLine());
-            isPlayerTurn = reader.readLine().equals("player");
-        
-            playGame(scanner);
-        } catch (IOException e) {
-            System.out.println("加载游戏时出错。");
-        }      
-    }
-
-    //在loadGame method中的前置条件
-
-    //这里为存储对应游戏内容
     public void saveGame(int slot) {
-        //用于创造一个fileName用于存储
-        String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-
-        //依照使用的fileName来对所需要的给了游戏中的内容进行存储
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
+        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            // 保存是否是玩家的回合
+            writer.write(Boolean.toString(isPlayerTurn));
             writer.newLine();
-            writer.write(Boolean.toString(isGameOver));
-            writer.newLine();
-            writer.write(isPlayerTurn ? "player" : "ai");
-            writer.newLine();
+            // 保存玩家和AI的游戏板
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
+            // 保存AI的状态
+            ai.saveAI(writer);
         } catch (IOException e) {
-            System.out.println("保存游戏时出错。");
+            System.out.println("无法保存游戏。");
         }
     }
+    
+    public void loadGame(Scanner scanner) {
+        System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
+        int slot = scanner.nextInt();
+        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            // 加载是否是玩家的回合
+            isPlayerTurn = Boolean.parseBoolean(reader.readLine());
+            // 加载玩家和AI的游戏板
+            playerBoard = new Board();
+            aiBoard = new Board();
+            playerBoard.loadBoard(reader);
+            aiBoard.loadBoard(reader);
+            // 加载AI的状态
+            ai = new AI(0); // 初始化难度为0，将在loadAI方法中被覆盖
+            ai.loadAI(reader);
+            // 继续游戏
+            playGame(scanner);
+        } catch (IOException e) {
+            System.out.println("无法加载游戏。");
+        }
+    }
+    
+    
 
     public void showInstructions() {
         System.out.println("战舰游戏说明：");
@@ -618,9 +602,29 @@ public class old_version {
 
     //模块化：将AI的行为和数据分离到一个单独的类中，使得代码更加清晰和易于管理。
     public class AI {
-        public final int difficulty;
+        public int difficulty;
         public final Random random;
 
+        public void saveAI(BufferedWriter writer) throws IOException {
+            writer.write(Integer.toString(difficulty));
+            writer.newLine();
+            for (int[] hit : hits) {
+                writer.write(hit[0] + "," + hit[1]);
+                writer.newLine();
+            }
+        }
+        
+        public void loadAI(BufferedReader reader) throws IOException {
+            difficulty = Integer.parseInt(reader.readLine());
+            String line;
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                String[] parts = line.split(",");
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
+                hits.add(new int[]{row, col});
+            }
+        }
+        
         //构造函数 (public AI(int difficulty))：设置AI的难度和初始化随机数生成器。
         public AI(int difficulty) {
             //初始化对象的属性：在这里，this.difficulty = difficulty; 表示将传入的 difficulty 参数值赋给对象的 difficulty 属性。
