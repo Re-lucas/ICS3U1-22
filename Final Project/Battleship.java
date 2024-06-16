@@ -166,18 +166,16 @@ public class Battleship {
             aiBoard = new Board();
             ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
 
-            //loadBoard(reader)：从文件中加载游戏板的状态。
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
-
-            //isGameOver 和 isPlayerTurn：从文件中恢复游戏是否结束的状态和当前轮到谁行动
+    
             isGameOver = Boolean.parseBoolean(reader.readLine());
             isPlayerTurn = reader.readLine().equals("player");
         
             playGame(scanner);
         } catch (IOException e) {
             System.out.println("加载游戏时出错。");
-        }        
+        }      
     }
 
     //在loadGame method中的前置条件
@@ -189,21 +187,15 @@ public class Battleship {
 
         //依照使用的fileName来对所需要的给了游戏中的内容进行存储
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            //AI的难度条件
             writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
             writer.newLine();
-            //游戏进行与否
             writer.write(Boolean.toString(isGameOver));
             writer.newLine();
-            //是否为玩家或是ai回合
             writer.write(isPlayerTurn ? "player" : "ai");
             writer.newLine();
-            //对双方的游戏板进行保存
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
-            // 不需要显式调用writer.close()，它会在try块结束时自动关闭
         } catch (IOException e) {
-            //一个象征性的报错，可在实际运行中并没有返回，而是直接弹出所有错误
             System.out.println("保存游戏时出错。");
         }
     }
