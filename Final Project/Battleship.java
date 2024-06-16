@@ -144,14 +144,27 @@ public class Battleship {
 
 
     //它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
+    public void saveGame(int slot) {
+        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            // 保存是否是玩家的回合
+            writer.write(Boolean.toString(isPlayerTurn));
+            writer.newLine();
+            // 保存玩家和AI的游戏板
+            playerBoard.saveBoard(writer);
+            aiBoard.saveBoard(writer);
+            // 保存AI的状态
+            ai.saveAI(writer);
+        } catch (IOException e) {
+            System.out.println("无法保存游戏。");
+        }
+    }
+    
     public void loadGame(Scanner scanner) {
         System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
         int slot = scanner.nextInt();
         String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            // 加载游戏级别
-            int difficulty = Integer.parseInt(reader.readLine());
-            ai = new AI(difficulty);
             // 加载是否是玩家的回合
             isPlayerTurn = Boolean.parseBoolean(reader.readLine());
             // 加载玩家和AI的游戏板
@@ -159,29 +172,16 @@ public class Battleship {
             aiBoard = new Board();
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
+            // 加载AI的状态
+            ai = new AI(0); // 初始化难度为0，将在loadAI方法中被覆盖
+            ai.loadAI(reader);
+            // 继续游戏
+            playGame(scanner);
         } catch (IOException e) {
             System.out.println("无法加载游戏。");
         }
     }
     
-
-    //这里为存储对应游戏内容
-    public void saveGame(int slot) {
-        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            // 保存游戏级别
-            writer.write(Integer.toString(ai.getDifficulty()));
-            writer.newLine();
-            // 保存是否是玩家的回合
-            writer.write(Boolean.toString(isPlayerTurn));
-            writer.newLine();
-            // 保存玩家和AI的游戏板
-            playerBoard.saveBoard(writer);
-            aiBoard.saveBoard(writer);
-        } catch (IOException e) {
-            System.out.println("无法保存游戏。");
-        }
-    }
     
 
     public void showInstructions() {
@@ -602,7 +602,7 @@ public class Battleship {
 
     //模块化：将AI的行为和数据分离到一个单独的类中，使得代码更加清晰和易于管理。
     public class AI {
-        public final int difficulty;
+        public int difficulty;
         public final Random random;
 
         public void saveAI(BufferedWriter writer) throws IOException {
