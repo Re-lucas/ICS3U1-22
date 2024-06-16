@@ -210,7 +210,9 @@ public class old_version {
         boolean validShot = false;
     
         //通过使用displayShotBoard()方法显示aiBoard
-        aiBoard.displayShotBoard();
+        //aiBoard.displayShotBoard();因为要求改变所以同时显示ai的游戏板
+        System.out.println("AI的战舰板：");
+        aiBoard.displayBoard();
     
         //提示用户输入并读取用户输入
         System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
@@ -256,6 +258,9 @@ public class old_version {
                 if (aiBoard.allShipsSunk()) {
                     System.out.println("玩家获胜！");
                     isGameOver = true;
+                } else {
+                    // 仅在有效射击后才切换到 AI 的回合
+                    isPlayerTurn = false;
                 }
             }
         } catch (NumberFormatException e) {
@@ -263,34 +268,27 @@ public class old_version {
             System.out.println("输入格式错误，请按照 'x y' 的格式输入坐标。");
         }
     
-        // 显示玩家的游戏板
-        System.out.println("玩家的战舰板：");
-        playerBoard.displayBoard();
-    
-        // 设置轮到AI行动
-        isPlayerTurn = false;
     }
     
-
     public void aiTurn() {
         System.out.println("AI的回合");// 输出提示信息，表明现在是AI的回合
         int[] shot = ai.shoot(playerBoard);// AI计算射击位置
         int x = shot[0];
         int y = shot[1];
-
+    
         // AI在玩家游戏板上执行射击，并根据结果输出相应信息
         if (playerBoard.shoot(x, y)) {
             System.out.println("AI命中！");
         } else {
             System.out.println("AI未命中。");
         }
-
+    
         // 检查玩家的所有船只是否已沉没，如果是，则AI获胜
         if (playerBoard.allShipsSunk()) {
             System.out.println("AI获胜！");
             isGameOver = true;
         }
-
+    
         // 显示玩家的游戏板，以便玩家看到AI射击的结果
         System.out.println("玩家的战舰板：");
         playerBoard.displayBoard();
