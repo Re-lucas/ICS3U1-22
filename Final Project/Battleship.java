@@ -605,6 +605,26 @@ public class Battleship {
         public final int difficulty;
         public final Random random;
 
+        public void saveAI(BufferedWriter writer) throws IOException {
+            writer.write(Integer.toString(difficulty));
+            writer.newLine();
+            for (int[] hit : hits) {
+                writer.write(hit[0] + "," + hit[1]);
+                writer.newLine();
+            }
+        }
+        
+        public void loadAI(BufferedReader reader) throws IOException {
+            difficulty = Integer.parseInt(reader.readLine());
+            String line;
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                String[] parts = line.split(",");
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
+                hits.add(new int[]{row, col});
+            }
+        }
+        
         //构造函数 (public AI(int difficulty))：设置AI的难度和初始化随机数生成器。
         public AI(int difficulty) {
             //初始化对象的属性：在这里，this.difficulty = difficulty; 表示将传入的 difficulty 参数值赋给对象的 difficulty 属性。
