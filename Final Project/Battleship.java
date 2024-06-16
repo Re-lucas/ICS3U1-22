@@ -665,41 +665,52 @@ public class Battleship {
         //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
         public int[] shoot(Board board) {
             int row, col;
-
-            //首先检查AI的难度级别是否为简单（EASY）。这决定了接下来AI射击策略的选择。
+        
+            // 首先，我们检查AI的难度级别
             if (difficulty == EASY) {
-                //在简单模式下，AI通过 random.nextInt(BOARD_SIZE) 随机生成 x 和 y 坐标，直到找到一个之前没有射击过的位置（即不是 HIT_SYMBOL 或 MISS_SYMBOL）。
+                // 在简单模式下，AI会随机选择一个射击目标，直到找到一个之前没有射击过的位置
                 do {
                     row = random.nextInt(BOARD_SIZE);
                     col = random.nextInt(BOARD_SIZE);
                 } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
             } else {
-                // 在普通难度下的AI射击逻辑
-
-                // 通过调用 findLastHit 方法来查找上一次射击命中的位置
+                // 在普通模式下，AI的射击策略会更复杂一些
+        
+                // 首先，我们查找上一次射击命中的位置
                 int[] lastHit = findLastHit();
-
-                //如果 lastHit 不为 null（意味着之前有命中），并且周围有空位，则AI会尝试围绕该区域射击
+        
+                // 如果上一次有命中，并且命中位置周围还有未被射击过的位置
                 if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
-                    // 如果找到了上一次的命中，尝试围绕该区域射击
+                    // 我们获取命中位置周围的所有可能的射击目标
                     List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
-
-                    do {
-                        int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
-                        // 注意：这里我们使用 row 和 col 来表示行和列
-                        row = target[0];
-                        col = target[1];
-                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+        
+                    // 如果有可能的目标
+                    if (!potentialTargets.isEmpty()) {
+                        // 我们随机选择一个目标进行射击，直到找到一个之前没有射击过的位置
+                        do {
+                            int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
+                            row = target[0];
+                            col = target[1];
+                        } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+                    } else {
+                        // 如果没有可能的目标，我们就像在简单模式下一样随机选择一个射击目标
+                        do {
+                            row = random.nextInt(BOARD_SIZE);
+                            col = random.nextInt(BOARD_SIZE);
+                        } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+                    }
                 } else {
-                    // 如果没有找到上一次的命中，AI会随机选择一个位置进行射击，但会避免已经射击过的位置。
+                    // 如果上一次没有命中，我们就像在简单模式下一样随机选择一个射击目标
                     do {
                         row = random.nextInt(BOARD_SIZE);
                         col = random.nextInt(BOARD_SIZE);
                     } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
                 }
             }
+            // 最后，我们返回选择的射击目标的坐标
             return new int[]{row, col};
         }
+        
         
         //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
         public final List<int[]> hits = new ArrayList<>();
