@@ -133,7 +133,7 @@ public class Battleship {
 
 // This method saves the game state, including whose turn it is, player and AI boards, and AI state, to a specified slot.
    public void saveGame(int slot) {
-      String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+      String filename = "./" + SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
         // Save whether it's the player's turn
          writer.write(Boolean.toString(isPlayerTurn));
@@ -152,7 +152,7 @@ public class Battleship {
    public void loadGame(Scanner scanner) {
       System.out.println("Select a slot to load:  1. Slot 1  2. Slot 2  3. Slot 3 (Enter Number)");
       int slot = scanner.nextInt();
-      String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+      String filename = "./" + SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
       try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
         // Load whether it's the player's turn
          isPlayerTurn = Boolean.parseBoolean(reader.readLine());
