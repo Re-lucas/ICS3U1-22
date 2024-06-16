@@ -533,14 +533,14 @@ public class Battleship {
                 writer.newLine();
             }
             for (Ship ship : ships) {
-                writer.write(ship.getName() + " " + ship.getSize() + " " + ship.getHitCount());
+                writer.write(ship.getName() + "," + ship.getSize() + "," + ship.getHitCount());
                 for (int[] coord : ship.getCoordinates()) {
-                    writer.write(" " + coord[0] + " " + coord[1]);
+                    writer.write("," + coord[0] + "," + coord[1]);
                 }
                 writer.newLine();
             }
         }
-
+        
         public void loadBoard(BufferedReader reader) throws IOException {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 String line = reader.readLine();
@@ -549,7 +549,7 @@ public class Battleship {
                 }
             }
             for (Ship ship : ships) {
-                String[] parts = reader.readLine().split(" ");
+                String[] parts = reader.readLine().split(",");
                 ship.setName(parts[0]);
                 ship.setSize(Integer.parseInt(parts[1]));
                 ship.setHitCount(Integer.parseInt(parts[2]));
