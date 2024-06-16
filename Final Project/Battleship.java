@@ -143,67 +143,61 @@ public class Battleship {
     }
 
 
-    //它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
-    public void loadGame(Scanner scanner) {
-
-        //显示可以选择的存档
+    // 它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
+     public void loadGame(Scanner scanner) {
+        // 显示可以选择的存档
         System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
         int slot = scanner.nextInt();
-        //设置一个fileName用于下面
+        // 设置一个fileName用于下面
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
 
-        //如存档内无索引则无内容
-
-        //new File(fileName).exists()：检查用户选择的存档文件是否存在。
+        // 如存档内无索引则无内容
+        // new File(fileName).exists()：检查用户选择的存档文件是否存在。
         if (!new File(fileName).exists()) {
             System.out.println("该存档无内容");
             return;
         }
 
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             playerBoard = new Board();
             aiBoard = new Board();
-            ai = new AI(reader.readLine().equals("easy") ? EASY : NORMAL);
+            ai = new AI(reader.readLine().equals(EASY) ? EASY : NORMAL);
 
-            //loadBoard(reader)：从文件中加载游戏板的状态。
+            // loadBoard(reader)：从文件中加载游戏板的状态。
             playerBoard.loadBoard(reader);
             aiBoard.loadBoard(reader);
 
-            //isGameOver 和 isPlayerTurn：从文件中恢复游戏是否结束的状态和当前轮到谁行动
+            // isGameOver 和 isPlayerTurn：从文件中恢复游戏是否结束的状态和当前轮到谁行动
             isGameOver = Boolean.parseBoolean(reader.readLine());
             isPlayerTurn = reader.readLine().equals("player");
-        
+
             playGame(scanner);
         } catch (IOException e) {
             System.out.println("加载游戏时出错。");
-        }        
+        }
     }
 
-    //在loadGame method中的前置条件
 
-    //这里为存储对应游戏内容
+    // 这里为存储对应游戏内容
     public void saveGame(int slot) {
-        //用于创造一个fileName用于存储
+        // 用于创造一个fileName用于存储
         String fileName = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
 
-        //依照使用的fileName来对所需要的给了游戏中的内容进行存储
+        // 依照使用的fileName来对所需要的给了游戏中的内容进行存储
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            //AI的难度条件
-            writer.write(ai.getDifficulty() == EASY ? "easy" : "normal");
+            // AI的难度条件
+            writer.write(ai.getDifficulty() == EASY ? EASY : NORMAL);
             writer.newLine();
-            //游戏进行与否
+            // 游戏进行与否
             writer.write(Boolean.toString(isGameOver));
             writer.newLine();
-            //是否为玩家或是ai回合
+            // 是否为玩家或是ai回合
             writer.write(isPlayerTurn ? "player" : "ai");
             writer.newLine();
-            //对双方的游戏板进行保存
+            // 对双方的游戏板进行保存
             playerBoard.saveBoard(writer);
             aiBoard.saveBoard(writer);
-            // 不需要显式调用writer.close()，它会在try块结束时自动关闭
         } catch (IOException e) {
-            //一个象征性的报错，可在实际运行中并没有返回，而是直接弹出所有错误
             System.out.println("保存游戏时出错。");
         }
     }
