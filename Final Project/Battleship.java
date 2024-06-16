@@ -9,8 +9,8 @@ public class Battleship {
     // Constants that define the game board size
    public static final int BOARD_SIZE = 10;
    public static final char SHIP_SYMBOL = 'S';
-   public static final char HIT_SYMBOL = 'H';
-   public static final char MISS_SYMBOL = 'M';
+   public static final char HIT_SYMBOL = 'X';
+   public static final char MISS_SYMBOL = 'O';
    public static final char EMPTY_SYMBOL = '-';
     
     // Difficulty levels
