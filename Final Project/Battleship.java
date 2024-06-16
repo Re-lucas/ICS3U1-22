@@ -59,7 +59,7 @@ public class Battleship {
     // It uses a while loop to continue running until the user chooses to exit.
       while (running) {
         // Displaying the menu options for the player to choose from
-         System.out.println("Main Menu");
+         System.out.println("Main Menu (Enter Number)");
          System.out.println("1. Start a new game");
          System.out.println("2. Load a saved game");
          System.out.println("3. View game instructions");
@@ -93,7 +93,7 @@ public class Battleship {
    public void startNewGame(Scanner scanner) {
    
     // Prompt the user to select the game difficulty: 1 for Easy, 2 for Normal.
-      System.out.println("Choose difficulty: 1. Easy 2. Normal");
+      System.out.println("Choose difficulty: 1. Easy 2. Normal (Enter Number)");
       int difficulty = scanner.nextInt();
    
     // Initialize game state objects: AI, player's board, and AI's board.
@@ -150,7 +150,7 @@ public class Battleship {
 
 // This method loads a saved game state from a specified slot, including player and AI boards and AI state.
    public void loadGame(Scanner scanner) {
-      System.out.println("Select a slot to load: 1. Slot 1 2. Slot 2 3. Slot 3");
+      System.out.println("Select a slot to load:  1. Slot 1  2. Slot 2  3. Slot 3 (Enter Number)");
       int slot = scanner.nextInt();
       String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
       try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -175,7 +175,6 @@ public class Battleship {
 
 // This method displays instructions for playing the Battleship game.
    public void showInstructions() {
-      System.out.println("Battleship Game Instructions:");
     // Display detailed instructions
       System.out.println("### Battleship Game Instructions ###");
       System.out.println();
