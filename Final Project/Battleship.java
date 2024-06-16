@@ -177,7 +177,54 @@ public class Battleship {
    public void showInstructions() {
       System.out.println("Battleship Game Instructions:");
     // Display detailed instructions
-    // (Actual implementation details for displaying instructions are missing in the provided code.)
+      System.out.println("### Battleship Game Instructions ###");
+      System.out.println();
+      
+      System.out.println("Objective:");
+      System.out.println("The objective of the game is to sink all of your opponent's ships before they sink all of yours. The game is played on a grid where players take turns guessing the locations of the opponent's ships.");
+      System.out.println();
+      
+      System.out.println("Game Setup:");
+      System.out.println("Board Configuration:");
+      System.out.println("- Each player has their own board, which is typically a 10x10 grid. The rows are labeled 1 to 10 and the columns are labeled A to J.");
+      System.out.println("- Players place their ships on their board. Ships can be placed either horizontally or vertically but not diagonally. Ships cannot overlap or be placed outside the grid.");
+      System.out.println();
+      
+      System.out.println("Ships:");
+      System.out.println("- Each player has a fleet of ships. The standard fleet consists of the following ships:");
+      System.out.println("  - Carrier: 5 cells");
+      System.out.println("  - Battleship: 4 cells");
+      System.out.println("  - Cruiser: 3 cells");
+      System.out.println("  - Submarine: 3 cells");
+      System.out.println("  - Destroyer: 2 cells");
+      System.out.println();
+      
+      System.out.println("Playing the Game:");
+      System.out.println("Placing Ships:");
+      System.out.println("- Players place their ships on their own grid. The ships' locations are kept secret from the opponent.");
+      System.out.println("- In this game implementation, the AI will place its ships randomly on the board. Players can place their ships either manually or use a similar random placement strategy.");
+      System.out.println();
+      
+      System.out.println("Taking Turns:");
+      System.out.println("- Players take turns calling out a shot to a specific coordinate on the opponent's grid. For example, 'B7'.");
+      System.out.println("- The opponent checks if the coordinate hits one of their ships:");
+      System.out.println("  - Hit: If a shot hits a ship, the opponent announces 'Hit'. The cell is marked as hit on the attacker's grid.");
+      System.out.println("  - Miss: If a shot misses, the opponent announces 'Miss'. The cell is marked as miss on the attacker's grid.");
+      System.out.println("- The game continues with players taking alternate turns until one player sinks all the ships of the opponent.");
+      System.out.println();
+      
+      System.out.println("Recording Hits and Misses:");
+      System.out.println("- Each player's board tracks their own ships and the shots fired by the opponent.");
+      System.out.println("- The attacker also maintains a separate grid to record the outcomes of their shots on the opponent's board.");
+      System.out.println();
+      
+      System.out.println("Sinking Ships:");
+      System.out.println("- When all the cells of a ship have been hit, the ship is considered sunk. The opponent announces which ship has been sunk.");
+      System.out.println("- The game continues until all ships of one player are sunk.");
+      System.out.println();
+      
+      System.out.println("Winning the Game:");
+      System.out.println("- The first player to sink all of the opponent's ships wins the game.");
    }
 
 // This method controls the main gameplay loop, ensuring turns alternate between player and AI until the game ends.
@@ -370,7 +417,7 @@ public class Battleship {
                char direction = scanner.next().charAt(0); // Read direction (h for horizontal, v for vertical)
             
             // Attempt to place the ship; if successful, set placed to true
-               placed = placeShip(ship, x, y, direction);
+               placed = placeShip(ship, y, x, direction);
                if (!placed) {
                   System.out.println("Invalid position, please try again."); // Inform player of invalid placement
                }
@@ -506,6 +553,7 @@ public class Battleship {
          }
       }
    }
+
    public class Ship {
       public String name;           // Name of the ship
       public int size;              // Size of the ship (number of cells it occupies)
