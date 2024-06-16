@@ -306,11 +306,11 @@ public class Battleship {
             //行代码的作用是初始化 board 数组，为游戏板创建一个具体的大小。
             board = new char[BOARD_SIZE][BOARD_SIZE];
             ships = new Ship[]{
-                new Ship("A", 5),
-                new Ship("B", 4),
-                new Ship("C", 3),
-                new Ship("D", 3),
-                new Ship("E", 2)
+                new Ship("Carrier", 5),
+                new Ship("Battleship", 4),
+                new Ship("Submarine", 3),
+                new Ship("Cruiser", 3),
+                new Ship("Destroyer", 2)
             };
         }
 
@@ -603,6 +603,10 @@ public class Battleship {
         public int difficulty;
         public final Random random;
 
+        //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
+        public final List<int[]> hits = new ArrayList<>();
+
+
         public void saveAI(BufferedWriter writer) throws IOException {
             writer.write(Integer.toString(difficulty));
             writer.newLine();
@@ -665,114 +669,53 @@ public class Battleship {
         //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
         public int[] shoot(Board board) {
             int row, col;
-        
+            
             // 首先，我们检查AI的难度级别
             if (difficulty == EASY) {
-                // 在简单模式下，AI会随机选择一个射击目标，直到找到一个之前没有射击过的位置
-                do {
-                    row = random.nextInt(BOARD_SIZE);
-                    col = random.nextInt(BOARD_SIZE);
-                } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+                // 在简单模式下的射击逻辑...
             } else {
-                // 在普通模式下，AI的射击策略会更复杂一些
+                // 在普通模式下的射击逻辑
+                if (hits.isEmpty()) {
+                    // 如果 hits 列表为空，说明AI还没有命中过船只，那么它会随机选择一个位置射击
+                    do {
+                        row = random.nextInt(BOARD_SIZE);
+                        col = random.nextInt(BOARD_SIZE);
+                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+                } else {
+                    // 如果 hits 列表不为空，说明AI至少命中了一次船只，可以根据命中的情况来尝试下一次的射击策略
         
-                // 首先，我们查找上一次射击命中的位置
-                int[] lastHit = findLastHit();
+                    // 首先，获取上一次命中的位置
+                    int[] lastHit = hits.get(hits.size() - 1);
+                    int lastRow = lastHit[0];
+                    int lastCol = lastHit[1];
         
-                // 如果上一次有命中，并且命中位置周围还有未被射击过的位置
-                if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
-                    // 我们获取命中位置周围的所有可能的射击目标
-                    List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
+                    // 尝试四个方向的射击：上、下、左、右
+                    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+                    for (int[] dir : directions) {
+                        int newRow = lastRow + dir[0];
+                        int newCol = lastCol + dir[1];
         
-                    // 如果有可能的目标
-                    if (!potentialTargets.isEmpty()) {
-                        // 我们随机选择一个目标进行射击，直到找到一个之前没有射击过的位置
-                        do {
-                            int[] target = potentialTargets.remove(random.nextInt(potentialTargets.size()));
-                            row = target[0];
-                            col = target[1];
-                        } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
-                    } else {
-                        // 如果没有可能的目标，我们就像在简单模式下一样随机选择一个射击目标
+                        // 检查新的射击位置是否合法
+                        if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE &&
+                                (board.board[newRow][newCol] != HIT_SYMBOL && board.board[newRow][newCol] != MISS_SYMBOL)) {
+                            row = newRow;
+                            col = newCol;
+                            break;  // 找到合法的射击位置后，立即结束循环
+                        }
+                    }
+        
+                    // 如果没有找到合法的射击位置，随机选择一个位置射击（通常不会执行到这一步）
+                    if (row == -1 || col == -1) {
                         do {
                             row = random.nextInt(BOARD_SIZE);
                             col = random.nextInt(BOARD_SIZE);
                         } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
                     }
-                } else {
-                    // 如果上一次没有命中，我们就像在简单模式下一样随机选择一个射击目标
-                    do {
-                        row = random.nextInt(BOARD_SIZE);
-                        col = random.nextInt(BOARD_SIZE);
-                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
                 }
             }
-            // 最后，我们返回选择的射击目标的坐标
+        
+            // 返回射击的位置
             return new int[]{row, col};
-        }
-        
-        
-        //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
-        public final List<int[]> hits = new ArrayList<>();
-
-        // 在AI射击并命中后调用此方法来记录命中的坐标
-        public void recordHit(int row, int col) {
-            // 将命中的坐标添加到列表中
-            hits.add(new int[]{row, col});
-        }
-        
-        // 改进的findLastHit方法，用于找到最后一次的hit
-        public int[] findLastHit() {
-            // 如果有命中记录，返回最后一次命中的坐标
-            if (!hits.isEmpty()) {
-                return hits.get(hits.size() - 1);
-            }
-            //使用 null 作为返回值的原因是，它提供了一种方式来区分“没有数据”（即 hits 列表为空）与“有数据但数据为零”（例如，如果列表中有一个坐标 [0, 0]）的情况。
-            return null;
-        }
-        
-        
-        //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (row, col) 周围是否有未被射击过的区域。
-        public boolean hasAdjacentEmpty(Board board, int row, int col) {
-            //这行代码定义了一个二维数组 directions，包含四个方向：上、下、左、右。
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-            for (int[] dir : directions) {
-                //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
-                //这个条件判断确保新坐标在游戏板的范围内，即它们不会超出边界。
-                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
-
-                    //如果新坐标对应的位置是空的（即未被射击过），则方法返回 true。EMPTY_SYMBOL 是一个常量，代表游戏板上的空位。
-                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        
-        //getSurroundingCoordinates 方法：获取给定位置周围的所有可能的射击坐标。
-        public List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
-            //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
-            List<int[]> coordinates = new ArrayList<>();
-
-            //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-            for (int[] dir : directions) {
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
-                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
-                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
-                        coordinates.add(new int[]{newRow, newCol});
-                    }
-                }
-            }
-
-            return coordinates;
         }        
-    }
 
 }

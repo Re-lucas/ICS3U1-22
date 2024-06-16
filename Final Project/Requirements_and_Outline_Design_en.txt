@@ -34,11 +34,11 @@ Select the loaded archive: (The user will enter the loaded document here, if the
 - But the user display should start from 1 to 10
 
 - User selects ship:
-Aircraft carrier
-warship
-destroyer
-submarine
-Patrol ship
+Destroyer (2 squares long)
+Cruiser (3 squares long)
+Submarine (3 squares long)
+Battleship (4 squares long)
+Carrier (5 squares long)
 
 - The user sets the location of the ship
 - Shows the game version before the user sets the ship position
