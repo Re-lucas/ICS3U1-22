@@ -6,21 +6,25 @@ import java.util.Scanner;
 
 public class Battleship {
 
-    //这里是一堆的不可改变的全局常数
+    // Constants that define the game board size
     public static final int BOARD_SIZE = 10;
     public static final char SHIP_SYMBOL = 'S';
     public static final char HIT_SYMBOL = 'H';
     public static final char MISS_SYMBOL = 'M';
     public static final char EMPTY_SYMBOL = '-';
+    
+    // Difficulty levels
     public static final int EASY = 1;
     public static final int NORMAL = 2;
+    
+    // Save file related constants
     public static final String SAVE_FILE_PREFIX = "save";
     public static final String SAVE_FILE_SUFFIX = ".txt";
     public static final int SAVE_SLOT_1 = 1;
     public static final int SAVE_SLOT_2 = 2;
     public static final int SAVE_SLOT_3 = 3;
 
-    //仅仅作为初始化使用，因为不确定是否应该作为不可变数
+    // Initializations used for setup; unsure if should be immutable
     public Board playerBoard;
     public Board aiBoard;
     public AI ai;
