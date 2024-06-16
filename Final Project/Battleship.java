@@ -209,67 +209,53 @@ public class Battleship {
         System.out.println("玩家的回合");
         boolean validShot = false;
     
-        //通过使用displayShotBoard()方法显示aiBoard
-        aiBoard.displayShotBoard();
+        while (!validShot) {
+            aiBoard.displayShotBoard();
+            System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
+            String input = scanner.next();
     
-        //提示用户输入并读取用户输入
-        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
-        String input = scanner.next();
-    
-        // 如果玩家输入 'q'，则退出游戏
-        if (input.equalsIgnoreCase("q")) {
-            System.out.println("退出游戏...");
-            isGameOver = true;
-            return;
-        
-        // 如果玩家输入 'save'，则保存游戏
-        } else if (input.equalsIgnoreCase("save")) {
-            System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
-            int slot = scanner.nextInt();
-            saveGame(slot);
-            System.out.println("游戏已保存。");
-            return;
-        }
-    
-        try {
-            // 解析输入的坐标，注意x和y的顺序与输入相反
-            int y = Integer.parseInt(input) - 1; 
-            int x = scanner.nextInt() - 1; 
-    
-            // 检查坐标是否在游戏板范围内
-            if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
-                System.out.println("坐标超出范围，请重新输入。");
-            } else if (aiBoard.board[x][y] == HIT_SYMBOL || aiBoard.board[x][y] == MISS_SYMBOL) {
-                // 检查该位置是否已经被射击过
-                System.out.println("已经射击过这个区域，请重新输入。");
-            } else {
-                // 在给定坐标上射击
-                validShot = aiBoard.shoot(x, y);
-    
-                // 根据射击结果输出相应信息
-                if (validShot) {
-                    System.out.println("命中！");
-                } else {
-                    System.out.println("未命中。");
-                }
-    
-                if (aiBoard.allShipsSunk()) {
-                    System.out.println("玩家获胜！");
-                    isGameOver = true;
-                }
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("退出游戏...");
+                isGameOver = true;
+                return;
+            } else if (input.equalsIgnoreCase("save")) {
+                System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
+                int slot = scanner.nextInt();
+                saveGame(slot);
+                System.out.println("游戏已保存。");
+                return;
             }
-        } catch (NumberFormatException e) {
-            // 如果输入的不是数字，捕获异常并提示重新输入
-            System.out.println("输入格式错误，请按照 'x y' 的格式输入坐标。");
+    
+            try {
+                int y = Integer.parseInt(input) - 1; 
+                int x = scanner.nextInt() - 1; 
+    
+                if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
+                    System.out.println("坐标超出范围，请重新输入。");
+                } else if (aiBoard.board[x][y] == HIT_SYMBOL || aiBoard.board[x][y] == MISS_SYMBOL) {
+                    System.out.println("已经射击过这个区域，请重新输入。");
+                } else {
+                    validShot = aiBoard.shoot(x, y);
+                    if (validShot) {
+                        System.out.println("命中！");
+                    } else {
+                        System.out.println("未命中。");
+                    }
+                    if (aiBoard.allShipsSunk()) {
+                        System.out.println("玩家获胜！");
+                        isGameOver = true;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("输入格式错误，请按照 'x y' 的格式输入坐标。");
+            }
         }
     
-        // 显示玩家的游戏板
         System.out.println("玩家的战舰板：");
         playerBoard.displayBoard();
-    
-        // 设置轮到AI行动
         isPlayerTurn = false;
     }
+    
     
 
     public void aiTurn() {
