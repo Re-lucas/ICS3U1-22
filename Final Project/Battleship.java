@@ -561,10 +561,10 @@ public class Battleship {
     }
 
     public class Ship {
-        private String name;
-        private int size;
-        private int hitCount;
-        private final List<int[]> coordinates;
+        public String name;
+        public int size;
+        public int hitCount;
+        public final List<int[]> coordinates;
 
         public Ship(String name, int size) {
             this.name = name;
@@ -717,7 +717,7 @@ public class Battleship {
         }
         
         // 改进的findLastHit方法，用于找到最后一次的hit
-        private int[] findLastHit() {
+        public int[] findLastHit() {
             // 如果有命中记录，返回最后一次命中的坐标
             if (!hits.isEmpty()) {
                 return hits.get(hits.size() - 1);
@@ -728,7 +728,7 @@ public class Battleship {
         
         
         //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (row, col) 周围是否有未被射击过的区域。
-        private boolean hasAdjacentEmpty(Board board, int row, int col) {
+        public boolean hasAdjacentEmpty(Board board, int row, int col) {
             //这行代码定义了一个二维数组 directions，包含四个方向：上、下、左、右。
             int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
@@ -749,7 +749,7 @@ public class Battleship {
         }
         
         //getSurroundingCoordinates 方法：获取给定位置周围的所有可能的射击坐标。
-        private List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
+        public List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
             //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
             List<int[]> coordinates = new ArrayList<>();
 
