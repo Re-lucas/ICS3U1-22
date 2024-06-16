@@ -31,494 +31,462 @@ public class Battleship {
     public boolean isGameOver;
     public boolean isPlayerTurn;
 
-    //作为java程序中的入口点
-    public static void main(String[] args) {
-        //创建用于读取用户输入
-        Scanner scanner = new Scanner(System.in);
-        //创建了一个名为Battleship的对象主要用于调用并启动游戏
-        Battleship game = new Battleship();
+ // This is the entry point for the Java program
+public static void main(String[] args) {
+    // Create a scanner object to read user input
+    Scanner scanner = new Scanner(System.in);
+    // Create an instance of Battleship game
+    Battleship game = new Battleship();
 
-        //这行代码调用了 Battleship 对象的 run 方法，并传递了 scanner 作为参数
-        //为什么这么做？我会说方便，只要将Battleship 类内封装游戏的所有逻辑。然后就可以访问和使用这个类定义的所有方法和变量。
-        //并且如果我需要再一次调用里面的内容仅需调用game.run(scanner);,就很方便，这也是我在这里这么做的原因。
-        //以及不同的逻辑也能够放到其中，所以main方法就很简洁，因为不需要调用各类不同的方法。
+    // This line of code invokes the run method of the Battleship object and passes scanner as a parameter
+    // This is done to encapsulate all the game logic inside the Battleship class.
+    // It allows easy access and use of all methods and variables defined in that class.
+    // If we need to call its contents again, we simply call game.run(scanner);
+    // It keeps the main method clean as we don't need to call various methods of different classes directly.
+    game.run(scanner);
 
-        //或者简单点：Battleship 对象是游戏的核心，负责启动和运行游戏。
-        game.run(scanner);
+    // Alternatively, in simpler terms: The Battleship object is the core of the game, responsible for starting and running it.
     }
 
 
-    //这段代码是一个海战游戏的主控制逻辑，它使用面向对象编程（以用户为输入为主导）的原则来组织游戏的结构和流程。
-    public void run(Scanner scanner) {
-        boolean running = true;
+ // This method represents the main control logic of a Battleship game,
+// organized using object-oriented principles with user input as the primary driver.
+public void run(Scanner scanner) {
+    boolean running = true;
 
-        //这是游戏的主循环，负责显示主菜单并根据用户的选择执行相应的操作。它使用 while 循环来持续运行，直到用户选择退出。
-        while (running) {
-            //通过输出菜单供玩家选择
-            System.out.println("主菜单");
-            System.out.println("1. 开始新游戏");
-            System.out.println("2. 加载已保存的游戏");
-            System.out.println("3. 查看游戏说明");
-            System.out.println("4. 退出程序");
-            System.out.print("请选择：");
-    
-            
-            String input = scanner.next();
-            int choice = Integer.parseInt(input);
-    
-            //通过上一条内容来调用每一个可能的选项，如果超过则返回
-            switch (choice) {
-                //startNewGame 方法：当用户选择开始新游戏时，这个方法会被调用。
-                case 1 -> startNewGame(scanner);
-                //loadGame 方法：当用户选择加载已保存的游戏时，这个方法会被调用。
-                case 2 -> loadGame(scanner);
-                //showInstructions 方法：当用户选择查看游戏说明时，这个方法会被调用，显示游戏的规则和操作指南。
-                case 3 -> showInstructions();
-                //选择退出程序也就是直接将while程序中的running条件由ture改为false
-                case 4 -> running = false;
-                //当用户输入超过以上选择时候则返回无效
-                default -> System.out.println("无效选择，请重试。");
-            }
+    // This is the main game loop responsible for displaying the main menu
+    // and executing corresponding actions based on user input.
+    // It uses a while loop to continue running until the user chooses to exit.
+    while (running) {
+        // Displaying the menu options for the player to choose from
+        System.out.println("Main Menu");
+        System.out.println("1. Start a new game");
+        System.out.println("2. Load a saved game");
+        System.out.println("3. View game instructions");
+        System.out.println("4. Quit the program");
+        System.out.print("Please choose: ");
 
-            //if your java version is not 12, change switch statement to:
-            /*
-                         switch (choice) {
-                case 1:
-                    startNewGame(scanner);
-                    break;
-                case 2:
-                    loadGame(scanner);
-                    break;
-                case 3:
-                    showInstructions();
-                    break;
-                case 4:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("无效选择，请重试。");
-                    break;
-            }
-             */
+        // Read the user's input
+        String input = scanner.next();
+        int choice = Integer.parseInt(input);
 
+        // Switch statement to handle each possible user choice
+        switch (choice) {
+            // startNewGame method: Invoked when the user chooses to start a new game.
+            case 1 -> startNewGame(scanner);
+            // loadGame method: Invoked when the user chooses to load a saved game.
+            case 2 -> loadGame(scanner);
+            // showInstructions method: Invoked when the user chooses to view game instructions,
+            // displaying rules and gameplay guidelines.
+            case 3 -> showInstructions();
+            // Exit the program: Sets the running flag to false, ending the while loop.
+            case 4 -> running = false;
+            // Default case for handling invalid choices by the user.
+            default ->  System.out.println("Invalid choice, please try again.");
         }
     }
+}
+
     
+// This method represents the starting point of the game when the user chooses to begin a new game.
+// It does not return any value (void) and requires user input via Scanner.
+public void startNewGame(Scanner scanner) {
 
-    //作为用户在用户页面选择一后开始跳转的内容，也就是开始游戏。
-    //因为其中没有返回值，所以则使用void,同时需要来自用户的输入所以为Scanner
-    public void startNewGame(Scanner scanner) {
+    // Prompt the user to select the game difficulty: 1 for Easy, 2 for Normal.
+    System.out.println("Choose difficulty: 1. Easy 2. Normal");
+    int difficulty = scanner.nextInt();
 
-        //首先询问用户选择难度，然后创建 AI 和 Board 对象，并初始化它们。
-        System.out.println("选择难度：1. 简单 2. 普通");
-        int difficulty = scanner.nextInt();
+    // Initialize game state objects: AI, player's board, and AI's board.
 
-        //这些对象代表游戏的状态，如AI的智能水平、玩家和AI的游戏板。
+    // Create an AI opponent instance based on the selected difficulty level.
+    ai = new AI(difficulty);
 
-        //new AI(difficulty) 创建了一个 AI 类的实例，这个实例是游戏中的人工智能对手。
-        ai = new AI(difficulty);
+    // Create new Board objects to track ships and shots for both the player and AI.
+    // Here, new Board() is called twice, creating two Board objects: playerBoard and aiBoard.
+    // In a game scenario, separate boards are necessary for the player and AI to manage their respective game states independently.
+    playerBoard = new Board();
+    aiBoard = new Board();
 
-        //new Board()：创建一个新的游戏板对象，用于跟踪游戏中的船只和射击。
-        //这里的 new Board() 被调用两次，分别创建了两个 Board 对象：playerBoard 和 aiBoard。
-        //因为在游戏中，玩家和 AI（人工智能）通常需要各自的游戏板来跟踪他们的船只和射击。
-        //每个 Board 对象都会有自己的 board 数组和 ships 数组，这样玩家和 AI 的游戏状态就可以独立管理，不会相互干扰。
+    // Initialize the player's game board, setting initial empty state or preparing for ship placement.
+    // The initializeBoard() method initializes the board array to its initial state of blank cells,
+    // indicating no ships are placed on the game board yet. The ships array does not need modification here
+    // as it is already initialized correctly in the constructor.
+    playerBoard.initializeBoard();
+    aiBoard.initializeBoard();
+
+    // Place ships on the game board for both the player and AI.
+
+    // This line calls the placeShips method of the player's Board object,
+    // allowing the player to input coordinates and directions via the Scanner object to place their ships.
+    playerBoard.placeShips(scanner);
+
+    // This line invokes a method of the AI object to automatically and randomly place AI's ships on aiBoard.
+    ai.placeShips(aiBoard);
+
+    // Set isPlayerTurn = true to indicate it's the player's turn to act.
+    isPlayerTurn = true;
+
+    // Start the main part of the game, alternating turns between the player and AI until the game ends.
+    playGame(scanner);
+}
+
+
+// This method saves the game state, including whose turn it is, player and AI boards, and AI state, to a specified slot.
+public void saveGame(int slot) {
+    String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+        // Save whether it's the player's turn
+        writer.write(Boolean.toString(isPlayerTurn));
+        writer.newLine();
+        // Save player and AI game boards
+        playerBoard.saveBoard(writer);
+        aiBoard.saveBoard(writer);
+        // Save AI state
+        ai.saveAI(writer);
+    } catch (IOException e) {
+        System.out.println("Unable to save the game.");
+    }
+}
+
+// This method loads a saved game state from a specified slot, including player and AI boards and AI state.
+public void loadGame(Scanner scanner) {
+    System.out.println("Select a slot to load: 1. Slot 1 2. Slot 2 3. Slot 3");
+    int slot = scanner.nextInt();
+    String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        // Load whether it's the player's turn
+        isPlayerTurn = Boolean.parseBoolean(reader.readLine());
+        // Create new Board objects for player and AI
         playerBoard = new Board();
         aiBoard = new Board();
-
-        //initializeBoard()：初始化游戏板，设置空白状态或准备放置船只。
-        //在 initializeBoard() 方法中，我们只关注 board 数组的初始化，因为这个方法的目的是将游戏板的所有格子设置为初始的空白状态，
-        //这表示没有船只放置在游戏板上。ships 数组在这个阶段不需要改变，因为它已经在构造函数中被正确初始化了。
-        playerBoard.initializeBoard();
-        aiBoard.initializeBoard();
-
-        //placeShips：在游戏板上放置船只，玩家和AI都需要执行这一步骤。
-
-        //这行代码调用玩家的 Board 对象的 placeShips 方法，允许玩家通过 Scanner 对象输入坐标和方向来放置他们的船只。
-        playerBoard.placeShips(scanner);
-
-        //这行代码是 AI 对象的一个方法调用，它会通过调用ai.placeShips方法来自动且随机放置 AI 的船只到 aiBoard 上。
-        ai.placeShips(aiBoard);
-
-        //isPlayerTurn = true：设置轮到玩家行动的标志。
-        isPlayerTurn = true;
-
-        //开始游戏的主要部分，交替玩家和AI的回合直到游戏结束。
+        // Load player and AI boards
+        playerBoard.loadBoard(reader);
+        aiBoard.loadBoard(reader);
+        // Initialize AI with difficulty 0; this will be overwritten by loadAI method
+        ai = new AI(0);
+        // Load AI state
+        ai.loadAI(reader);
+        // Resume the game
         playGame(scanner);
+    } catch (IOException e) {
+        System.out.println("Unable to load the game.");
     }
+}
 
+// This method displays instructions for playing the Battleship game.
+public void showInstructions() {
+    System.out.println("Battleship Game Instructions:");
+    // Display detailed instructions
+    // (Actual implementation details for displaying instructions are missing in the provided code.)
+}
 
-    //它读取用户选择的存档文件，并恢复游戏的状态，包括游戏板和AI的状态。
-    public void saveGame(int slot) {
-        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            // 保存是否是玩家的回合
-            writer.write(Boolean.toString(isPlayerTurn));
-            writer.newLine();
-            // 保存玩家和AI的游戏板
-            playerBoard.saveBoard(writer);
-            aiBoard.saveBoard(writer);
-            // 保存AI的状态
-            ai.saveAI(writer);
-        } catch (IOException e) {
-            System.out.println("无法保存游戏。");
-        }
-    }
-    
-    public void loadGame(Scanner scanner) {
-        System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
-        int slot = scanner.nextInt();
-        String filename = SAVE_FILE_PREFIX + slot + SAVE_FILE_SUFFIX;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            // 加载是否是玩家的回合
-            isPlayerTurn = Boolean.parseBoolean(reader.readLine());
-            // 加载玩家和AI的游戏板
-            playerBoard = new Board();
-            aiBoard = new Board();
-            playerBoard.loadBoard(reader);
-            aiBoard.loadBoard(reader);
-            // 加载AI的状态
-            ai = new AI(0); // 初始化难度为0，将在loadAI方法中被覆盖
-            ai.loadAI(reader);
-            // 继续游戏
-            playGame(scanner);
-        } catch (IOException e) {
-            System.out.println("无法加载游戏。");
-        }
-    }
-    
-    
-
-    public void showInstructions() {
-        System.out.println("战舰游戏说明：");
-        // 显示详细说明
-    }
-
-    //playGame 方法，整个逻辑确保了玩家和 AI 能够交替进行回合，直到其中一个方法返回ture
-    public void playGame(Scanner scanner) {
-        isGameOver = false;
-        while (!isGameOver) {
-            if (isPlayerTurn) {
-                //玩家回合
-                playerTurn(scanner);
-            } else {
-                //AI回合
-                aiTurn();
-            }
-             // 循环结束后，会根据游戏状态更新isGameOver变量
-        }
-    }
-
-    //确保玩家可以互动地参与游戏，并且游戏的状态可以根据玩家的行动而改变。
-    public void playerTurn(Scanner scanner) {
-        System.out.println("玩家的回合");
-        boolean validShot = false;
-    
-        //通过使用displayShotBoard()方法显示aiBoard
-        //aiBoard.displayShotBoard();因为要求改变所以同时显示ai的游戏板
-        System.out.println("AI的战舰板：");
-        aiBoard.displayBoard();
-    
-        //提示用户输入并读取用户输入
-        System.out.print("输入射击坐标 (格式: x y) 或 'q' 退出 或 'save' 保存: ");
-        String input = scanner.next();
-    
-        // 如果玩家输入 'q'，则退出游戏
-        if (input.equalsIgnoreCase("q")) {
-            System.out.println("退出游戏...");
-            isGameOver = true;
-            return;
-        
-        // 如果玩家输入 'save'，则保存游戏
-        } else if (input.equalsIgnoreCase("save")) {
-            System.out.println("选择存档：1. 存档一 2. 存档二 3. 存档三");
-            int slot = scanner.nextInt();
-            saveGame(slot);
-            System.out.println("游戏已保存。");
-            return;
-        }
-    
-        try {
-            // 解析输入的坐标，注意x和y的顺序与输入相反
-            int y = Integer.parseInt(input) - 1; 
-            int x = scanner.nextInt() - 1; 
-    
-            // 检查坐标是否在游戏板范围内
-            if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
-                System.out.println("坐标超出范围，请重新输入。");
-            } else if (aiBoard.board[x][y] == HIT_SYMBOL || aiBoard.board[x][y] == MISS_SYMBOL) {
-                // 检查该位置是否已经被射击过
-                System.out.println("已经射击过这个区域，请重新输入。");
-            } else {
-                // 在给定坐标上射击
-                validShot = aiBoard.shoot(x, y);
-    
-                // 根据射击结果输出相应信息
-                if (validShot) {
-                    System.out.println("命中！");
-                } else {
-                    System.out.println("未命中。");
-                }
-    
-                if (aiBoard.allShipsSunk()) {
-                    System.out.println("玩家获胜！");
-                    isGameOver = true;
-                } else {
-                    // 仅在有效射击后才切换到 AI 的回合
-                    isPlayerTurn = false;
-                }
-            }
-        } catch (NumberFormatException e) {
-            // 如果输入的不是数字，捕获异常并提示重新输入
-            System.out.println("输入格式错误，请按照 'x y' 的格式输入坐标。");
-        }
-    
-    }
-    
-    public void aiTurn() {
-        System.out.println("AI的回合");// 输出提示信息，表明现在是AI的回合
-        int[] shot = ai.shoot(playerBoard);// AI计算射击位置
-        int x = shot[0];
-        int y = shot[1];
-    
-        // AI在玩家游戏板上执行射击，并根据结果输出相应信息
-        if (playerBoard.shoot(x, y)) {
-            System.out.println("AI命中！");
+// This method controls the main gameplay loop, ensuring turns alternate between player and AI until the game ends.
+public void playGame(Scanner scanner) {
+    isGameOver = false;
+    while (!isGameOver) {
+        if (isPlayerTurn) {
+            // Player's turn
+            playerTurn(scanner);
         } else {
-            System.out.println("AI未命中。");
+            // AI's turn
+            aiTurn();
         }
-    
-        // 检查玩家的所有船只是否已沉没，如果是，则AI获胜
-        if (playerBoard.allShipsSunk()) {
-            System.out.println("AI获胜！");
-            isGameOver = true;
-        }
-    
-        // 显示玩家的游戏板，以便玩家看到AI射击的结果
-        System.out.println("玩家的战舰板：");
-        playerBoard.displayBoard();
-        isPlayerTurn = true; // 设置轮到玩家行动
+        // The loop continues until the game is over, based on game logic updates to isGameOver variable.
+    }
+}
+
+// This method ensures the player can interactively participate in the game and updates the game state based on player actions.
+public void playerTurn(Scanner scanner) {
+    System.out.println("Player's Turn");
+    boolean validShot = false;
+
+    // Display AI's board to the player
+    System.out.println("AI's Ship Board:");
+    aiBoard.displayBoard();
+
+    // Prompt the player to input and read their action
+    System.out.print("Enter shot coordinates (format: x y) or 'q' to quit or 'save' to save: ");
+    String input = scanner.next();
+
+    // If the player inputs 'q', quit the game
+    if (input.equalsIgnoreCase("q")) {
+        System.out.println("Quitting the game...");
+        isGameOver = true;
+        return;
+    // If the player inputs 'save', save the game
+    } else if (input.equalsIgnoreCase("save")) {
+        System.out.println("Select a slot to save: 1. Slot 1 2. Slot 2 3. Slot 3");
+        int slot = scanner.nextInt();
+        saveGame(slot);
+        System.out.println("Game saved.");
+        return;
     }
 
-    public class Board {
-        public char[][] board;
-        public Ship[] ships;
+    try {
+        // Parse the shot coordinates from the input (note: x and y order is reversed from input)
+        int y = Integer.parseInt(input) - 1; // Convert to zero-based index
+        int x = scanner.nextInt() - 1; // Convert to zero-based index
 
-        //public Board() 是一个构造函数，它用于初始化 Board 类的新实例。
-        //在 Java 中，构造函数的名称必须与类名相同，并且它们没有返回类型，甚至没有 void。
-        //在这里是方便独立管理AI和玩家之间的游戏版跟船只
-        public Board() {
-            //行代码的作用是初始化 board 数组，为游戏板创建一个具体的大小。
-            board = new char[BOARD_SIZE][BOARD_SIZE];
-            ships = new Ship[]{
-                new Ship("Carrier", 5),
-                new Ship("Battleship", 4),
-                new Ship("Submarine", 3),
-                new Ship("Cruiser", 3),
-                new Ship("Destroyer", 2)
-            };
-        }
+        // Check if coordinates are within board bounds
+        if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) {
+            System.out.println("Coordinates out of bounds. Please enter again.");
+        } else if (aiBoard.board[x][y] == HIT_SYMBOL || aiBoard.board[x][y] == MISS_SYMBOL) {
+            // Check if the position has already been shot at
+            System.out.println("You have already shot at this position. Please enter again.");
+        } else {
+            // Shoot at the given coordinates
+            validShot = aiBoard.shoot(x, y);
 
-        //initializeBoard() 方法用于将游戏板的每个格子设置为一个预定义的空白符号，是为了游戏开始前的准备。
-        //这个方法通过双重循环遍历游戏板的每一行和每一列，将每个位置的字符设置为 EMPTY_SYMBOL，这里为 '-'。
-        public void initializeBoard() {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    board[i][j] = EMPTY_SYMBOL;
-                }
+            // Output appropriate message based on shot result
+            if (validShot) {
+                System.out.println("Hit!");
+            } else {
+                System.out.println("Miss.");
+            }
+
+            // Check if all AI ships are sunk (player wins if true)
+            if (aiBoard.allShipsSunk()) {
+                System.out.println("Player wins!");
+                isGameOver = true;
+            } else {
+                // Switch to AI's turn only after a valid shot
+                isPlayerTurn = false;
             }
         }
+    } catch (NumberFormatException e) {
+        // Catch input format errors and prompt user to retry
+        System.out.println("Invalid input format. Please enter coordinates in 'x y' format.");
+    }
 
-        //displayShotBoard() 方法的作用是显示射击后的游戏板，显示船只的位置。
-        public void displayBoard() {
-            //参数为 false ，打印实际的游戏板内容。
-            display(board, false);
+}
+
+    
+// This method handles the AI's turn in the game.
+public void aiTurn() {
+    System.out.println("AI's Turn"); // Output a message indicating it's the AI's turn
+    
+    // AI calculates the shot position on the player's board
+    int[] shot = ai.shoot(playerBoard);
+    int x = shot[0];
+    int y = shot[1];
+    
+    // AI performs a shot on the player's board and outputs corresponding message based on the result
+    if (playerBoard.shoot(x, y)) {
+        System.out.println("AI hit!");
+    } else {
+        System.out.println("AI missed.");
+    }
+    
+    // Check if all player's ships are sunk; if true, AI wins
+    if (playerBoard.allShipsSunk()) {
+        System.out.println("AI wins!");
+        isGameOver = true;
+    }
+    
+    // Display the player's board so the AI can see the result of its shot
+    System.out.println("Player's Ship Board:");
+    playerBoard.displayBoard();
+    
+    isPlayerTurn = true; // Set turn to player's turn
+}
+
+
+// This class represents the game board.
+public class Board {
+    public char[][] board; // Represents the game board as a 2D character array
+    public Ship[] ships; // Array to hold the ships on the board
+
+    // Constructor initializes a new instance of Board with a specific size and predefined ships.
+    public Board() {
+        board = new char[BOARD_SIZE][BOARD_SIZE]; // Initialize board with specified size
+        ships = new Ship[]{ // Initialize ships array with predefined ships
+            new Ship("Carrier", 5),
+            new Ship("Battleship", 4),
+            new Ship("Submarine", 3),
+            new Ship("Cruiser", 3),
+            new Ship("Destroyer", 2)
+        };
+    }
+
+    // initializeBoard() method sets up the board with empty symbols at the start of the game.
+    public void initializeBoard() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                board[i][j] = EMPTY_SYMBOL; // Set each position on the board to empty symbol at the start
+            }
         }
+    }
 
-        //displayShotBoard() 方法的作用是显示射击后的游戏板，但不显示船只的位置，只显示射击的结果（命中或未命中）。
-        public void displayShotBoard() {
-            //参数为 true ，游戏板上船只的位置会被空白符号覆盖，这用于显示给对手看，以防止对手看到船只的位置。
-            display(board, true);
+    // displayBoard() method displays the current state of the board without showing ships' positions.
+    public void displayBoard() {
+        display(board, false); // Call display method with hideShips set to false
+    }
+
+    // displayShotBoard() method displays the board after shots, showing ships' positions if not hidden.
+    public void displayShotBoard() {
+        display(board, true); // Call display method with hideShips set to true
+    }
+
+    // display(char[][] board, boolean hideShips) method prints the board with options to hide ships' positions.
+    public void display(char[][] board, boolean hideShips) {
+        System.out.print("  ");
+
+        // Print column numbers
+        for (int i = 1; i <= BOARD_SIZE; i++) {
+            System.out.print(i + " ");
         }
+        System.out.println();
 
-
-        public void display(char[][] board, boolean hideShips) {
-            System.out.print("  ");
-
-            // 打印列号
-            for (int i = 1; i <= BOARD_SIZE; i++) {
-                System.out.print(i + " ");
+        // Iterate through each row of the board
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                // If hideShips is true and current position is a ship symbol, print empty symbol instead
+                if (hideShips && board[i][j] == SHIP_SYMBOL) {
+                    System.out.print(EMPTY_SYMBOL + " ");
+                } else {
+                    // Otherwise, print actual board content
+                    System.out.print(board[i][j] + " ");
+                }
             }
             System.out.println();
+        }
+    }
 
-            // 遍历游戏板的每一行
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                System.out.print((i + 1) + " ");
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    // 如果需要隐藏船只，并且当前位置是船只的符号
-                    if (hideShips && board[i][j] == SHIP_SYMBOL) {
-                    // 打印空白符号代替船只
-                        System.out.print(EMPTY_SYMBOL + " ");
-                    } else {
-                    // 否则，打印实际的游戏板内容
-                        System.out.print(board[i][j] + " ");
-                    }
-                }
-                System.out.println();
+// This method allows the player to place their ships on the board.
+public void placeShips(Scanner scanner) {
+    // Iterate through each ship in the ships array
+    for (Ship ship : ships) {
+        boolean placed = false; // Flag to track if the ship has been successfully placed
+        while (!placed) {
+            displayBoard(); // Display the current state of the board
+            // Prompt the player to place the ship, showing ship name and size
+            System.out.println("Place your ship: " + ship.getName() + " (" + ship.getSize() + ")");
+            System.out.print("Enter coordinates and direction (format: x y h/v): ");
+
+            // Read player's input for coordinates and direction
+            int x = scanner.nextInt() - 1; // Adjust to 0-based index
+            int y = scanner.nextInt() - 1; // Adjust to 0-based index
+            char direction = scanner.next().charAt(0); // Read direction (h for horizontal, v for vertical)
+
+            // Attempt to place the ship; if successful, set placed to true
+            placed = placeShip(ship, x, y, direction);
+            if (!placed) {
+                System.out.println("Invalid position, please try again."); // Inform player of invalid placement
             }
         }
+    }
+}
 
-        public void placeShips(Scanner scanner) {
-            // 遍历 ships 数组中的每艘船
-            for (Ship ship : ships) {
-                // 标记船只是否已放置
-                boolean placed = false;
-                while (!placed) {
-                    // 显示当前游戏板
-                    displayBoard();
-                    // 提示玩家放置船只，并显示船只名称和大小
-                    System.out.println("放置你的船只: " + ship.getName() + " (" + ship.getSize() + ")");
-                    System.out.print("输入坐标和方向 (格式: x y h/v): ");
-
-                    // 读取玩家输入的坐标和方向
-                    int x = scanner.nextInt() - 1;
-                    int y = scanner.nextInt() - 1;
-                    char direction = scanner.next().charAt(0); // 读取方向（水平或垂直）
-
-                    // 尝试放置船只，如果成功，placed将变为true
-                    placed = placeShip(ship, y, x, direction);
-                    if (!placed) {
-                        //失败，返回重试
-                        System.out.println("无效的位置，请重试。");
-                    }
+// This method attempts to place a ship on the board at the specified coordinates and direction.
+public boolean placeShip(Ship ship, int x, int y, char direction) {
+    int size = ship.getSize(); // Get the size of the ship
+    
+    return switch (direction) {
+        case 'v' -> {
+            if (x + size > BOARD_SIZE) { // Check if vertical placement exceeds board boundaries
+                yield false;
+            }
+            // Check if there's any overlapping with existing ships in the chosen position
+            for (int i = 0; i < size; i++) {
+                if (board[x + i][y] != EMPTY_SYMBOL) { // Check if the position is already occupied
+                    yield false;
                 }
+            }
+            // Place the ship vertically on the board
+            for (int i = 0; i < size; i++) {
+                board[x + i][y] = SHIP_SYMBOL; // Mark the position with the ship symbol
+                ship.addCoordinate(x + i, y); // Add the ship's coordinates to its list of coordinates
+            }
+            yield true; // Return true indicating successful placement
+        }
+        case 'h' -> {
+            if (y + size > BOARD_SIZE) { // Check if horizontal placement exceeds board boundaries
+                yield false;
+            }
+            // Check if there's any overlapping with existing ships in the chosen position
+            for (int i = 0; i < size; i++) {
+                if (board[x][y + i] != EMPTY_SYMBOL) { // Check if the position is already occupied
+                    yield false;
+                }
+            }
+            // Place the ship horizontally on the board
+            for (int i = 0; i < size; i++) {
+                board[x][y + i] = SHIP_SYMBOL; // Mark the position with the ship symbol
+                ship.addCoordinate(x, y + i); // Add the ship's coordinates to its list of coordinates
+            }
+            yield true; // Return true indicating successful placement
+        }
+        default -> false; // Return false for invalid direction
+    };
+}
+
+// This method handles shooting actions by the player or AI on the game board.
+public boolean shoot(int x, int y) {
+    if (board[x][y] == SHIP_SYMBOL) {
+        // If there's a ship at the shooting coordinates (SHIP_SYMBOL), mark it as hit (HIT_SYMBOL)
+        board[x][y] = HIT_SYMBOL;
+        boolean hitMade = false;
+
+        // Iterate through all ships to check if any ship is at the shooting coordinates.
+        // If found, call the ship's hit method and use hitMade variable to ensure only one ship is hit per turn.
+        for (Ship ship : ships) {
+            if (!hitMade && ship.isAtCoordinate(x, y)) {
+                ship.hit();
+                hitMade = true; // Mark ship as hit to avoid hitting the same ship again
             }
         }
+        // Return true indicating a hit.
+        return true;
+    } else {
+        // If there's no ship at the shooting coordinates, mark it as a miss (MISS_SYMBOL).
+        board[x][y] = MISS_SYMBOL;
+        // Return false indicating a miss.
+        return false;
+    }
+}
 
-        public boolean placeShip(Ship ship, int x, int y, char direction) {
-            int size = ship.getSize();
-            
-            return switch (direction) {
-
-                //在实际操作中或许会觉得x应当变化的为横轴，可我缺将实际应用设置为'v'
-                //因为一维循环实际是一个方框后在方框下循环，实际表现为y(也就是竖轴行为)
-                case 'v' -> {
-                    if (x + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
-                        yield false;
-                    }
-                    for (int i = 0; i < size; i++) {
-                        if (board[x + i][y] != EMPTY_SYMBOL) {
-                            yield false;
-                        }
-                    }
-                    for (int i = 0; i < size; i++) {
-                        board[x + i][y] = SHIP_SYMBOL;
-                        ship.addCoordinate(x + i, y);
-                    }
-                    yield true;
-                }
-                case 'h' -> {
-                    if (y + size > BOARD_SIZE) { // 检查水平放置是否超出边界
-                        yield false;
-                    }
-                    for (int i = 0; i < size; i++) {
-                        if (board[x][y + i] != EMPTY_SYMBOL) {
-                            yield false;
-                        }
-                    }
-                    for (int i = 0; i < size; i++) {
-                        board[x][y + i] = SHIP_SYMBOL;
-                        ship.addCoordinate(x, y + i);
-                    }
-                    yield true;
-                }
-                default -> false;
-            };
-
-            //for java version which not 12
-            /* 
-            switch (direction) {
-                case 'v':
-                    if (x + size > BOARD_SIZE) { // 检查水平放置是否超出边界
-                        return false;
-                    }
-                    for (int i = 0; i < size; i++) {
-                        if (board[x + i][y] != EMPTY_SYMBOL) {
-                            return false;
-                        }
-                    }
-                    for (int i = 0; i < size; i++) {
-                        board[x + i][y] = SHIP_SYMBOL;
-                        ship.addCoordinate(x + i, y);
-                    }
-                    break;
-                case 'h':
-                    if (y + size > BOARD_SIZE) { // 检查垂直放置是否超出边界
-                        return false;
-                    }
-                    for (int i = 0; i < size; i++) {
-                        if (board[x][y + i] != EMPTY_SYMBOL) {
-                            return false;
-                        }
-                    }
-                    for (int i = 0; i < size; i++) {
-                        board[x][y + i] = SHIP_SYMBOL;
-                        ship.addCoordinate(x, y + i);
-                    }
-                    break;
-                default:
-                    return false;
-            }
-            return true;
-            */
-        }     
-
-        //方法用于处理玩家或AI在游戏板上的射击动作。
-        public boolean shoot(int x, int y) {
-            if (board[x][y] == SHIP_SYMBOL) {
-                //如果射击的坐标上有船只（SHIP_SYMBOL），则将该位置标记为被击中（HIT_SYMBOL)
-                board[x][y] = HIT_SYMBOL;
-                boolean hitMade = false;
-
-                //遍历所有船只，检查是否有船只位于射击坐标上，如果有，则调用该船只的 hit 方法，并且通过 hitMade 变量确保不会重复击中同一艘船。
-                for (Ship ship : ships) {
-                    if (!hitMade && ship.isAtCoordinate(x, y)) {
-                        ship.hit();
-                        hitMade = true; // 标记已经击中船只，避免重复击中
-                    }
-                }
-                //返回 true 表示射击命中，返回 false 表示射击未命中。
-                return true;
-            } else {
-                board[x][y] = MISS_SYMBOL;
-                return false;
-            }
+// This method checks if all ships on the board are sunk.
+public boolean allShipsSunk() {
+    for (Ship ship : ships) {
+        // Iterate through all ships and check if any ship is not sunk.
+        if (!ship.isSunk()) {
+            // If a ship is found that is not sunk, return false.
+            return false;
         }
+    }
+    // If all ships are sunk, return true.
+    return true;
+}
 
-        public boolean allShipsSunk() {
-            for (Ship ship : ships) {
-                if (!ship.isSunk()) {
-                    return false;
-                }
-            }
-            return true;
-        }
 
-        public void saveBoard(BufferedWriter writer) throws IOException {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    writer.write(board[i][j]);
-                }
-                writer.newLine();
-            }
-            for (Ship ship : ships) {
-                writer.write(ship.getName() + "," + ship.getSize() + "," + ship.getHitCount());
-                for (int[] coord : ship.getCoordinates()) {
-                    writer.write("," + coord[0] + "," + coord[1]);
-                }
-                writer.newLine();
-            }
+// This method saves the current state of the game board and all ships to a file using a BufferedWriter.
+public void saveBoard(BufferedWriter writer) throws IOException {
+    // Save the state of the game board
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            // Write the character representing each cell on the board to the file
+            writer.write(board[i][j]);
         }
+        // Move to the next line in the file after writing each row of the board
+        writer.newLine();
+    }
+    
+    // Save the state of each ship
+    for (Ship ship : ships) {
+        // Write ship details in the format "name,size,hitCount,coordinates"
+        writer.write(ship.getName() + "," + ship.getSize() + "," + ship.getHitCount());
         
+        // Write each coordinate of the ship to the file
+        for (int[] coord : ship.getCoordinates()) {
+            writer.write("," + coord[0] + "," + coord[1]);
+        }
+        // Move to the next line in the file after writing each ship's details
+        writer.newLine();
+    }
+}
+
+// This method loads the game state from a file into the game board and ships using a BufferedReader.
         public void loadBoard(BufferedReader reader) throws IOException {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 String line = reader.readLine();
@@ -537,52 +505,56 @@ public class Battleship {
             }
         }
     }
-
     public class Ship {
-        public String name;
-        public int size;
-        public int hitCount;
-        public final List<int[]> coordinates;
-
+        public String name;           // Name of the ship
+        public int size;              // Size of the ship (number of cells it occupies)
+        public int hitCount;          // Number of times the ship has been hit
+        public final List<int[]> coordinates;  // List to store the coordinates occupied by the ship
+    
+        // Constructor to initialize a Ship object with name and size
         public Ship(String name, int size) {
             this.name = name;
             this.size = size;
-            this.hitCount = 0;
-            this.coordinates = new ArrayList<>();
+            this.hitCount = 0;        // Initially, no hits on the ship
+            this.coordinates = new ArrayList<>();  // Initialize the list of coordinates
         }
-
+    
+        // Getter and setter methods for ship attributes
         public String getName() {
             return name;
         }
-
+    
         public void setName(String name) {
             this.name = name;
         }
-
+    
         public int getSize() {
             return size;
         }
-
+    
         public void setSize(int size) {
             this.size = size;
         }
-
+    
         public int getHitCount() {
             return hitCount;
         }
-
+    
         public void setHitCount(int hitCount) {
             this.hitCount = hitCount;
         }
-
+    
+        // Method to retrieve the list of coordinates occupied by the ship
         public List<int[]> getCoordinates() {
             return coordinates;
         }
-
+    
+        // Method to add a coordinate (x, y) to the ship's list of coordinates
         public void addCoordinate(int x, int y) {
             coordinates.add(new int[]{x, y});
         }
-
+    
+        // Method to check if the ship is located at a specific coordinate (x, y)
         public boolean isAtCoordinate(int x, int y) {
             for (int[] coord : coordinates) {
                 if (coord[0] == x && coord[1] == y) {
@@ -591,190 +563,279 @@ public class Battleship {
             }
             return false;
         }
-
+    
+        // Method to register a hit on the ship
         public void hit() {
             hitCount++;
         }
-
+    
+        // Method to check if the ship is sunk (all parts hit)
         public boolean isSunk() {
             return hitCount >= size;
         }
     }
+    
 
 
-    //模块化：将AI的行为和数据分离到一个单独的类中，使得代码更加清晰和易于管理。
+    //Modularity: Separating AI behavior and data into a single class makes the code clearer and easier to manage.
     public class AI {
         public int difficulty;
         public final Random random;
 
-        //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
+        //List<int[]> defines a list in which the elements of an array of integers can be stored. Each element is of type int[] and is typically used to store a set of integers, such as coordinate points (x, y).        
         public final List<int[]> hits = new ArrayList<>();
 
         public void saveAI(BufferedWriter writer) throws IOException {
+            // Write the AI's difficulty level to the file
             writer.write(Integer.toString(difficulty));
-            writer.newLine();
+            writer.newLine(); // Move to the next line in the file
+        
+            // Write each hit coordinate stored in the hits list
             for (int[] hit : hits) {
-                writer.write(hit[0] + "," + hit[1]);
-                writer.newLine();
+                writer.write(hit[0] + "," + hit[1]); // Write x and y coordinates separated by comma
+                writer.newLine(); // Move to the next line in the file for the next hit coordinate
             }
         }
         
         public void loadAI(BufferedReader reader) throws IOException {
+            // Read and parse the AI's difficulty level
             difficulty = Integer.parseInt(reader.readLine());
+        
             String line;
+            // Read each line containing hit coordinates until the end of file or an empty line is encountered
             while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                // Split each line by commas to separate x and y coordinates
                 String[] parts = line.split(",");
-                int row = Integer.parseInt(parts[0]);
-                int col = Integer.parseInt(parts[1]);
-                hits.add(new int[]{row, col});
+                int row = Integer.parseInt(parts[0]); // Parse x coordinate
+                int col = Integer.parseInt(parts[1]); // Parse y coordinate
+                hits.add(new int[]{row, col}); // Add the hit coordinate to the hits list
             }
         }
         
-        //构造函数 (public AI(int difficulty))：设置AI的难度和初始化随机数生成器。
-        public AI(int difficulty) {
-            //初始化对象的属性：在这里，this.difficulty = difficulty; 表示将传入的 difficulty 参数值赋给对象的 difficulty 属性。
-            this.difficulty = difficulty;
-            //初始化对象所需的资源：this.random = new Random(); 创建了一个 Random 类
-            this.random = new Random();
+/**
+ * Constructor (public AI(int difficulty)): Sets the AI's difficulty and initializes the random number generator.
+ *
+ * The difficulty level to set for the AI.
+ * Initializes the object's properties: Here, `this.difficulty = difficulty;` assigns the passed `difficulty` parameter value to the object's `difficulty` attribute.
+ * Initializes the resources required by the object: `this.random = new Random();` creates a new instance of the `Random` class.
+ *
+ * `this.difficulty` refers to the current object's `difficulty` attribute, while `difficulty` alone refers to the constructor parameter.
+ * Why use this (constructor)? This is because the purpose of a constructor is not to return a value, but to initialize a new object instance.
+ */
+public AI(int difficulty) {
+    this.difficulty = difficulty;
+    this.random = new Random();
+}
 
-            //this.difficulty 指的是当前对象的 difficulty 属性，而单独的 difficulty 指的是构造函数参数。
-            //为什么使用这个（构造函数）？这是因为构造函数的目的不是返回一个值，而是初始化一个新的对象实例。
-        }
-
-        //getDifficulty 方法允许其他类获取 AI 对象的 difficulty 属性值，在这里并没有调用，而是在存储时调用
-        public int getDifficulty() {
+ //getDifficulty method, which allows other classes to get the value of the difficulty property of an AI object, is not called here, but rather when it is stored.
+         public int getDifficulty() {
             return difficulty;
         }
 
-        //placeShips 方法：在游戏板上随机放置船只。
-        public void placeShips(Board board) {
-            //for (Ship ship : board.ships) 这行代码使用了一个增强型 for 循环来遍历 board 对象中的 ships 数组，这个数组包含了所有需要放置的船只。
-            for (Ship ship : board.ships) {
-                boolean placed = false;
-                while (!placed) {
-                    //int x = random.nextInt(BOARD_SIZE); 和 int y = random.nextInt(BOARD_SIZE); 
-                    //这两行代码生成两个随机数，用于确定船只放置的起始坐标（x 和 y）。
-                    int x = random.nextInt(BOARD_SIZE);
-                    int y = random.nextInt(BOARD_SIZE);
-
-                    //这行代码随机选择船只的放置方向，'h' 表示水平方向，'v' 表示垂直方向。
-                    //如果条件为真（true），则表达式的结果是 表达式1；如果条件为假（false），则结果是 表达式2。
-                    char direction = random.nextBoolean() ? 'h' : 'v';
-
-                    //尝试放置船只：这行代码调用 Board 类的 placeShip 方法尝试在指定位置和方向放置船只。
-                    //如果放置成功，placeShip 方法会返回 true，并且 placed 变量会被设置为 true，这会结束 while 循环。
-                    //如果放置失败（可能是因为船只超出了游戏板边界或与其他船只重叠），placeShip 方法会返回 false，while 循环会继续，AI会再次尝试新的随机位置和方向。
-                    placed = board.placeShip(ship, x, y, direction);
-                }
-            }
+     /**
+ * placeShips method: Randomly places ships on the game board.
+ *
+ * This method iterates over the `ships` array in the `board` object using an enhanced for loop (`for (Ship ship : board.ships)`).
+ * The `ships` array contains all ships that need to be placed.
+ *
+ * Within the loop:
+ * - `int x = random.nextInt(BOARD_SIZE);` and `int y = random.nextInt(BOARD_SIZE);` generate two random numbers to determine the starting coordinates (x and y) for placing the ship.
+ * - `char direction = random.nextBoolean() ? 'h' : 'v';` randomly selects the direction ('h' for horizontal, 'v' for vertical) in which the ship will be placed.
+ * 
+ * The `board.placeShip(ship, x, y, direction)` method is called to attempt placing the ship at the specified position and direction.
+ * - If placement is successful, `placeShip` returns true, and `placed` variable is set to true, ending the while loop.
+ * - If placement fails (e.g., ship exceeds the game board boundaries or overlaps with another ship), `placeShip` returns false, and the while loop continues.
+ * 
+ * This process repeats for each ship in the `board.ships` array until all ships are successfully placed.
+ */
+public void placeShips(Board board) {
+    for (Ship ship : board.ships) {
+        boolean placed = false;
+        while (!placed) {
+            int x = random.nextInt(BOARD_SIZE);
+            int y = random.nextInt(BOARD_SIZE);
+            char direction = random.nextBoolean() ? 'h' : 'v';
+            placed = board.placeShip(ship, x, y, direction);
         }
+    }
+}
 
-        //shoot 方法：根据AI的难度，决定射击的位置。在简单模式下，AI随机射击；在普通模式下，AI会根据上一次命中的位置来决定射击策略。
-        public int[] shoot(Board board) {
-            int row = -1, col = -1;
+/**
+ * shoot method: Determines the shooting position based on the AI's difficulty level.
+ *
+ * - In EASY mode, the AI randomly selects a shooting target until it finds a position that has not been shot before.
+ * - In NORMAL mode, the AI's shooting strategy is more complex:
+ *   - First, it checks for the last hit position using the findLastHit method.
+ *   - If there was a previous hit and there are adjacent empty positions around the hit, it identifies potential targets.
+ *   - If there are potential targets available:
+ *     - It randomly selects one target from the surrounding coordinates until it finds an unshot position.
+ *   - If no potential targets are found:
+ *     - It resorts to randomly selecting a shooting target similar to EASY mode.
+ *
+ * Parameters:
+ * - board: The game board object on which the AI is shooting.
+ *
+ * Returns:
+ * - An array of integers representing the coordinates (row, col) of the selected shooting target.
+ */
+public int[] shoot(Board board) {
+    int row = -1, col = -1;
+    
+    // First, we check the AI's difficulty level
+    if (difficulty == EASY) {
+        // In EASY mode, the AI randomly selects a shooting target until it finds a position that has not been shot before
+        do {
+            row = random.nextInt(BOARD_SIZE);
+            col = random.nextInt(BOARD_SIZE);
+        } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
+    } else {
+        // In NORMAL mode, the AI's shooting strategy is more complex
         
-            // 首先，我们检查AI的难度级别
-            if (difficulty == EASY) {
-                // 在简单模式下，AI会随机选择一个射击目标，直到找到一个之前没有射击过的位置
+        // First, we find the last hit position
+        int[] lastHit = findLastHit();
+
+        // If there was a previous hit and there are adjacent empty positions around the hit
+        if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
+            // We get all possible shooting targets around the hit position
+            List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
+
+            // If there are potential targets
+            if (!potentialTargets.isEmpty()) {
+                // We randomly select a target to shoot until we find an unshot position
+                int[] target = potentialTargets.get(random.nextInt(potentialTargets.size()));
+                row = target[0];
+                col = target[1];
+            } else {
+                // If no potential targets are available, resort to random selection similar to EASY mode
                 do {
                     row = random.nextInt(BOARD_SIZE);
                     col = random.nextInt(BOARD_SIZE);
                 } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
-            } else {
-        
-                // 在普通模式下，AI的射击策略会更复杂一些
-                // 首先，我们查找上一次射击命中的位置
-                int[] lastHit = findLastHit();
-
-                // 如果上一次有命中，并且命中位置周围还有未被射击过的位置
-                if (lastHit != null && hasAdjacentEmpty(board, lastHit[0], lastHit[1])) {
-                    // 我们获取命中位置周围的所有可能的射击目标
-                    List<int[]> potentialTargets = getSurroundingCoordinates(lastHit[0], lastHit[1], board);
-
-                    // 如果有可能的目标
-                    if (!potentialTargets.isEmpty()) {
-                        // 我们随机选择一个目标进行射击，直到找到一个之前没有射击过的位置
-                        int[] target = potentialTargets.get(random.nextInt(potentialTargets.size()));
-                        row = target[0];
-                        col = target[1];
-                    } else {
-                        // 如果没有可能的目标，我们就像在简单模式下一样随机选择一个射击目标
-                        do {
-                            row = random.nextInt(BOARD_SIZE);
-                            col = random.nextInt(BOARD_SIZE);
-                        } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
-                    }
-                } else {
-                    // 如果上一次没有命中，我们就像在简单模式下一样随机选择一个射击目标
-                    do {
-                        row = random.nextInt(BOARD_SIZE);
-                        col = random.nextInt(BOARD_SIZE);
-                    } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
-                }
             }
-            // 最后，我们返回选择的射击目标的坐标
-            return new int[]{row, col};
+        } else {
+            // If there was no previous hit, or no adjacent empty positions around the hit, resort to random selection similar to EASY mode
+            do {
+                row = random.nextInt(BOARD_SIZE);
+                col = random.nextInt(BOARD_SIZE);
+            } while (board.board[row][col] == HIT_SYMBOL || board.board[row][col] == MISS_SYMBOL);
         }
+    }
+    // Finally, return the selected shooting target coordinates
+    return new int[]{row, col};
+}
 
+/**
+ * recordHit method: Called after the AI shoots and hits a target to record the hit coordinates.
+ *
+ * Parameters:
+ * - row: The row index of the hit target.
+ * - col: The column index of the hit target.
+ */
+public void recordHit(int row, int col) {
+    // Adds the hit coordinates to the hits list
+    hits.add(new int[]{row, col});
+}
 
-        // 在AI射击并命中后调用此方法来记录命中的坐标
-        public void recordHit(int row, int col) {
-            // 将命中的坐标添加到列表中
-            hits.add(new int[]{row, col});
-        }
+/**
+ * findLastHit method: Returns the coordinates of the last recorded hit by the AI.
+ *
+ * Returns:
+ * - An array of integers representing the coordinates (row, col) of the last hit.
+ * - Returns null if there are no recorded hits (hits list is empty).
+ *
+ * Notes:
+ * - Uses null as a return value to distinguish between no data (empty hits list) and zero data (e.g., list contains [0, 0]).
+ */
+public int[] findLastHit() {
+    // If there are recorded hits, returns the coordinates of the last hit
+    if (!hits.isEmpty()) {
+        return hits.get(hits.size() - 1);
+    }
+    // Returns null if there are no recorded hits
+    return null;
+}
+
         
-        // 改进的findLastHit方法，用于找到最后一次的hit
-        public int[] findLastHit() {
-            // 如果有命中记录，返回最后一次命中的坐标
-            if (!hits.isEmpty()) {
-                return hits.get(hits.size() - 1);
+  /**
+ * hasAdjacentEmpty method: Checks if there are adjacent empty positions around the given coordinates (row, col) on the game board.
+ *
+ * Parameters:
+ * - board: The game board object containing the board state.
+ * - row: The row index of the position to check.
+ * - col: The column index of the position to check.
+ *
+ * Returns:
+ * - true if there is at least one adjacent position that is empty and hasn't been shot at.
+ * - false otherwise.
+ *
+ * Notes:
+ * - Uses a predefined 2D array directions to represent four directions: up, down, left, and right.
+ * - Calculates new coordinates (newRow, newCol) for each direction by adding direction offsets to the current coordinates (row, col).
+ * - Ensures the new coordinates are within the board boundaries (0 <= newRow, newCol < BOARD_SIZE).
+ * - Checks if the position at the new coordinates on the board (board.board[newRow][newCol]) is EMPTY_SYMBOL, indicating it hasn't been shot at.
+ */
+public boolean hasAdjacentEmpty(Board board, int row, int col) {
+    // Defines directions array containing four directions: up, down, left, and right
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    // Iterates over each direction
+    for (int[] dir : directions) {
+        // Calculates new coordinates (newRow, newCol) by adding direction offsets to (row, col)
+        int newRow = row + dir[0];
+        int newCol = col + dir[1];
+
+        // Ensures new coordinates are within the board boundaries
+        if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
+            // Checks if the position at the new coordinates is empty and hasn't been shot at
+            if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
+                return true; // Found an adjacent empty position
             }
-            //使用 null 作为返回值的原因是，它提供了一种方式来区分“没有数据”（即 hits 列表为空）与“有数据但数据为零”（例如，如果列表中有一个坐标 [0, 0]）的情况。
-            return null;
         }
-        
-        
-        //hasAdjacentEmpty 方法的目的是检查在游戏板上给定位置 (row, col) 周围是否有未被射击过的区域。
-        public boolean hasAdjacentEmpty(Board board, int row, int col) {
-            //这行代码定义了一个二维数组 directions，包含四个方向：上、下、左、右。
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    }
+    return false; // No adjacent empty position found
+}
 
-            for (int[] dir : directions) {
-                //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
-                //这个条件判断确保新坐标在游戏板的范围内，即它们不会超出边界。
-                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
+     /**
+ * getSurroundingCoordinates method: Retrieves all possible shooting coordinates surrounding a given position (row, col) on the game board.
+ *
+ * Parameters:
+ * - row: The row index of the center position.
+ * - col: The column index of the center position.
+ * - board: The game board object containing the current board state.
+ *
+ * Returns:
+ * - List<int[]>: A list containing integer arrays representing coordinates (row, col) of all surrounding empty positions that haven't been shot at.
+ *
+ * Notes:
+ * - Uses a List<int[]> to store integer arrays where each array contains two integers representing coordinates (row, col).
+ * - Calculates potential surrounding coordinates by adding predefined direction offsets to the center position (row, col).
+ * - Checks if each calculated coordinate is within the board boundaries (0 <= newRow, newCol < BOARD_SIZE).
+ * - Adds coordinates to the list only if the corresponding board position (board.board[newRow][newCol]) is EMPTY_SYMBOL, indicating it hasn't been shot at.
+ */
+public List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
+    // Initialize an empty list to store coordinates
+    List<int[]> coordinates = new ArrayList<>();
 
-                    //如果新坐标对应的位置是空的（即未被射击过），则方法返回 true。EMPTY_SYMBOL 是一个常量，代表游戏板上的空位。
-                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
-                        return true;
-                    }
-                }
+    // Define directions array containing four directions: up, down, left, right
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    // Iterate over each direction to calculate surrounding coordinates
+    for (int[] dir : directions) {
+        int newRow = row + dir[0];
+        int newCol = col + dir[1];
+
+        // Check if the new coordinates are within the board boundaries
+        if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
+            // Check if the board position at the new coordinates is empty and hasn't been shot at
+            if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
+                // Add the new coordinates to the list of surrounding coordinates
+                coordinates.add(new int[]{newRow, newCol});
             }
-            return false;
         }
-        
-        //getSurroundingCoordinates 方法：获取给定位置周围的所有可能的射击坐标。
-        public List<int[]> getSurroundingCoordinates(int row, int col, Board board) {
-            //List<int[]> 定义了一个列表，其中可以存储整数数组的元素。每个元素都是一个 int[] 类型，通常用于存储一组整数，比如坐标点 (x, y)。
-            List<int[]> coordinates = new ArrayList<>();
-
-            //对于每个方向，计算新的坐标 (newRow, newCol)，这是通过将方向数组中的值加到当前坐标 (row, col) 上来实现的。
-            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-            for (int[] dir : directions) {
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
-                if (newRow >= 0 && newRow < BOARD_SIZE && newCol >= 0 && newCol < BOARD_SIZE) {
-                    if (board.board[newRow][newCol] == EMPTY_SYMBOL) {
-                        coordinates.add(new int[]{newRow, newCol});
-                    }
-                }
-            }
-
-            return coordinates;
-        }        
     }
 
+    // Return the list of surrounding coordinates
+    return coordinates;
+}
+    }
 }
