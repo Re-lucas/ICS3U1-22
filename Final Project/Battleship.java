@@ -261,7 +261,7 @@ public class Battleship {
          return;
       // If the player inputs 'save', save the game
       } else if (input.equalsIgnoreCase("save")) {
-         System.out.println("Select a slot to save: 1. Slot 1 2. Slot 2 3. Slot 3");
+         System.out.println("Select a slot to save: 1. Slot 1  2. Slot 2  3. Slot 3 (Enter number)");
          int slot = scanner.nextInt();
          saveGame(slot);
          System.out.println("Game saved.");
